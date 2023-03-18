@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+<head>
+
+<title>Modern Farms</title>
+<meta name="description" content="Meme Genesis is a website that provides a collection of the latest and most popular memes on the internet. Our website is updated daily with new memes, and we have a community section where users can submit their own memes. Join us to stay up-to-date with the funniest memes on the web!">
+<meta name="keywords" content="meme, memes, funny memes, internet memes, viral memes, popular memes, meme collection, meme community, submit memes">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var csrf_token = '{{ csrf_token }}';
+
+    function getCartProductCount() {
+      $.ajax({
+          url: '/check_cart_count/',
+          type: 'GET',
+          dataType: 'json',
+          success: function(response) {
+              if(response.status === 'success') {
+                  $("#cart_product_count").text(response.count);
+                  console.log("Number of items in cart: " + response.count);
+              } else {
+                  console.log("Error: " + response.message);
+              }
+          },
+          error: function(xhr, status, error) {
+              console.log("An error occurred: " + error);
+          }
+      });
+    }
+    function addToCartAjax(productId) {
+        // Create an AJAX request to the Django view
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/add_to_cart/');
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader("X-CSRFToken", csrf_token);
+        let quantityElement = document.getElementById("quantity");
+        let quantity = quantityElement !== null ? quantityElement.value : null;
+
+        if (!quantity) {
+            quantity = 1;
+        }
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                getCartProductCount();
+            } else {
+                alert('An error occurred while adding the product to the cart');
+            }
+        };
+        xhr.send(`product_id=${productId}&quantity=${quantity}`);
+    }
+    function getIndex_Products(pageNumber, search_key) {
+      $.ajax({
+        url: "index_products?page=" + pageNumber + "&search_key=" + encodeURIComponent(search_key),
+        type: "GET",
+        success: function(response) {
+          $("#home").html(response);
+        }
+      });
+    }
+    $(document).ready(function(){
+        getCartProductCount();
+        let searchKey = $("#search_key").val();
+        getIndex_Products(1, searchKey);
+    });
+
+    function submitForm() {
+
+      const query = document.getElementById('search_query').value;
+      const xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+          if (xhr.status === 200) {
+            const response = xhr.responseText;
+            document.getElementById('askResponse').innerHTML = response;
+            document.getElementById('search_key').value = document.getElementById('search_text').value
+            let search_key = document.getElementById('search_key').value;
+            getIndex_Products(1, search_key);
+          } else {
+            alert('Oops! Something went wrong. There was an error. Please try again.');
+          }
+        }
+      };
+
+      xhr.open('GET', `/ask/?search_query=${query}`);
+      xhr.send();
+    }
+</script>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+      <a class="navbar-brand" href="/">ModernFarms.io</a>
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        {% if user.is_superuser %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Brands
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/brands">
+                <span class="title">Brands</span>
+            </a>
+            <a class="dropdown-item" href="/add_brand">
+                <span class="title">Add Brand</span>
+            </a>
+          </div>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Categories
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/categories">
+                <span class="title">Categories</span>
+            </a>
+            <a class="dropdown-item" href="/add_category">
+                <span class="title">Add Category</span>
+            </a>
+          </div>
+        </li>
+        {% endif %}
+        {% if user.is_superuser %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Products
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/product_list">
+                <span class="title">Products</span>
+            </a>
+            <a class="dropdown-item" href="/product_list_names">
+                <span class="title">Products by Name</span>
+            </a>
+            <a class="dropdown-item" href="/add_product">
+                <span class="title">Add Product</span>
+            </a>
+          </div>
+        </li>
+        {% endif %}
+        {% if user.is_superuser %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Batch Work
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/upload">
+                <span class="title">Upload</span>
+            </a>
+            <a class="dropdown-item" href="/products/csv/">
+                <span class="title">Download All Products</span>
+            </a>
+            <a class="dropdown-item" href="../../static/assets/data.csv">
+                <span class="title">Download</span>
+            </a>
+            <a class="dropdown-item" href="../../static/assets/data.hawthornegc.csv">
+                <span class="title">Download Hawthorne</span>
+            </a>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+
+      <form class="form-inline my-2 my-lg-0" method="get" action="/#home">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search_key" name="search_key" value="{{ search_key }}" >
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+
+      <form class="form-inline my-2 my-lg-0" action="/cart" method="get">
+        <span class="amount">
+            <button class="btn" type="submit">
+                <span id="cart_product_count">0</span>
+                ( items )
+            </button>
+        </span>
+      </form>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+      <h4>Modern Farms</h4>
+
+      {% block content %}{% endblock %}
+
+  </div>
+
+  <footer class="bg-light text-center text-lg-start">
+    <!-- Copyright -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+      2023 Copyright:
+      <a class="text-dark" href="https://tfnlab.com/">TFNLab.com</a>
+    </div>
+    <!-- Copyright -->
+  </footer>
+
+</body>
+<script>
+// Function to create a cart ID and set it as a client-side cookie
+function createCartId() {
+  // Check if a cart ID cookie already exists
+  if (!getCookie("cartId")) {
+    // Generate a new cart ID
+    var cartId = generateId();
+    // Set the cart ID as a cookie
+    setCookie("cartId", cartId, 365);
+  }
+}
+
+// Function to generate a random ID
+function generateId() {
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
+
+// Function to set a cookie
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+  var expires = "expires="+d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+// Function to get a cookie
+function getCookie(cname) {
+  var name = cname + "=";
+  var ca = document.cookie.split(';');
+  for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+
+// Call the createCartId function to create a new cart ID and set it as a cookie
+createCartId();
+</script>
+
+<script type="text/javascript">
+  function copyAddress() {
+    var billingAddressLine1 = document.getElementById("id_billing_address_line1").value;
+    var billingAddressLine2 = document.getElementById("id_billing_address_line2").value;
+    var billingCity = document.getElementById("id_billing_city").value;
+    var billingState = document.getElementById("id_billing_state").value;
+    var billingZipcode = document.getElementById("id_billing_zipcode").value;
+    var billingCountry = document.getElementById("id_billing_country").value;
+    document.getElementById("id_shipping_address_line1").value = billingAddressLine1;
+    document.getElementById("id_shipping_address_line2").value = billingAddressLine2;
+    document.getElementById("id_shipping_city").value = billingCity;
+    document.getElementById("id_shipping_state").value = billingState;
+    document.getElementById("id_shipping_zipcode").value = billingZipcode;
+    document.getElementById("id_shipping_country").value = billingCountry;
+
+  }
+  function searchbybrand() {
+    var select = document.getElementById("brand_list");
+    var search_key = select.options[select.selectedIndex].text;
+    var url = "/?search_key=" + encodeURIComponent(search_key);
+    window.location.href = url;
+  }
+</script>
+<script>
+  function calculatePrice(quantity, product_id) {
+    $.ajax({
+      type: 'GET',
+      url: '/calculate_price/',
+      data: {
+        'quantity': quantity,
+        'product_id': product_id
+      },
+      success: function(data) {
+        $("#price").html("$" + data.price);
+        const productPrice = parseFloat(document.getElementById("product_price").value);
+        const newProductPrice = parseFloat(data.price);
+        const quantity = parseFloat(document.getElementById("quantity").value);
+        const total = (productPrice * quantity) - (newProductPrice * quantity);
+        $("#pricesavings").html("$" + total.toFixed(2));
+      }
+    });
+  }
+</script>
+</html>

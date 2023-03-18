@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Your Cart</h1>
+    {% if user.is_authenticated %}
+          <h3>{{ user.first_name }} {{ user.last_name }} </h3>
+          <p>{{ user.username }}
+                <a  href="/edit_profile">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                </a>
+          </p>
+
+    {% else %}
+        <a href="{% url 'login' %}">Sign in</a> or <a href="{% url 'add_user' %}">create an account</a>
+    {% endif %}
+    {% for product in products %}
+      <div class="row mb-3">
+        <div class="col-sm-3">
+          <p>{{ product.product.name }}</p>
+        </div>
+        <div class="col-sm-3">
+          <p>{{ product.product.price }}</p>
+        </div>
+        <div class="col-sm-3">
+          <p>{{ product.quantity }}</p>
+        </div>
+        <div class="col-sm-3">
+          <p>{{ product.line_item_total }}</p>
+        </div>
+        <div class="col-sm-2">
+          <form method="post" action="{% url 'delete_cart_product' product.id %}">
+            {% csrf_token %}
+            <input type="submit" value="Remove">
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+
+    <div class="row">
+      <div class="col-sm-12">
+        <p>Total: {{ total }}</p>
+      </div>
+    </div>
+    <div class="container my-5">
+        <!-- other code here -->
+        <a href="{% url 'edit_cart' %}">Checkout</a>
+    </div>
+
+</div>
+{% endblock %}

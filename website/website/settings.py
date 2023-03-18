@@ -51,8 +51,8 @@ SOCIAL_AUTH_PIPELINE = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['modernfarms.io', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://modernfarms.io']
+ALLOWED_HOSTS = ['store.homerenovationnation.com', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://store.homerenovationnation.com']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 

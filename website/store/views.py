@@ -590,9 +590,22 @@ def calculate_price(request):
 def access_backend_request(request, url):
     username = request.user.username
     url = f'https://homerenovationnation.com/{url}?username={username}'
-    response = requests.get(url)
-    # Return the response from the external URL as the response to the original request
-    return HttpResponse(response.content, content_type=response.headers['content-type'])
+
+    # Send the request to the external URL
+    response = requests.get(url, headers=request.headers)
+
+    # Create a new response with the content and content type from the external URL
+    proxy_response = HttpResponse(response.content, content_type=response.headers.get('content-type', 'application/octet-stream'))
+
+    # Copy headers from the external response to the proxy response
+    for header, value in response.headers.items():
+        if header.lower() not in ['content-encoding', 'transfer-encoding', 'connection']:
+            proxy_response[header] = value
+
+    # Set the status code of the proxy response to match the external response
+    proxy_response.status_code = response.status_code
+
+    return proxy_response
 
 def access_backend(request):
     return render(request, 'main_menu.html')

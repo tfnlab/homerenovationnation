@@ -592,9 +592,9 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 def access_backend_request(request, url):
+    username = request.user.username
     url = f'https://homerenovationnation.com/{url}?username={username}'
     if request.method == 'POST':
-        username = request.user.username
         data = {
             'username': username,
             **request.POST.dict()
@@ -603,7 +603,6 @@ def access_backend_request(request, url):
         response = requests.post(url, data=json.dumps(data), headers=headers)
         return response
     else:
-        username = request.user.username
         response = requests.get(url)
 
     # Parse the HTML content

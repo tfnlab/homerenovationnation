@@ -591,12 +591,20 @@ def calculate_price(request):
     #print(actual_price)
     return JsonResponse({'price': actual_price})
 
-
-@csrf_exempt
 def access_backend_request(request, url):
-    username = request.user.username
-    url = f'https://homerenovationnation.com/{url}?username={username}'
-    response = requests.get(url)
+    if request.method == 'POST':
+        username = request.user.username
+        data = {
+            'username': username,
+            **request.POST.dict()
+        }
+        headers = {'Content-type': 'application/json'}
+        response = requests.post(url, data=json.dumps(data), headers=headers)
+        return response
+    else:
+        username = request.user.username
+        url = f'https://homerenovationnation.com/{url}?username={username}'
+        response = requests.get(url)
 
     # Parse the HTML content
     parsed_html = html.fromstring(response.content)

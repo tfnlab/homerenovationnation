@@ -587,7 +587,7 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 
-def access_backend(request, url):
+def access_backend(request, url=None):
     if url:
         # If getPage param is present in the request, make a request to the specified URL
         username = request.user.username

@@ -603,7 +603,7 @@ def access_backend_request(request, url):
 
     # Return the response from the external URL as the response to the original request
     headers = {key: value for key, value in response.headers.items()}
-    content_type = headers.pop('content-type')
+    content_type = headers.get('Content-Type', 'application/octet-stream')
     return HttpResponse(response.content, content_type=content_type, status=response.status_code, headers=headers)
 
 def access_backend(request):

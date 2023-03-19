@@ -595,11 +595,14 @@ def access_backend_request(request, url):
     username = request.user.username
     url = f'https://homerenovationnation.com/{url}?username={username}'
     if request.method == 'POST':
-        print("POST method called") 
+        print("POST method called")
         data = {
             'username': username,
             **request.POST.dict()
         }
+        for key in request.POST.keys():
+            data[key] = request.POST.get(key)
+            
         headers = {'Content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=json.dumps(data), headers=headers)
     else:

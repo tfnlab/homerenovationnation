@@ -601,7 +601,6 @@ def access_backend_request(request, url):
         }
         headers = {'Content-type': 'application/json'}
         response = requests.post(url, data=json.dumps(data), headers=headers)
-        return response
     else:
         response = requests.get(url)
 

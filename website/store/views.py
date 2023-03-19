@@ -52,6 +52,11 @@ import stripe
 from PIL import Image
 import openai
 import requests
+
+from django.views.decorators.csrf import csrf_exempt
+from django.template.context_processors import csrf
+from lxml import html
+
 register = template.Library()
 
 def ask(request):
@@ -587,12 +592,39 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 
+@csrf_exempt
 def access_backend_request(request, url):
     username = request.user.username
     url = f'https://homerenovationnation.com/{url}?username={username}'
     response = requests.get(url)
-    # Return the response from the external URL as the response to the original request
-    return HttpResponse(response.content, content_type=response.headers['content-type'])
+
+    # Parse the HTML content
+    parsed_html = html.fromstring(response.content)
+
+    # Locate the form element in the parsed HTML
+    form = parsed_html.find('.//form')
+
+    if form is not None:
+        # Generate a CSRF token for the current user and request
+        csrf_token = csrf(request)['csrf_token']
+
+        # Create a new hidden input element with the CSRF token as its value
+        csrf_input = html.Element('input')
+        csrf_input.set('type', 'hidden')
+        csrf_input.set('name', 'csrfmiddlewaretoken')
+        csrf_input.set('value', str(csrf_token))
+
+        # Add the CSRF input element to the form
+        form.insert(0, csrf_input)
+
+        # Convert the modified HTML back to a string
+        modified_content = html.tostring(parsed_html, encoding='utf-8')
+
+        # Return the modified content as the response to the original request
+        return HttpResponse(modified_content, content_type=response.headers['content-type'])
+    else:
+        # If there's no form in the content, return the original content
+        return HttpResponse(response.content, content_type=response.headers['content-type'])
 
 def access_backend(request):
     return render(request, 'main_menu.html')

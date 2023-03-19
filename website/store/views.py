@@ -593,7 +593,11 @@ def calculate_price(request):
 
 def access_backend_request(request, url):
     username = request.user.username
-    url = f'https://homerenovationnation.com/{url}?username={username}'
+    if '?' in url:
+        url = f'https://homerenovationnation.com/{url}&username={username}'
+    else:
+        url = f'https://homerenovationnation.com/{url}?username={username}'
+
     if request.method == 'POST':
         print("POST method called")
         data = {

@@ -599,7 +599,7 @@ def access_backend_request(request, url):
             'username': username,
             **request.POST.dict()
         }
-        headers = {'Content-type': 'application/json'}
+        headers = {'Content-type': 'application/x-www-form-urlencoded'}
         response = requests.post(url, data=json.dumps(data), headers=headers)
     else:
         response = requests.get(url)

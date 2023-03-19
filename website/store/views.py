@@ -587,14 +587,12 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 
-def access_backend(request, url=None):
-    if url:
-        # If getPage param is present in the request, make a request to the specified URL
-        username = request.user.username
-        url = f'https://homerenovationnation.com/{url}?username={username}'
-        response = requests.get(url)
-        # Return the response from the external URL as the response to the original request
-        return HttpResponse(response.content, content_type=response.headers['content-type'])
-    else:
-        # If getPage param is not present in the request, render the page normally
-        return render(request, 'main_menu.html')
+def access_backend(request, url):
+    username = request.user.username
+    url = f'https://homerenovationnation.com/{url}?username={username}'
+    response = requests.get(url)
+    # Return the response from the external URL as the response to the original request
+    return HttpResponse(response.content, content_type=response.headers['content-type'])
+
+def access_backend(request):
+    return render(request, 'main_menu.html')

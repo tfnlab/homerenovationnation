@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h1>Main Menu</h1>
+    {% if user.is_authenticated %}
+          <h3>{{ user.first_name }} {{ user.last_name }} </h3>
+          <p>{{ user.username }}
+                <a  href="/edit_profile">
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                </a>
+          </p>
+          <a  href="/access_backend?getPage=orders.list.jsp">
+              <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+              Orders
+          </a>
+    {% else %}
+        <a href="{% url 'login' %}">Sign in</a> or <a href="{% url 'add_user' %}">create an account</a>
+    {% endif %}
+</div>
+{% endblock %}

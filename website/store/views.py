@@ -32,6 +32,7 @@ from django.core.files.base import ContentFile
 
 from django.db.models import Q
 
+
 import json
 
 from .models import Brand
@@ -584,3 +585,15 @@ def calculate_price(request):
     # Replace this placeholder with your actual logic
     #print(actual_price)
     return JsonResponse({'price': actual_price})
+
+
+def access_backend(request):
+    page = request.GET.get('getPage')
+    if page:
+        # If getPage param is present in the request, make a request to the specified URL
+        response = requests.get(f'https://homerenovationnation.com/{page}')
+        # Return the response from the external URL as the response to the original request
+        return HttpResponse(response.content, content_type=response.headers['content-type'])
+    else:
+        # If getPage param is not present in the request, render the page normally
+        return render(request, 'main_menu.html')

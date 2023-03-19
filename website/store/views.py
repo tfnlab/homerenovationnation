@@ -592,7 +592,7 @@ def access_backend(request):
     if page:
         # If getPage param is present in the request, make a request to the specified URL
         username = request.user.username
-        url = f'http://example.com/{page}?username={username}'
+        url = f'https://homerenovationnation.com/{page}?username={username}'
         response = requests.get(url)
         # Return the response from the external URL as the response to the original request
         return HttpResponse(response.content, content_type=response.headers['content-type'])

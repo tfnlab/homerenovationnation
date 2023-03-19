@@ -587,12 +587,11 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 
-def access_backend(request):
-    page = request.GET.get('getPage')
-    if page:
+def access_backend(request, url):
+    if url:
         # If getPage param is present in the request, make a request to the specified URL
         username = request.user.username
-        url = f'https://homerenovationnation.com/{page}?username={username}'
+        url = f'https://homerenovationnation.com/{url}?username={username}'
         response = requests.get(url)
         # Return the response from the external URL as the response to the original request
         return HttpResponse(response.content, content_type=response.headers['content-type'])

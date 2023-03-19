@@ -587,7 +587,7 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 
-def access_backend(request, url):
+def access_backend_request(request, url):
     username = request.user.username
     url = f'https://homerenovationnation.com/{url}?username={username}'
     response = requests.get(url)

@@ -63,7 +63,7 @@ urlpatterns = [
     path('ask/', views.ask, name='ask'),
     path('accounts/', include('allauth.urls')),
     path('social-auth/', include('social_django.urls', namespace='social')),
-    path('access_backend/', views.access_backend, namespace='access_backend'),
+    path('access_backend/', views.access_backend, name='access_backend'),
 ]
 
 

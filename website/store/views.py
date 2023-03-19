@@ -51,7 +51,7 @@ from .forms import CartForm
 import stripe
 from PIL import Image
 import openai
-
+import requests
 register = template.Library()
 
 def ask(request):

@@ -605,7 +605,7 @@ def access_backend_request(request, url):
             print(request.POST.get(key))
 
         headers = {'Content-type': 'application/x-www-form-urlencoded'}
-        response = requests.post(url, data=json.dumps(data), headers=headers)
+        response = requests.post(url, data=data, headers=headers)
     else:
         response = requests.get(url)
 

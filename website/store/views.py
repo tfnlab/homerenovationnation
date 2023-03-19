@@ -589,22 +589,10 @@ def calculate_price(request):
 
 def access_backend_request(request, url):
     username = request.user.username
-    backend_url = f'https://homerenovationnation.com/{url}?username={username}'
-
-    # Forward the request to the backend server
-    response = requests.request(
-        method=request.method,
-        url=backend_url,
-        headers=request.META,
-        data=request.body,
-        cookies=request.COOKIES,
-        allow_redirects=False,
-    )
-
+    url = f'https://homerenovationnation.com/{url}?username={username}'
+    response = requests.get(url)
     # Return the response from the external URL as the response to the original request
-    headers = {key: value for key, value in response.headers.items()}
-    content_type = headers.get('Content-Type', 'application/octet-stream')
-    return HttpResponse(response.content, content_type=content_type, status=response.status_code, headers=headers)
+    return HttpResponse(response.content, content_type=response.headers['content-type'])
 
 def access_backend(request):
     return render(request, 'main_menu.html')

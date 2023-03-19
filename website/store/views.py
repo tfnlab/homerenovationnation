@@ -592,7 +592,7 @@ def access_backend_request(request, url):
     url = f'https://homerenovationnation.com/{url}?username={username}'
 
     # Send the request to the external URL
-    response = requests.get(url, headers=request.headers)
+    response = requests.get(url)
 
     # Create a new response with the content and content type from the external URL
     proxy_response = HttpResponse(response.content, content_type=response.headers.get('content-type', 'application/octet-stream'))

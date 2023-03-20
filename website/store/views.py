@@ -602,7 +602,7 @@ def access_backend_request(request, url):
         url = f'https://homerenovationnation.com/{url}?'
 
     url += '&'.join([f'{k}={v}' for k, v in params.items()])
-    
+    print(url)
     if request.method == 'POST':
         print("POST method called")
         data = {

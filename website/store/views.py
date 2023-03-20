@@ -607,14 +607,16 @@ def access_backend_request(request, url):
         print("POST method called")
         data = {
             'username': username,
-            **request.POST.dict()
         }
-        for key in request.POST.keys():
-            data[key] = request.POST.get(key)
-            print(request.POST.get(key))
 
-        headers = {'Content-type': 'application/x-www-form-urlencoded'}
-        response = requests.post(url, data=data, headers=headers)
+        for key in request.POST.keys():
+            if key.startswith('file_'):
+                data[key] = request.FILES[key].read()
+            else:
+                data[key] = request.POST.get(key)
+
+        headers = {}
+        response = requests.post(url, data=data, files=request.FILES, headers=headers)    
     else:
         response = requests.get(url)
 

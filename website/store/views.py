@@ -616,7 +616,7 @@ def access_backend_request(request, url):
                 data[key] = request.POST.get(key)
 
         headers = {}
-        response = requests.post(url, data=data, files=request.FILES, headers=headers)    
+        response = requests.post(url, data=data, files=request.FILES, headers=headers)
     else:
         response = requests.get(url)
 
@@ -624,26 +624,30 @@ def access_backend_request(request, url):
     parsed_html = html.fromstring(response.content)
 
     # Locate the form element in the parsed HTML
-    form = parsed_html.find('.//form')
+    # Find all forms in the parsed HTML
+    forms = parsed_html.findall('.//form')
 
-    if form is not None:
+    if forms:
         # Generate a CSRF token for the current user and request
         csrf_token = csrf(request)['csrf_token']
 
-        # Create a new hidden input element with the CSRF token as its value
-        csrf_input = html.Element('input')
-        csrf_input.set('type', 'hidden')
-        csrf_input.set('name', 'csrfmiddlewaretoken')
-        csrf_input.set('value', str(csrf_token))
+        # Loop through all forms
+        for form in forms:
+            # Create a new hidden input element with the CSRF token as its value
+            csrf_input = html.Element('input')
+            csrf_input.set('type', 'hidden')
+            csrf_input.set('name', 'csrfmiddlewaretoken')
+            csrf_input.set('value', str(csrf_token))
 
-        # Add the CSRF input element to the form
-        form.insert(0, csrf_input)
+            # Add the CSRF input element to the form
+            form.insert(0, csrf_input)
 
         # Convert the modified HTML back to a string
         modified_content = html.tostring(parsed_html, encoding='utf-8')
 
         # Return the modified content as the response to the original request
         return HttpResponse(modified_content, content_type=response.headers['content-type'])
+
     else:
         # If there's no form in the content, return the original content
         return HttpResponse(response.content, content_type=response.headers['content-type'])

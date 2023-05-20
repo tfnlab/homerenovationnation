@@ -5,6 +5,8 @@ from store.models import Brand
 from store.models import Category
 from store.models import Product
 from store.models import Cart
+from multiupload.fields import MultiFileField
+from multiupload.widgets import MultiFileInput
 
 
 class UserCreationForm(forms.ModelForm):
@@ -59,6 +61,7 @@ class CategoryForm(forms.ModelForm):
 
 
 class ProductForm(forms.ModelForm):
+    product_image = MultiFileField(min_num=1, max_num=5, max_file_size=1024*1024*5)  # Example limits    
     class Meta:
         model = Product
         fields = ['name', 'display_priority', 'price', 'wholesale_price', 'your_price', 'description', 'product_image', 'quantity', 'category', 'brand']

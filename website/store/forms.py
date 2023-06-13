@@ -12,7 +12,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password', 'hrn_company_code']
 
 class EditProfileForm(forms.ModelForm):
     company_name = forms.CharField(max_length=255, required=False)

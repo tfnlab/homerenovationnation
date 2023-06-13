@@ -592,7 +592,8 @@ def calculate_price(request):
     return JsonResponse({'price': actual_price})
 
 def access_backend_request(request, url):
-    username = request.user.username
+    username = request.user.hrn_company_code
+    print(username)
     params = request.GET.dict() if request.method == 'GET' else request.POST.dict()
     params['username'] = username
 

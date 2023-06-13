@@ -57,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     shipping_state = models.CharField(max_length=255, blank=True)
     shipping_zipcode = models.CharField(max_length=255, blank=True)
     shipping_country = models.CharField(max_length=255, blank=True)
+    hrn_company_code = models.CharField(max_length=255, blank=True)
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'first_name', 'last_name']
     objects = UserManager()

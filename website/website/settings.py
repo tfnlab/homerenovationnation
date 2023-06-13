@@ -52,8 +52,8 @@ SOCIAL_AUTH_PIPELINE = (
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['store.homerenovationnation.com', 'localhost', '127.0.0.1']
-CSRF_TRUSTED_ORIGINS = ['https://store.homerenovationnation.com']
+ALLOWED_HOSTS = ['app.homerenovationnation.com', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://app.homerenovationnation.com']
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
@@ -65,7 +65,7 @@ X_CSRF_TOKEN_HEADER = 'X-CSRF-TOKEN'
 
 SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
-LOGIN_REDIRECT_URL = "https://modernfarms.io/accounts/google/login/callback/"
+LOGIN_REDIRECT_URL = "https://app.homerenovationnation.com/accounts/google/login/callback/"
 LOGOUT_REDIRECT_URL = "/"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {

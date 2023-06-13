@@ -13,14 +13,14 @@
 
                                   <a href="{% provider_login_url 'google' %}" target="_new" >Login with Google</a>
                                   <HR>
-                                  -->  
+                                  -->
                                   <form  class="user" method="post">
                                       {% csrf_token %}
 
                                       <div class="form-group">
                                           <input type="text" class="form-control form-control-user"
                                               id="username" name="username" aria-describedby="emailHelp"
-                                              placeholder="Enter Email Address...">
+                                              placeholder="Enter username ...">
                                       </div>
                                       <div class="form-group">
                                           <input type="password" class="form-control form-control-user"

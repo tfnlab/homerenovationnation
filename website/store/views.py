@@ -649,11 +649,15 @@ def access_backend_request(request, url):
         modified_content = html.tostring(parsed_html, encoding='utf-8')
 
         # Return the modified content as the response to the original request
-        return HttpResponse(modified_content, content_type=response.headers['content-type'])
-
+        new_response = HttpResponse(modified_content, content_type=response.headers['content-type'])
+        for key, value in response.headers.items():
+            new_response[key] = value
+        return new_response
     else:
-        # If there's no form in the content, return the original content
-        return HttpResponse(response.content, content_type=response.headers['content-type'])
+        new_response = HttpResponse(response.content, content_type=response.headers['content-type'])
+        for key, value in response.headers.items():
+            new_response[key] = value
+        return new_response
 
 def access_backend(request):
     return render(request, 'main_menu.html')

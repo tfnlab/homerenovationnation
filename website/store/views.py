@@ -653,8 +653,15 @@ def access_backend_request(request, url):
 
     else:
         # If there's no form in the content, return the original content
-        new_response = HttpResponse(response.content, content_type=response.headers['content-type'], headers=response.headers)
+        new_response = HttpResponse(response.content, content_type=response.headers['content-type'])
+
+        # Copy headers from the original response to the new response, excluding 'Content-Type'
+        for key, value in response.headers.items():
+            if key.lower() != 'content-type':
+                new_response[key] = value
+
         return new_response
+
 
 def access_backend(request):
     return render(request, 'main_menu.html')

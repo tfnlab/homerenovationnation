@@ -593,9 +593,11 @@ def calculate_price(request):
 
 def access_backend_request(request, url):
     username = request.user.hrn_company_code
+    email = request.user.email  # Get the user's email
     print(username)
     params = request.GET.dict() if request.method == 'GET' else request.POST.dict()
     params['username'] = username
+    params['hrnemail'] = email  # Add the email to the params dictionary
 
     if '?' in url:
         url = f'https://homerenovationnation.com/{url}&'

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load custom_filters %}
 
 
 {% block content %}
@@ -27,12 +28,8 @@
                       <h5 class="card-title">{{ item.name }}</h5>
                       <p class="card-text">{{ item.description }}</p>
                       <a href="{{ item.website }}" class="btn btn-primary">Visit Website</a>   
-                      {% with image_name=item.image_uri|split:"/" %}
-                        {% with image_name=image_name|last %}
-                            <img src="https://pump.mypinata.cloud/ipfs/{{ image_name }}" />
-                        {% endwith %}
-                      {% endwith %}                      
-                      
+                      <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" />                   
+                
                   </div>
               </div>
           </div>

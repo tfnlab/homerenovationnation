@@ -152,6 +152,13 @@ def generate_id():
     return uuid.uuid4().hex
 
 def index(request):
+
+    url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=10&sort=created_timestamp&order=DESC&includeNsfw=true"  # Replace this with the URL you want to call
+    response = requests.get(url)
+    json_data = None 
+    if response.status_code == 200:
+        json_data = response.json()
+
     cart_id = request.COOKIES.get('cartId')
     if cart_id is None:
         cart_id = generate_id()
@@ -160,7 +167,7 @@ def index(request):
     if request.method == 'POST':
         search_key = request.POST.get('search_key', '')
 
-    context = {'cart_id': cart_id, 'request': request, 'search_key': search_key}
+    context = {'cart_id': cart_id, 'request': request, 'search_key': search_key, 'json_data': json_data}
     response = render(request, 'index.html', context)
     response.set_cookie('cartId', cart_id)
     return response

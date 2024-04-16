@@ -28,8 +28,8 @@
                       <h5 class="card-title">{{ item.name }}</h5>
                       <p class="card-text">{{ item.description }}</p>
                       <a href="{{ item.website }}" class="btn btn-primary">Visit Website</a>   
-                      <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" />                   
-                
+                      <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 100%; height: auto;" />
+
                   </div>
               </div>
           </div>

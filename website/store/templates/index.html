@@ -26,11 +26,13 @@
                   <div class="card-body">
                       <h5 class="card-title">{{ item.name }}</h5>
                       <p class="card-text">{{ item.description }}</p>
-                      <a href="{{ item.website }}" class="btn btn-primary">Visit Website</a>
-                      <img src="{{ item.image_uri }}" />
-                      {% with image_name=item.image_uri|split:"/"|last %}
-                        <img src="https://pump.mypinata.cloud/ipfs/{{ image_name }}" />
+                      <a href="{{ item.website }}" class="btn btn-primary">Visit Website</a>   
+                      {% with image_name=item.image_uri|split:"/" %}
+                        {% with image_name=image_name|last %}
+                            <img src="https://pump.mypinata.cloud/ipfs/{{ image_name }}" />
+                        {% endwith %}
                       {% endwith %}                      
+                      
                   </div>
               </div>
           </div>

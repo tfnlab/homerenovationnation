@@ -4,6 +4,19 @@
 
 
 {% block content %}
+<script>
+  // Function to refresh the page every 2 seconds
+  function refreshPage() {
+    setTimeout(function() {
+      window.location.reload();
+    }, 2000); // 2000 milliseconds = 2 seconds
+  }
+  
+  // Call the function when the page loads
+  window.onload = function() {
+    refreshPage();
+  };
+</script>
 <div style="display: flex; align-items: center;">
 <input class="form-control mr-sm-2" type="search" placeholder="..." aria-label="Search" id="search_query" name="search_query"  >
 <button class="btn btn-outline-success my-2 my-sm-0" type="button" onclick="submitForm()" >Ask</button>

@@ -3,7 +3,7 @@
   {% load static %}
 <head>
 
-<title>HRN</title>
+<title>Pump Fun Club</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -97,75 +97,8 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-      <a class="navbar-brand" href="/">HRN</a>
+      <a class="navbar-brand" href="/">PumpFunClub</a>
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        {% if user.is_superuser %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Brands
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/brands">
-                <span class="title">Brands</span>
-            </a>
-            <a class="dropdown-item" href="/add_brand">
-                <span class="title">Add Brand</span>
-            </a>
-          </div>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Categories
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/categories">
-                <span class="title">Categories</span>
-            </a>
-            <a class="dropdown-item" href="/add_category">
-                <span class="title">Add Category</span>
-            </a>
-          </div>
-        </li>
-        {% endif %}
-        {% if user.is_superuser %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Products
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/product_list">
-                <span class="title">Products</span>
-            </a>
-            <a class="dropdown-item" href="/product_list_names">
-                <span class="title">Products by Name</span>
-            </a>
-            <a class="dropdown-item" href="/add_product">
-                <span class="title">Add Product</span>
-            </a>
-          </div>
-        </li>
-        {% endif %}
-        {% if user.is_superuser %}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Batch Work
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/upload">
-                <span class="title">Upload</span>
-            </a>
-            <a class="dropdown-item" href="/products/csv/">
-                <span class="title">Download All Products</span>
-            </a>
-            <a class="dropdown-item" href="../../static/assets/data.csv">
-                <span class="title">Download</span>
-            </a>
-            <a class="dropdown-item" href="../../static/assets/data.hawthornegc.csv">
-                <span class="title">Download Hawthorne</span>
-            </a>
-          </div>
-        </li>
-        {% endif %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             User
@@ -183,25 +116,11 @@
           </div>
         </li>
       </ul>
-
-      <form class="form-inline my-2 my-lg-0" method="get" action="/#home">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="search_key" name="search_key" value="{{ search_key }}" >
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
-
-      <form class="form-inline my-2 my-lg-0" action="/cart" method="get">
-        <span class="amount">
-            <button class="btn" type="submit">
-                <span id="cart_product_count">0</span>
-                ( items )
-            </button>
-        </span>
-      </form>
     </div>
   </nav>
 
   <div class="container mt-5">
-      <h4>Home Renovation Nation</h4>
+      <h4>Pump Fun Club</h4>
 
       {% block content %}{% endblock %}
 
@@ -211,7 +130,7 @@
     <!-- Copyright -->
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
       2023 Copyright:
-      <a class="text-dark" href="https://homerenovationnation.com/">homerenovationnation.com</a>
+      <a class="text-dark" href="https://pumpfunclub.com/">pumpfunclub.com</a>
     </div>
     <!-- Copyright -->
   </footer>

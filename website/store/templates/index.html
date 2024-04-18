@@ -30,8 +30,8 @@
                       <a href="https://www.pump.fun/{{ item.mint }}" class="btn btn-primary">Visit Website</a>   
                       </p>
                       <h5 class="card-title">{{ item.name }}</h5>
-                      <h3 class="card-title">{{ item.symbol }}</h3>
-                      <h4 class="card-title">{{ item.market_cap }}</h4>
+                      <p class="card-title">{{ item.symbol }}</p>
+                      <p class="card-title">{{ item.market_cap }}</p>
                       <p class="card-text">{{ item.description }}</p>
                       
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />

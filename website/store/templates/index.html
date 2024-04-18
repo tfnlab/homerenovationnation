@@ -31,8 +31,14 @@
                       <p class="card-title">{{ item.market_cap }}</p>
                       <p class="card-text">{{ item.description }}  
 
-                        <a href="{{ item.twitter }}" >{{ item.twitter }}</a>
-                        <a href="{{ item.telegram }}" >{{ item.telegram }}</a>
+                        {% if item.twitter %}
+                            <a href="{{ item.twitter }}">{{ item.twitter }}</a>
+                        {% endif %}
+                        
+                        {% if item.telegram %}
+                            <a href="{{ item.telegram }}">{{ item.telegram }}</a>
+                        {% endif %}
+                    
                       </p>
                       
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />

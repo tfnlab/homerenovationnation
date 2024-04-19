@@ -29,7 +29,7 @@
                   <div class="card-body">
                       <h5 class="card-title"><a href="https://www.pump.fun/{{ item.mint }}" target="_blank" >{{ item.name }}</a></h5>
                       <p class="card-title">{{ item.symbol }}</p>
-                      <p class="card-title">{{ int(round(item.usd_market_cap)) }}</p>
+                      <p class="card-title">{{ item.usd_market_cap|round_to_integer }}</p>
                       <p>{{ item.mint }}</p>
                       <p class="card-text"><small>{{ item.description }}</small>  
 

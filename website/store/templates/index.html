@@ -29,7 +29,7 @@
                   <div class="card-body">
                       <h5 class="card-title"><a href="https://www.pump.fun/{{ item.mint }}" target="_blank" >{{ item.name }}</a></h5>
                       <p class="card-title">{{ item.symbol }}</p>
-                      <p class="card-title">{{ item.market_cap }}</p>
+                      <p class="card-title">{{ item.usd_market_cap }}</p>
                       <p>{{ item.mint }}</p>
                       <p class="card-text"><small>{{ item.description }}</small>  
 
@@ -40,7 +40,10 @@
                         {% if item.telegram %}
                             <BR><a href="{{ item.telegram }}">{{ item.telegram }}</a>
                         {% endif %}
-                    
+                        {% if item.website %}
+                            <BR><a href="{{ item.website }}">{{ item.website }}</a>
+                        {% endif %}                        
+                        
                       </p>
                       
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />

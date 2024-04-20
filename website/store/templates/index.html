@@ -53,7 +53,13 @@
                             </a>
                         {% endif %}
                         {% if item.telegram %}
-                            <BR><a href="{{ item.telegram }}">{{ item.telegram }}</a>
+                            <BR><a href="{{ item.telegram }}"
+                            {% if 'https://t.me' in item.telegram %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.telegram }}</a>
                         {% else %}   
                           <BR> 
                           <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >

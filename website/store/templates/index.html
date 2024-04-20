@@ -37,11 +37,21 @@
                       <p class="card-text"><small>{{ item.description }}</small>  
 
                         {% if item.twitter %}
-                            <BR><a href="{{ item.twitter }}">{{ item.twitter }}</a>
+                            <BR><a href="{{ item.twitter }}"
+                            {% if item.twitter.startswith('https://x.com') %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.twitter }}</a>
+                        {% else %}    
+                            <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                            NO TWITTER
+                            </a>
                         {% endif %}
-                        
                         {% if item.telegram %}
                             <BR><a href="{{ item.telegram }}">{{ item.telegram }}</a>
+
                         {% endif %}
                         {% if item.website %}
                             <BR><a href="{{ item.website }}">{{ item.website }}</a>

@@ -38,13 +38,16 @@
 
                         {% if item.twitter %}
                             <BR><a href="{{ item.twitter }}"
-                            {% if 'https://x.com' in item.twitter %}
+                            {% if 'https://twitter.com' in item.twitter %}
+                                    style="background-color: yellow; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% elif 'https://x.com' in item.twitter %}
                                     style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
                             {% else %}               
                                     style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
                             {% endif %}
                             >{{ item.twitter }}</a>
-                        {% else %}    
+                        {% else %}   
+                            <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
                             NO TWITTER
                             </a>

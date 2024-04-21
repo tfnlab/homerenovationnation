@@ -69,7 +69,12 @@ def get_wallet_token_balance(wallet_address, token_address):
         response = requests.post(rpc_url, json=payload)
         response.raise_for_status()  # Raise an error for bad responses
         data = response.json()
-        balance = data["result"]["value"]["uiAmount"]
+        print("Response:", data)  # Print response for debugging
+        balance = data.get("result", {}).get("value", {}).get("uiAmount")
+        if balance is not None:
+            print("Token Balance:", balance)
+        else:
+            print("Token balance not found in response.")
         print("Token Balance:", balance)
         return balance
     except requests.exceptions.RequestException as e:

@@ -44,6 +44,35 @@ def get_wallet_balance(wallet_address):
     
     # Convert lamports to SOL
 
+def get_token_accounts(wallet_address, token_address):
+    rpc_url = "https://weathered-long-wind.solana-mainnet.quiknode.pro/9c2a29380646c0e36d464da8c7424a981c931107/"  # Replace with your desired Solana RPC URL
+
+    payload = {
+        "jsonrpc": "2.0",
+        "id": 1,
+        "method": "getTokenAccountsByOwner",
+        "params": [
+            wallet_address,
+            {"mint": token_address}
+        ]
+    }
+
+    try:
+        response = requests.post(rpc_url, json=payload)
+        response.raise_for_status()  # Raise an error for bad responses
+        data = response.json()
+        return data.get("result", [])
+    except requests.exceptions.RequestException as e:
+        print("Error:", e)
+        return []
+
+def get_token_account(wallet_address, token_address):
+    token_accounts = get_token_accounts(wallet_address, token_address)
+    for account in token_accounts:
+        if account.get("account", {}).get("data", {}).get("parsed", {}).get("info", {}).get("mint", "") == token_address:
+            return account
+    return None
+
 @register.filter
 def get_wallet_token_balance(wallet_address, token_address):
 # Define RPC server details
@@ -59,7 +88,7 @@ def get_wallet_token_balance(wallet_address, token_address):
             wallet_address,
             {
                 "encoding": "jsonParsed",
-                "mint": token_address,
+                "mint": get_token_accounts(wallet_address, token_address),
                 "commitment": "confirmed"  # Example commitment level, replace with the desired commitment level
             }
         ]

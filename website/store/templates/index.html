@@ -33,8 +33,12 @@
                       {% if item.username %}
                         <p>{{ item.username }}</p>
                       {% endif %}
-                      <p>{{ item.mint }}</p>
-                      <p class="card-text"><small>{{ item.description }}</small>  
+                      <p >{{ item.mint }}</p>
+                      <p 
+                      {% if 'https' in item.description %}
+                          style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                      {% endif %}                      
+                      class="card-text"><small>{{ item.description }}</small>  
 
                         {% if item.twitter %}
                             <BR><a href="{{ item.twitter }}"

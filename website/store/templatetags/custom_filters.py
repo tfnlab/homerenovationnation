@@ -60,7 +60,8 @@ def get_wallet_token_balance(wallet_address, token_address):
             {
                 "encoding": "jsonParsed",
                 "mint": token_address
-            }
+            },
+            "confirmed"  # Example commitment level, replace with the desired commitment level
         ]
     }
 

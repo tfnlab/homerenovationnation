@@ -1,6 +1,7 @@
 # custom_filters.py
 import requests
 from django import template
+import requests
 
 register = template.Library()
 

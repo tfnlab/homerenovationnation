@@ -80,8 +80,8 @@
                         {% endif %}                        
                         
                       </p>
-                      <p>{{ item.creator|get_wallet_balance }}</p>
-                      <p>{{ item.creator|get_wallet_token_balance:item.mint }}</p>
+                      <p>Balance {{ item.creator|get_wallet_balance }}</p>
+                      <p>{{ item.creator }}</p>
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />
 
                   </div>

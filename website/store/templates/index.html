@@ -71,7 +71,17 @@
                           </a>
                         {% endif %}
                         {% if item.website %}
-                            <BR><a href="{{ item.website }}">{{ item.website }}</a>
+                            <BR><a href="{{ item.website }}"
+                              {% if 'https://twitter.com' in item.twitter %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'https://t.me' in item.twitter %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'canva' in item.twitter %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              >{{ item.website }}</a>
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >

@@ -51,19 +51,20 @@ def get_wallet_token_balance(wallet_address, token_address):
 
     # Token address and wallet address for which you want to check the balance
     # JSON-RPC request payload to get token balance
+    # JSON-RPC request payload to get token balance
     payload = {
         "jsonrpc": "2.0",
         "id": 1,
         "method": "getTokenAccountBalance",
         "params": [
-            wallet_address,
             {
-                "encoding": "jsonParsed",
-                "mint": token_address
-            },
-            "confirmed"  # Example commitment level, replace with the desired commitment level
+                "account": wallet_address,
+                "mint": token_address,
+                "commitment": "confirmed"  # Example commitment level, replace with the desired commitment level
+            }
         ]
     }
+
 
     # Make the request
     try:

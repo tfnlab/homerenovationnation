@@ -31,7 +31,7 @@
                       <p class="card-title"                       
                       {% if '$' in item.symbol %}
                         style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
-                      {% elif item.symbol.islower() %}
+                      {% elif item.symbol|lower == item.symbol %}
                         style="background-color: blue; padding: 5px; display: inline-block; text-decoration: none; color: white;"
                       {% endif %}
                       >{{ item.symbol }}</p>

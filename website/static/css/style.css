@@ -55,7 +55,8 @@ Version:1.4
 
 body {
 	font: 15px/1.5 Arial, sans-serif;
-	color: white;
+	background-color: white;
+	color: black;
 	-webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: #dcdcdc;

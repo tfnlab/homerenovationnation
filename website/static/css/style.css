@@ -8109,15 +8109,17 @@ html[xmlns] .slides {display: block;}
 	border-color: #dc3545;
 	color: red;
   }
-  /* Custom style for orange color */
-  .alert-b-warning.orange {
-	background-color: #ffc107;
-	border-color: #ffc107;
-	color: orange;
-  }
-  /* Custom style for green color */
-  .alert-b-success.good {
-	background-color: #28a745;
-	border-color: #28a745;
-	color: green;
-  }
+  
+/* Custom style for orange color */
+.alert-b-warning.orange {
+background-color: #ffc107;
+border-color: #ffc107;
+color: orange;
+}
+  
+/* Custom style for green color */
+.alert-b-success.good {
+background-color: #28a745;
+border-color: #28a745;
+color: green;
+}

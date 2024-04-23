@@ -1679,7 +1679,9 @@ select.input-lg {
 	border-top-color:transparent;
 }
 
-
+.container {	
+	background-color: white;
+}
 /* ---------------------------------
 ------------- 13 Tabs */
 

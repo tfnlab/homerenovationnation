@@ -7918,8 +7918,8 @@ html[xmlns] .slides {display: block;}
 
 #testimonials-section {
 	background-size: cover;
-	-webkit-background-size: cover;
-	background-image: url('../images/testimonialsbg.jpg');
+	-webkit-background-size: cover; 
+	background-color: white;
 	background-repeat: no-repeat;
 	background-position:top center;
 	text-align:center;

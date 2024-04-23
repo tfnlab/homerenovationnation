@@ -8105,21 +8105,21 @@ html[xmlns] .slides {display: block;}
 }
 
 .stop {
-	background-color: #dc3545;
+	background-color: white;
 	border-color: #dc3545;
 	color: red;
   }
   
 /* Custom style for orange color */
 .orange {
-background-color: #ffc107;
+background-color: white;
 border-color: #ffc107;
 color: orange;
 }
   
 /* Custom style for green color */
 .good {
-background-color: #28a745;
+background-color: white;
 border-color: #28a745;
 color: green;
 }

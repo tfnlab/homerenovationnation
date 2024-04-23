@@ -22,22 +22,20 @@
 <section class="py-1">
   <div class="container-fluid">
       
-      <div class="row">
-        <div class="col-md-12">
-          <div class="alert alert-danger stop" role="alert">
-            <strong>Stop!</strong> This is a warning message.
+      <div class="row"> 
+          <div class="col-md-4 alert alert-danger stop" role="alert">
+            <strong>Stop!</strong>
           </div>
           
           <!-- Orange "Warning" Message -->
-          <div class="alert alert-warning orange" role="alert">
-            <strong>Warning!</strong> Something needs your attention.
+          <div class="col-md-4 alert alert-warning orange" role="alert">
+            <strong>Warning!</strong>
           </div>
           
           <!-- Green "Good" Message -->
-          <div class="alert alert-success" role="alert">
-            <strong>Good!</strong> Everything is working fine.
-          </div>
-        </div>
+          <div class="col-md-4 alert alert-success" role="alert">
+            <strong>Good!</strong>
+          </div> 
       </div>
       <div class="row">
         {% if json_data %}

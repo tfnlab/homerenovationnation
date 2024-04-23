@@ -8107,17 +8107,17 @@ html[xmlns] .slides {display: block;}
 .alert-danger.stop {
 	background-color: #dc3545;
 	border-color: #dc3545;
-	color: #fff;
+	color: red;
   }
   /* Custom style for orange color */
   .alert-warning.orange {
 	background-color: #ffc107;
 	border-color: #ffc107;
-	color: #212529;
+	color: orange;
   }
   /* Custom style for green color */
   .alert-success.good {
 	background-color: #28a745;
 	border-color: #28a745;
-	color: #fff;
+	color: green;
   }

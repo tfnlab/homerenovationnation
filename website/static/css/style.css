@@ -3701,6 +3701,7 @@ parent's font-size:0
 #content {
 	padding-bottom:50px;
 	overflow: hidden;
+	background-color: white;
 }
 
 #content img {

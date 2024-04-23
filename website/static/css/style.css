@@ -8104,21 +8104,21 @@ html[xmlns] .slides {display: block;}
 	opacity:0;
 }
 
-.alert-b-danger.stop {
+.stop {
 	background-color: #dc3545;
 	border-color: #dc3545;
 	color: red;
   }
   
 /* Custom style for orange color */
-.alert-b-warning.orange {
+.orange {
 background-color: #ffc107;
 border-color: #ffc107;
 color: orange;
 }
   
 /* Custom style for green color */
-.alert-b-success.good {
+.good {
 background-color: #28a745;
 border-color: #28a745;
 color: green;

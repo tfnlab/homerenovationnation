@@ -78,7 +78,15 @@
                           </a>
                         {% endif %}
                         {% if item.website %}
-                            <BR><a href="{{ item.website }}"
+                            <BR>
+
+                              {% if item.website|check_status_code %}
+                                   <a style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;" >TRUE</a>
+                              {% else %}     
+                                   <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;" >FALSE</a>
+                              {% endif %}
+                                                            
+                              <a href="{{ item.website }}"
                               {% if 'https://twitter.com' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
                               {% endif %}
@@ -91,11 +99,6 @@
                               
                                             
                               >{{ item.website }}</a> 
-                              {% if item.website|check_status_code %}
-                                   <a style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;" >TRUE</a>
-                              {% else %}     
-                                   <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;" >FALSE</a>
-                              {% endif %}
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >

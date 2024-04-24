@@ -6,6 +6,16 @@ import requests
 register = template.Library()
 
 @register.filter
+def check_status_code(url):
+    try:
+        response = requests.get(url)
+        if response.status_code == 200:
+            return True
+    except requests.exceptions.RequestException:
+        pass
+    return False
+    
+@register.filter
 def get_last_segment(value):
     return value.split('/')[-1]
 

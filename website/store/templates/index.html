@@ -85,7 +85,7 @@
                               {% else %}     
                                    <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;" >FALSE</a>
                               {% endif %}
-                                                            
+
                               <a href="{{ item.website }}"
                               {% if 'https://twitter.com' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
@@ -107,7 +107,6 @@
                         {% endif %}                        
                         
                       </p>
-                      <p>Balance {{ item.creator|get_wallet_balance }}</p>
                       <p>{{ item.creator }}</p>
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />
 

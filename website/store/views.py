@@ -153,7 +153,7 @@ def generate_id():
 
 def index(request):
     url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"  # Replace this with the URL you want to call
-    response = requests.get(url, timeout=15)
+    response = requests.get(url, timeout=30)
     json_data = None 
     if response.status_code == 200:
         json_data = response.json()

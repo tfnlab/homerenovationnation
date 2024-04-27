@@ -89,6 +89,10 @@
                               {% endif %}
 
                               <a href="{{ item.website }}" 
+                              
+                              {% if 'pump.gdn' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
                               {% if 'toekn.com' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
                               {% endif %}                              

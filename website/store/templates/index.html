@@ -89,6 +89,9 @@
                               {% endif %}
 
                               <a href="{{ item.website }}"
+                              {% if 'uwu.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
                               {% if 'https://twitter.com' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
                               {% endif %}

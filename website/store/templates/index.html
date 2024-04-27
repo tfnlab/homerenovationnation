@@ -88,7 +88,10 @@
                                    <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;" >FALSE</a>
                               {% endif %}
 
-                              <a href="{{ item.website }}"  
+                              <a href="{{ item.website }}"   
+                              {% if 'framer.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}    
                               {% if 'bento.me' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
                               {% endif %}                              

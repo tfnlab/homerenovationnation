@@ -151,6 +151,7 @@ class CartProduct(models.Model):
 class APIData(models.Model):
     data = models.JSONField()  # Store JSON data
     timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp when the data was saved
+    is_retrieving = models.BooleanField(default=False)  # Boolean indicating whether data is being retrieved
 
     def __str__(self):
         return f"API Data saved at {self.timestamp}"

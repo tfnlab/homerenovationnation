@@ -163,21 +163,39 @@ def index(request):
     #    json_data = response.json()
 
     recent_data = APIData.objects.order_by('-timestamp').first()
-    if recent_data and (timezone.now() - recent_data.timestamp).total_seconds() < 2:
-        # If a recent cached response exists, return it
+
+    if recent_data and recent_data.is_retrieving:
+        # If the last record is being retrieved, return the second-to-last record if available
+        second_to_last_data = APIData.objects.order_by('-timestamp').exclude(pk=recent_data.pk).first()
+        if second_to_last_data:
+            json_data = second_to_last_data.data
+        else:
+            json_data = None
+    elif recent_data and (timezone.now() - recent_data.timestamp).total_seconds() < 2:
+        # If a recent cached response exists and it's not being retrieved, return it
         json_data = recent_data.data
     else:
-        # If not cached or expired, make the API call
+        # If not cached or expired, start data retrieval
         url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"
+
         try:
+            # Set is_retrieving to True before starting retrieval
+            APIData.objects.create(is_retrieving=True)
+            
             response = requests.get(url, timeout=60)
             response.raise_for_status()
             json_data = response.json()
+
             # Save the API response to the database with current timezone-aware timestamp
             APIData.objects.create(data=json_data)
         except requests.exceptions.RequestException as e:
             # Handle exceptions here
             json_data = None
+        finally:
+            # Set is_retrieving back to False after retrieval is complete or failed
+            APIData.objects.filter(is_retrieving=True).update(is_retrieving=False)
+
+
 
     # Return the JSON data 
         

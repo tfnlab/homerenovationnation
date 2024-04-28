@@ -182,18 +182,17 @@ def index(request):
             # Set is_retrieving to True before starting retrieval
             APIData.objects.create(is_retrieving=True)
             
-            response = requests.get(url, timeout=60)
+            response = requests.get(url, timeout=15)
             response.raise_for_status()
             json_data = response.json()
 
             # Save the API response to the database with current timezone-aware timestamp
             APIData.objects.create(data=json_data)
-        except requests.exceptions.RequestException as e:
-            # Handle exceptions here
-            json_data = None
-        finally:
-            # Set is_retrieving back to False after retrieval is complete or failed
-            APIData.objects.filter(is_retrieving=True).update(is_retrieving=False)
+            
+        except Exception as e:
+            # If any error occurs during retrieval, remove the record indicating retrieval
+            APIData.objects.filter(is_retrieving=True).delete()
+            print("An error occurred during retrieval:", e)
 
 
 

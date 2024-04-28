@@ -163,7 +163,7 @@ def index(request):
     #    json_data = response.json()
 
     recent_data = APIData.objects.order_by('-timestamp').first()
-    if recent_data and (timezone.now() - recent_data.timestamp).total_seconds() < 1:
+    if recent_data and (timezone.now() - recent_data.timestamp).total_seconds() < 2:
         # If a recent cached response exists, return it
         json_data = recent_data.data
     else:

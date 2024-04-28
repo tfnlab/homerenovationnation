@@ -41,6 +41,8 @@ from .models import Product
 from .models import Cart
 from .models import CartProduct
 from .models import UserManager
+from .models import APIData
+
 from .forms import ProductForm
 from .forms import BrandForm
 from .forms import CategoryForm

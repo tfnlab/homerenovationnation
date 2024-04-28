@@ -152,11 +152,32 @@ def generate_id():
     return uuid.uuid4().hex
 
 def index(request):
-    url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"  # Replace this with the URL you want to call
-    response = requests.get(url, timeout=60)
-    json_data = None 
-    if response.status_code == 200:
-        json_data = response.json()
+    #url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"  # Replace this with the URL you want to call
+    #response = requests.get(url, timeout=60)
+    #json_data = None 
+
+    #if response.status_code == 200:
+    #    json_data = response.json()
+
+    recent_data = APIData.objects.order_by('-timestamp').first()
+    if recent_data and (datetime.now() - recent_data.timestamp).total_seconds() < 1:
+        # If a recent cached response exists, return it
+        json_data = recent_data.data
+    else:
+        # If not cached or expired, make the API call
+        url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"
+        try:
+            response = requests.get(url, timeout=60)
+            response.raise_for_status()
+            json_data = response.json()
+            # Save the API response to the database with current timestamp
+            APIData.objects.create(data=json_data)
+        except requests.exceptions.RequestException as e:
+            # Handle exceptions here
+            json_data = None
+
+    # Return the JSON data 
+        
 
     cart_id = request.COOKIES.get('cartId')
     if cart_id is None:

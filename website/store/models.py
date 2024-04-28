@@ -147,3 +147,10 @@ class CartProduct(models.Model):
     quantity = models.IntegerField(default=1)
     added_at = models.DateTimeField(auto_now_add=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+class APIData(models.Model):
+    data = models.JSONField()  # Store JSON data
+    timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp when the data was saved
+
+    def __str__(self):
+        return f"API Data saved at {self.timestamp}"

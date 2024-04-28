@@ -3,7 +3,20 @@ import requests
 from django import template
 import requests
 
+from datetime import datetime
+
 register = template.Library()
+
+@register.filter
+def format_timestamp(timestamp):
+    # Convert milliseconds to seconds
+    timestamp_seconds = timestamp / 1000.0
+    # Convert timestamp to datetime object
+    created_datetime = datetime.fromtimestamp(timestamp_seconds)
+    # Format datetime object as desired
+    formatted_date = created_datetime.strftime("%a, %d %b %Y")
+    formatted_time = created_datetime.strftime("%H:%M:%S")
+    return f"{formatted_date} at {formatted_time}"
 
 @register.filter
 def check_status_code(url):

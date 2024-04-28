@@ -149,7 +149,7 @@ class CartProduct(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
 class APIData(models.Model):
-    data = models.JSONField()  # Store JSON data
+    data = models.JSONField(null=True)  # Store JSON data
     timestamp = models.DateTimeField(auto_now_add=True)  # Timestamp when the data was saved
     is_retrieving = models.BooleanField(default=False)  # Boolean indicating whether data is being retrieved
 

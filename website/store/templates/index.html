@@ -129,7 +129,8 @@
                         
                       </p>
                       <p>{{ item.creator }}</p>
-                      <p>{{ item.created_timestamp }}</p>
+                      <p>{{ item.created_timestamp|date:"D, d M Y" }} at {{ item.created_timestamp|time:"H:i:s" }}</p>
+
                       
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />
 

@@ -32,7 +32,7 @@ from django.core.files.base import ContentFile
 
 from django.db.models import Q
 
-from datetime import datetime 
+from django.utils import timezone  # Import Django's timezone module
 
 import json
 
@@ -163,7 +163,7 @@ def index(request):
     #    json_data = response.json()
 
     recent_data = APIData.objects.order_by('-timestamp').first()
-    if recent_data and (datetime.now() - recent_data.timestamp).total_seconds() < 1:
+    if recent_data and (timezone.now() - recent_data.timestamp).total_seconds() < 1:
         # If a recent cached response exists, return it
         json_data = recent_data.data
     else:
@@ -173,7 +173,7 @@ def index(request):
             response = requests.get(url, timeout=60)
             response.raise_for_status()
             json_data = response.json()
-            # Save the API response to the database with current timestamp
+            # Save the API response to the database with current timezone-aware timestamp
             APIData.objects.create(data=json_data)
         except requests.exceptions.RequestException as e:
             # Handle exceptions here

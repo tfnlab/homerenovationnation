@@ -31,7 +31,7 @@ def format_timestamp(timestamp):
         time_elapsed += f"{minutes} minutes "
     if seconds > 0:
         time_elapsed += f"{seconds} seconds"
-    return f"{formatted_date} at {formatted_time} (Time elapsed: {time_elapsed})"
+    return f"{formatted_date} at {formatted_time} ({time_elapsed})"
 
 
 @register.filter

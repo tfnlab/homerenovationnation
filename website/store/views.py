@@ -195,22 +195,23 @@ def index(request):
         json_data = recent_data.data
     else:
         # If not cached or expired, start data retrieval
-        url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"
+        #url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"
 
         try:
+            print("Uncomment")
             # Set is_retrieving to True before starting retrieval
-            APIData.objects.create(is_retrieving=True)
+            #APIData.objects.create(is_retrieving=True)
             
-            response = requests.get(url, timeout=15)
-            response.raise_for_status()
-            json_data = response.json()
+            #response = requests.get(url, timeout=15)
+            #response.raise_for_status()
+            #json_data = response.json()
 
             # Save the API response to the database with current timezone-aware timestamp
-            APIData.objects.create(data=json_data)
+            #APIData.objects.create(data=json_data)
             
         except Exception as e:
             # If any error occurs during retrieval, remove the record indicating retrieval
-            APIData.objects.filter(is_retrieving=True).delete()
+            #APIData.objects.filter(is_retrieving=True).delete()
             print("An error occurred during retrieval:", e)
 
 

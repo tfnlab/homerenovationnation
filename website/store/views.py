@@ -195,7 +195,7 @@ def index(request):
         json_data = recent_data.data
     else:
         # If not cached or expired, start data retrieval
-        #url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=20&sort=created_timestamp&order=DESC&includeNsfw=true"
+        #url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=30&sort=created_timestamp&order=DESC&includeNsfw=true"
 
         try:
             print("Uncomment")

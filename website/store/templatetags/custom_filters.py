@@ -50,7 +50,7 @@ def get_last_segment(value):
 
 @register.filter
 def round_to_integer(value):
-    return round(value)
+    return round(int(value))
 
 @register.filter
 def get_wallet_balance(wallet_address):

@@ -128,96 +128,9 @@
     <!-- Copyright -->
   </footer>
 
-</body>
-<script>
-// Function to create a cart ID and set it as a client-side cookie
-function createCartId() {
-  // Check if a cart ID cookie already exists
-  if (!getCookie("cartId")) {
-    // Generate a new cart ID
-    var cartId = generateId();
-    // Set the cart ID as a cookie
-    setCookie("cartId", cartId, 365);
-  }
-}
+</body> 
 
-// Function to generate a random ID
-function generateId() {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-
-// Function to set a cookie
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-// Function to get a cookie
-function getCookie(cname) {
-  var name = cname + "=";
-  var ca = document.cookie.split(';');
-  for(var i = 0; i < ca.length; i++) {
-    var c = ca[i];
-    while (c.charAt(0) == ' ') {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
-}
-
-
-// Call the createCartId function to create a new cart ID and set it as a cookie
-createCartId();
-</script>
-
-<script type="text/javascript">
-  function copyAddress() {
-    var billingAddressLine1 = document.getElementById("id_billing_address_line1").value;
-    var billingAddressLine2 = document.getElementById("id_billing_address_line2").value;
-    var billingCity = document.getElementById("id_billing_city").value;
-    var billingState = document.getElementById("id_billing_state").value;
-    var billingZipcode = document.getElementById("id_billing_zipcode").value;
-    var billingCountry = document.getElementById("id_billing_country").value;
-    document.getElementById("id_shipping_address_line1").value = billingAddressLine1;
-    document.getElementById("id_shipping_address_line2").value = billingAddressLine2;
-    document.getElementById("id_shipping_city").value = billingCity;
-    document.getElementById("id_shipping_state").value = billingState;
-    document.getElementById("id_shipping_zipcode").value = billingZipcode;
-    document.getElementById("id_shipping_country").value = billingCountry;
-
-  }
-  function searchbybrand() {
-    var select = document.getElementById("brand_list");
-    var search_key = select.options[select.selectedIndex].text;
-    var url = "/?search_key=" + encodeURIComponent(search_key);
-    window.location.href = url;
-  }
-</script>
-<script>
-  function calculatePrice(quantity, product_id) {
-    $.ajax({
-      type: 'GET',
-      url: '/calculate_price/',
-      data: {
-        'quantity': quantity,
-        'product_id': product_id
-      },
-      success: function(data) {
-        $("#price").html("$" + data.price);
-        const productPrice = parseFloat(document.getElementById("product_price").value);
-        const newProductPrice = parseFloat(data.price);
-        const quantity = parseFloat(document.getElementById("quantity").value);
-        const total = (productPrice * quantity) - (newProductPrice * quantity);
-        $("#pricesavings").html("$" + total.toFixed(2));
-      }
-    });
-  }
-</script>
+  
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-YREQE5NY5B"></script>
 <script>

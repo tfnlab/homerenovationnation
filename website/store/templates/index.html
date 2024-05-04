@@ -29,7 +29,7 @@
               <div class="card">
                   <div class="card-body">
                       <h5 class="card-title">
-                        <a href="https://www.pump.fun/{{ item.mint }}" target="_blank" >{{ item.name }}</a>
+                        <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/{{ item.mint }}', 'newwindow', 'width=1800, height=1800'); return false;">{{ item.name }}</a>
                       </h5>
                       <p class="card-title"                       
                       {% if '$' in item.symbol %}

@@ -52,7 +52,7 @@ def get_last_segment(value):
 def round_to_integer(value):
     try:
         return round(int(value))
-    except ValueError:
+    except Exception:
         print("Error: Input must be convertible to an integer.")
         return None  # or any other action you want to take upon encountering an error
 

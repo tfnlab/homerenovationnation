@@ -9,30 +9,34 @@ register = template.Library()
 
 @register.filter
 def format_timestamp(timestamp):
-    # Convert milliseconds to seconds
-    timestamp_seconds = timestamp / 1000.0
-    # Convert timestamp to datetime object
-    created_datetime = datetime.fromtimestamp(timestamp_seconds)
-    # Calculate time difference
-    time_difference = datetime.now() - created_datetime
-    # Format datetime object as desired
-    formatted_date = created_datetime.strftime("%a, %d %b %Y")
-    formatted_time = created_datetime.strftime("%H:%M:%S")
-    # Format time elapsed
-    days = time_difference.days
-    hours, remainder = divmod(time_difference.seconds, 3600)
-    minutes, seconds = divmod(remainder, 60)
-    time_elapsed = ""
-    if days > 0:
-        time_elapsed += f"{days} days "
-    if hours > 0:
-        time_elapsed += f"{hours} hours "
-    if minutes > 0:
-        time_elapsed += f"{minutes} minutes "
-    if seconds > 0:
-        time_elapsed += f"{seconds} seconds"
-    return f"{formatted_date} at {formatted_time} ({time_elapsed})"
+    try: 
+        # Convert milliseconds to seconds
+        timestamp_seconds = timestamp / 1000.0
+        # Convert timestamp to datetime object
+        created_datetime = datetime.fromtimestamp(timestamp_seconds)
+        # Calculate time difference
+        time_difference = datetime.now() - created_datetime
+        # Format datetime object as desired
+        formatted_date = created_datetime.strftime("%a, %d %b %Y")
+        formatted_time = created_datetime.strftime("%H:%M:%S")
+        # Format time elapsed
+        days = time_difference.days
+        hours, remainder = divmod(time_difference.seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        time_elapsed = ""
+        if days > 0:
+            time_elapsed += f"{days} days "
+        if hours > 0:
+            time_elapsed += f"{hours} hours "
+        if minutes > 0:
+            time_elapsed += f"{minutes} minutes "
+        if seconds > 0:
+            time_elapsed += f"{seconds} seconds"
+        return f"{formatted_date} at {formatted_time} ({time_elapsed})"
 
+    except Exception as e:
+        print("An error occurred:", e)
+        return None  # or any other action you want to take upon encountering an error
 
 @register.filter
 def check_status_code(url):

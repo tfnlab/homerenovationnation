@@ -170,7 +170,7 @@ def marketcap(request):
         search_key = request.POST.get('search_key', '')
 
     context = {'cart_id': cart_id, 'request': request, 'search_key': search_key, 'json_data': json_data, 'threshold': threshold}
-    response = render(request, 'index.html', context)
+    response = render(request, 'marketcap.html', context)
     response.set_cookie('cartId', cart_id)
  
     return render(request, 'marketcap.html', context)

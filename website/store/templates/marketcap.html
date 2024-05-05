@@ -24,8 +24,8 @@
     
       <div class="row">
         {% if json_data %}
-          {% for item in json_data %}
-          {% if item.usd_market_cap|compare_to_threshold: threshold %}
+          {% for item in json_data %} 
+          {% if item.usd_market_cap|compare_to_threshold:threshold %}
     <!-- Do something if some_value is greater than or equal to threshold_value --> 
 
           <div class="col-md-4">

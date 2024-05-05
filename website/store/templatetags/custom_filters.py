@@ -72,6 +72,20 @@ def round_to_integer(value):
         print("An error occurred:", e)
         return None  # or any other action you want to take upon encountering an error
 
+@register.filter
+def compare_to_threshold(value, threshold):
+    try:
+        value = int(value)
+        threshold = int(threshold)
+        
+        if value < threshold:
+            return False
+        else:
+            return True
+    except Exception as e:
+        print("An error occurred:", e)
+        return None  # or any other action you want to take upon encountering an error
+
 
 
 @register.filter

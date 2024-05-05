@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+
+{% block content %}
+<script>
+  // Function to refresh the page every 2 seconds
+  function refreshPage() {
+    setTimeout(function() {
+      window.location.reload();
+    }, 2200); // 2000 milliseconds = 2 seconds
+  }
+  
+  // Call the function when the page loads
+  window.onload = function() {
+    refreshPage();
+  };
+</script>
+
+<!-- Displaying JSON data -->
+<section class="py-0">
+  <div class="container-fluid">
+    
+      <div class="row">
+        {% if json_data %}
+          {% for item in json_data %}
+          {% if item.usd_market_cap|compare_to_threshold: threshold %}
+    <!-- Do something if some_value is greater than or equal to threshold_value --> 
+
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/{{ item.mint }}', 'newwindow', 'width=1800, height=2100'); return false;">{{ item.name }}</a>
+                      </h5>
+                      <p class="card-title"                       
+                      {% if '$' in item.symbol %}
+                        style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                      {% elif item.symbol|lower == item.symbol %}
+                        style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"
+                      {% endif %}
+                      >{{ item.symbol }}</p>
+                      <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
+                      {% if item.username %}
+                        <p>{{ item.username }}</p>
+                      {% endif %}
+                      <p >{{ item.mint }}</p>
+                      <p 
+                      {% if 'https' in item.description %}
+                          style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                      {% endif %}                      
+                      class="card-text"><small>{{ item.description }}</small>  
+
+                        {% if item.twitter %}
+                            <BR><a href="{{ item.twitter }}"
+                            {% if 'https://twitter.com' in item.twitter %}
+                                    style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% elif 'https://x.com' in item.twitter %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.twitter }}</a>
+                        {% else %}   
+                            <BR> 
+                            <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                            NO TWITTER
+                            </a>
+                        {% endif %}
+                        {% if item.telegram %}
+                            <BR><a href="{{ item.telegram }}"
+                            {% if 'https://t.me' in item.telegram %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.telegram }}</a>
+                        {% else %}   
+                          <BR> 
+                          <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                          NO TG
+                          </a>
+                        {% endif %}
+                        {% if item.website %}
+                            <BR>
+
+
+
+                              <a href="{{ item.website }}"   
+                              {% if item.website|check_string %}
+                                  
+                              {% else %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                              {% endif %}                              
+                              {% if 'framer.website' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}    
+                              {% if 'framer.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}    
+                              {% if 'bento.me' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}                              
+                              {% if 'pump.gdn' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'toekn.com' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'uwu.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'https://twitter.com' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'https://t.me' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'canva' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              
+                                            
+                              >{{ item.website }}</a> 
+                        {% else %}   
+                            <BR> 
+                            <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                            NO WEBSITE
+                            </a>                              
+                        {% endif %}                        
+                        
+                      </p>
+                      <p>{{ item.creator }}</p>
+                      <p>{{ item.created_timestamp|format_timestamp }}</p>
+                      
+                      <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />
+
+                  </div>
+              </div>
+          </div>
+          {% endif %}
+          {% endfor %}
+      {% else %}
+          <p>Sorry, error with pump.fun, no data available.</p>
+      {% endif %}          
+      </div>
+  </div>
+</section>  
+{% endblock %}

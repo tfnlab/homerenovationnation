@@ -47,7 +47,19 @@ def check_status_code(url):
     except Exception:
         pass
     return False
-    
+
+@register.filter
+def check_string(value):
+    # Count the occurrences of '/' and '.'
+    slash_count = value.count('/')
+    dot_count = value.count('.')
+
+    # Check conditions
+    if slash_count > 2 or dot_count > 1:
+        return False
+    else:
+        return True
+
 @register.filter
 def get_last_segment(value):
     return value.split('/')[-1]

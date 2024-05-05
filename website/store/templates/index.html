@@ -85,7 +85,11 @@
 
 
                               <a href="{{ item.website }}"   
-                              
+                              {% if item.website|check_string %}
+                              <!-- Do something if the string meets the conditions -->
+                              {% else %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                              {% endif %}                              
                               {% if 'framer.website' in item.website %}
                                 style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
                               {% endif %}    

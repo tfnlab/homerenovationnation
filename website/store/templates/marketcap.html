@@ -17,6 +17,16 @@
     refreshPage();
   };
 </script> 
+<script>
+  function copyTextToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+  }
+</script>
 <!-- Displaying JSON data -->
 <section class="py-0">
   <div class="container-fluid">
@@ -44,7 +54,9 @@
                       {% if item.username %}
                         <p>{{ item.username }}</p>
                       {% endif %}
-                      <p >{{ item.mint }}</p>
+                      <p >
+                        <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
+                        {{ item.mint }}</a> </p>
                       <p 
                       {% if 'https' in item.description %}
                           style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"  

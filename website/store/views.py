@@ -155,7 +155,9 @@ def generate_id():
     return uuid.uuid4().hex
 
 def marketcap(request):
-    url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=100&sort=created_timestamp&order=DESC&includeNsfw=false"
+    start = request.GET.get('start', '0')
+    stop = int(start) + 50
+    url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=" + start + "&limit=" + str(stop) + "&sort=created_timestamp&order=DESC&includeNsfw=false"
     response = requests.get(url, timeout=15)
     json_data = response.json()
     cart_id = request.COOKIES.get('cartId')
@@ -164,7 +166,6 @@ def marketcap(request):
         cart_id = generate_id()
 
     threshold = request.GET.get('threshold', '5000')
-
     search_key = request.GET.get('search_key', '')
     if request.method == 'POST':
         search_key = request.POST.get('search_key', '')

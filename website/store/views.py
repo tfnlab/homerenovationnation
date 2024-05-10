@@ -177,10 +177,15 @@ def marketcap(request):
     return render(request, 'marketcap.html', context)
 
 def realtime(request):
-    url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=50&sort=created_timestamp&order=DESC&includeNsfw=false"
-    response = requests.get(url, timeout=15)
-    json_data = response.json()
-    cart_id = request.COOKIES.get('cartId')
+
+    try:
+        url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=0&limit=50&sort=created_timestamp&order=DESC&includeNsfw=false"
+        response = requests.get(url, timeout=15)
+        response.raise_for_status()  # Raise an exception for 4xx and 5xx status codes
+        json_data = response.json()
+        cart_id = request.COOKIES.get('cartId')
+    except Exception as e:
+        print("An error occurred:", e)
 
     if cart_id is None:
         cart_id = generate_id()

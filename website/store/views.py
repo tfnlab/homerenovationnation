@@ -155,6 +155,7 @@ def generate_id():
     return uuid.uuid4().hex
 
 def marketcap(request):
+    json_data = None
     try:
         start = request.GET.get('start', '0')
         stop = int(start) + 50

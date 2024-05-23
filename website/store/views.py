@@ -158,7 +158,7 @@ def marketcap(request):
     json_data = None
     try:
         start = request.GET.get('start', '0')
-        stop = int(start) + 50
+        stop = int(start) + 50 
         url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=" + start + "&limit=" + str(stop) + "&sort=created_timestamp&order=DESC&includeNsfw=false"
         response = requests.get(url, timeout=15)
         json_data = response.json()
@@ -313,6 +313,82 @@ def add_to_cart(request):
         return response
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
+
+@csrf_exempt
+def create_token(request):
+    if request.method == 'POST':
+        # Extracting variables from the POST request
+        mint = request.POST.get('mint', None)
+        name = request.POST.get('name', None)
+        symbol = request.POST.get('symbol', None)
+        description = request.POST.get('description', None)
+        image_uri = request.POST.get('image_uri', None)
+        metadata_uri = request.POST.get('metadata_uri', None)
+        twitter = request.POST.get('twitter', None)
+        telegram = request.POST.get('telegram', None)
+        bonding_curve = request.POST.get('bonding_curve', None)
+        associated_bonding_curve = request.POST.get('associated_bonding_curve', None)
+        creator = request.POST.get('creator', None)
+        raydium_pool = request.POST.get('raydium_pool', None)
+        complete = request.POST.get('complete', False)
+        virtual_sol_reserves = request.POST.get('virtual_sol_reserves', None)
+        virtual_token_reserves = request.POST.get('virtual_token_reserves', None)
+        hidden = request.POST.get('hidden', False)
+        total_supply = request.POST.get('total_supply', None)
+        website = request.POST.get('website', None)
+        show_name = request.POST.get('show_name', False)
+        last_trade_timestamp = request.POST.get('last_trade_timestamp', None)
+        king_of_the_hill_timestamp = request.POST.get('king_of_the_hill_timestamp', None)
+        market_cap = request.POST.get('market_cap', None)
+        reply_count = request.POST.get('reply_count', None)
+        last_reply = request.POST.get('last_reply', None)
+        nsfw = request.POST.get('nsfw', False)
+        market_id = request.POST.get('market_id', None)
+        inverted = request.POST.get('inverted', False)
+        username = request.POST.get('username', None)
+        profile_image = request.POST.get('profile_image', None)
+        usd_market_cap = request.POST.get('usd_market_cap', None)
+        
+        # Creating and saving the Token object
+        token = Token(
+            mint=mint,
+            name=name,
+            symbol=symbol,
+            description=description,
+            image_uri=image_uri,
+            metadata_uri=metadata_uri,
+            twitter=twitter,
+            telegram=telegram,
+            bonding_curve=bonding_curve,
+            associated_bonding_curve=associated_bonding_curve,
+            creator=creator,
+            raydium_pool=raydium_pool,
+            complete=complete,
+            virtual_sol_reserves=virtual_sol_reserves,
+            virtual_token_reserves=virtual_token_reserves,
+            hidden=hidden,
+            total_supply=total_supply,
+            website=website,
+            show_name=show_name,
+            last_trade_timestamp=last_trade_timestamp,
+            king_of_the_hill_timestamp=king_of_the_hill_timestamp,
+            market_cap=market_cap,
+            reply_count=reply_count,
+            last_reply=last_reply,
+            nsfw=nsfw,
+            market_id=market_id,
+            inverted=inverted,
+            username=username,
+            profile_image=profile_image,
+            usd_market_cap=usd_market_cap,
+            created_timestamp=timezone.now()  # Setting the created timestamp
+        )
+        token.save()
+        
+        return JsonResponse({'message': 'Token created successfully.'}, status=201)
+    else:
+        return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
+
 
 def delete_cart_product(request, id):
     CartProduct.objects.filter(id=id).delete()

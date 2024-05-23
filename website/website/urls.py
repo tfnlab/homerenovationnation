@@ -67,6 +67,7 @@ urlpatterns = [
     path('access_backend/', views.access_backend, name='access_backend'),
     path('realtime/', views.realtime, name='realtime'),
     path('marketcap/', views.marketcap, name='marketcap'),
+    path('create_token/', views.create_token, name='create_token'),
 
 
     path('admin/', admin.site.urls),

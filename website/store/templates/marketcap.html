@@ -55,7 +55,9 @@
                         <p>{{ item.username }}</p>
                       {% endif %}
                       <p >
-                        python3 pumpjson_token.py <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
+                        <a href="#" onclick="copyTextToClipboard('python3 pumpjson_token.py {{ item.mint }}')">
+                        CMD</a>
+                        <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
                         {{ item.mint }}</a> </p>
                         
                         

@@ -55,8 +55,11 @@
                         <p>{{ item.username }}</p>
                       {% endif %}
                       <p >
-                        <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
+                        python3 pumpjson_token.py <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
                         {{ item.mint }}</a> </p>
+                        
+                        
+
                       <p 
                       {% if 'https' in item.description %}
                           style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"  

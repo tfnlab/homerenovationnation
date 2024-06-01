@@ -6,13 +6,13 @@ from celery.schedules import crontab
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings')
 
-app = Celery('website')
+app = Celery('celery_app')
 app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     'add-every-30-seconds': {
-        'task': 'myapp.tasks.add',
+        'task': 'store.tasks.add',
         'schedule': 30.0,
         'args': (16, 16)
     },

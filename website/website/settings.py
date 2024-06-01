@@ -245,11 +245,4 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'UTC'
 
-CELERY_BEAT_SCHEDULE = {
-    'add-every-30-seconds': {
-        'task': 'myapp.tasks.add',
-        'schedule': 30.0,
-        'args': (16, 16)
-    },
-}
 

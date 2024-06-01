@@ -8,7 +8,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'website.settings')
 
 app = Celery('website')
 app.config_from_object('django.conf:settings', namespace='CELERY')
-app.autodiscover_tasks()
+#app.autodiscover_tasks()
+app.autodiscover_tasks(['store'])  # Update this line
 
 app.conf.beat_schedule = {
     'add-every-30-seconds': {

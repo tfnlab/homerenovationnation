@@ -9,9 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
+from __future__ import absolute_import, unicode_literals
 import os
 from pathlib import Path
-from __future__ import absolute_import, unicode_literals
 from celery import Celery
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

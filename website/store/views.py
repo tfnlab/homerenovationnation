@@ -100,18 +100,14 @@ def ask(request):
     return render(request, 'ask.html', {'query': story_text, 'search_text': search_text})
 
 def get_count(request):
-    csv_file_path = '/root/pumpfun/tokendata/coin_data.csv'
-
+    directory = '/root/pumpfun/tokendata/'
     
-    # Read the CSV file into a DataFrame
-    try:
-        df = pd.read_csv(csv_file_path)
-    except FileNotFoundError:
-        return JsonResponse({'error': 'CSV file not found.'}, status=404)
-    except pd.errors.EmptyDataError:
-        return JsonResponse({'error': 'CSV file is empty.'}, status=400)
-    except pd.errors.ParserError:
-        return JsonResponse({'error': 'Error parsing CSV file.'}, status=400)
+    # List all CSV files in the directory
+    csv_files = [file for file in os.listdir(directory) if file.endswith('.csv')]
+    
+    # Check if there are any CSV files in the directory
+    if not csv_files:
+        return JsonResponse({'error': 'No CSV files found in the directory.'}, status=404)
 
     # Get the column name and value from the request
     column_name = request.GET.get('column_name')
@@ -119,17 +115,29 @@ def get_count(request):
     
     if not column_name or not value:
         return JsonResponse({'error': 'Both column_name and value must be provided.'}, status=400)
-
-    # Check if the column exists
-    if column_name not in df.columns:
-        return JsonResponse({'error': f'Column "{column_name}" not found.'}, status=400)
     
-    # Search for the value in the specified column
-    occurrences = df[column_name].eq(value).sum()
+    occurrences = 0
+    
+    for csv_file in csv_files:
+        csv_file_path = os.path.join(directory, csv_file)
+        try:
+            # Read the CSV file into a DataFrame
+            df = pd.read_csv(csv_file_path)
+            
+            # Check if the column exists
+            if column_name not in df.columns:
+                continue  # Move to the next CSV file if column doesn't exist
+            
+            # Search for the value in the specified column and sum occurrences
+            occurrences += df[column_name].eq(value).sum()
+            
+        except (FileNotFoundError, pd.errors.EmptyDataError, pd.errors.ParserError):
+            continue  # Move to the next CSV file if any error occurs
+    
     occurrences = int(occurrences)
     
-    return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})        
-
+    return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
+   
 def download_csv(request):
     # Get all products from the Product model
     products = Product.objects.all()

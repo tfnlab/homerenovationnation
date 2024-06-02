@@ -212,10 +212,11 @@ def marketcap(request):
 
     threshold = request.GET.get('threshold', '5000')
     search_key = request.GET.get('search_key', '')
+    detail = request.GET.get('detail', None)
     if request.method == 'POST':
         search_key = request.POST.get('search_key', '')
 
-    context = {'cart_id': cart_id, 'request': request, 'search_key': search_key, 'json_data': json_data, 'threshold': threshold}
+    context = {'cart_id': cart_id, 'request': request, 'search_key': search_key, 'json_data': json_data, 'threshold': threshold, 'detail': detail}
     response = render(request, 'marketcap.html', context)
     response.set_cookie('cartId', cart_id)
  

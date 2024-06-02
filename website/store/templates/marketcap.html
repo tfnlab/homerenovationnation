@@ -53,8 +53,9 @@
                       {% endif %}
                       >
                       {{ item.symbol }}
-
+                      {% if detail %}
                       <span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">-</span>
+                      {% endif %}
                       </p>
                       <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
                       {% if item.username %}

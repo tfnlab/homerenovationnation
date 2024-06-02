@@ -9,7 +9,7 @@
   function refreshPage() {
     setTimeout(function() {
       window.location.reload();
-    }, 12700); // 2000 milliseconds = 2 seconds
+    }, 15700); // 2000 milliseconds = 2 seconds
   }
   
   // Call the function when the page loads
@@ -52,7 +52,7 @@
                       >
                       {{ item.symbol }}
 
-                      <span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">0</span>
+                      <span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">X</span>
                       </p>
                       <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
                       {% if item.username %}
@@ -190,7 +190,7 @@
         const occurrences = data.occurrences;
         
         // Update the content of the dynamically created span element with the count
-        document.getElementById(id).textContent = `- ${occurrences}`;
+        document.getElementById(id).textContent = `${occurrences}`;
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

@@ -59,6 +59,7 @@ import requests
 from django.views.decorators.csrf import csrf_exempt
 from django.template.context_processors import csrf
 from lxml import html
+import pandas as pd
 
 register = template.Library()
 

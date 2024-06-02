@@ -190,7 +190,7 @@
         const occurrences = data.occurrences;
         
         // Update the content of the dynamically created span element with the count
-        document.getElementById(id).textContent = `Occurrences: ${occurrences}`;
+        document.getElementById(id).textContent = `- ${occurrences}`;
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

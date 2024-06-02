@@ -42,8 +42,10 @@
                   <div class="card-body">
                       <h5 class="card-title">
                         <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/{{ item.mint }}', 'newwindow', 'width=1200, height=2100'); return false;">{{ item.name }}</a>
-                        <span id="count_{{ item.mint }}_name" onclick="getCountByNameAndValue(this.id, 'name', '{{ item.name }}')">-</span>
-
+                        
+                      {% if detail %}
+                      <span id="count_{{ item.mint }}_name" onclick="getCountByNameAndValue(this.id, 'name', '{{ item.name }}')">-</span>
+                      {% endif %}
                       </h5>
                       <p class="card-title"                       
                       {% if '$' in item.symbol %}
@@ -87,7 +89,9 @@
                                     style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
                             {% endif %}
                             >{{ item.twitter }}</a>
+                            {% if detail %}  
                             <span id="count_{{ item.mint }}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '{{ item.twitter }}')">-</span>
+                            {% endif %}
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
@@ -103,8 +107,9 @@
                             {% endif %}
                             >{{ item.telegram }}                          
                           </a>
+                            {% if detail %}  
                             <span id="count_{{ item.mint }}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '{{ item.telegram }}')">-</span>
-
+                            {% endif %}
                         {% else %}   
                           <BR> 
                           <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
@@ -153,7 +158,9 @@
                                             
                               >{{ item.website }}
                             </a> 
+                            {% if detail %}      
                             <span id="count_{{ item.mint }}_website" onclick="getCountByNameAndValue(this.id, 'website', '{{ item.website }}')">-</span>
+                            {% endif %}
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >

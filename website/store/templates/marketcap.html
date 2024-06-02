@@ -49,7 +49,11 @@
                       {% elif item.symbol|lower == item.symbol %}
                         style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"
                       {% endif %}
-                      >{{ item.symbol }}</p>
+                      >
+                      {{ item.symbol }}
+
+                      <span id="{{ item.mint }}_symbol" onclick="getCountByColumnName(this.id, 'symbol', '{{ item.symbol }}')"></span>
+                      </p>
                       <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
                       {% if item.username %}
                         <p>{{ item.username }}</p>
@@ -165,4 +169,35 @@
       </div>
   </div>
 </section>  
+<script>
+  function getCountByNameAndValue(id, name, value) {
+    // Define the base URL
+    const baseURL = "https://pumpfunclub.com/get_count/";
+  
+    // Construct the complete URL with provided name and value
+    const url = `${baseURL}?column_name=${name}&value=${value}`;
+  
+    // Make a GET request to the constructed URL
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Extract the occurrences count from the response data
+        const occurrences = data.occurrences;
+        
+        // Update the content of the dynamically created span element with the count
+        document.getElementById(id).textContent = `Occurrences: ${occurrences}`;
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }
+  
+  // Call the function with the desired name and value
+  getCountByNameAndValue("name", "RAT");
+  </script>
 {% endblock %}

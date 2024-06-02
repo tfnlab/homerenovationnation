@@ -52,7 +52,7 @@
                       >
                       {{ item.symbol }}
 
-                      <span id="{{ item.mint }}_symbol" onclick="getCountByColumnName(this.id, 'symbol', '{{ item.symbol }}')">0</span>
+                      <span id="{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">0</span>
                       </p>
                       <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
                       {% if item.username %}

@@ -126,9 +126,9 @@ def get_count(request):
     
     # Search for the value in the specified column
     occurrences = df[column_name].eq(value).sum()
+    occurrences = int(occurrences)
     
-    return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
-        
+    return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})        
 
 def download_csv(request):
     # Get all products from the Product model

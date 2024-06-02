@@ -9,7 +9,7 @@
   function refreshPage() {
     setTimeout(function() {
       window.location.reload();
-    }, 35700); // 2000 milliseconds = 2 seconds
+    }, 45700); // 2000 milliseconds = 2 seconds
   }
   
   // Call the function when the page loads
@@ -86,6 +86,7 @@
                                     style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
                             {% endif %}
                             >{{ item.twitter }}</a>
+                            <span id="count_{{ item.mint }}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '{{ item.twitter }}')">-</span>
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
@@ -99,7 +100,10 @@
                             {% else %}               
                                     style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
                             {% endif %}
-                            >{{ item.telegram }}</a>
+                            >{{ item.telegram }}                          
+                          </a>
+                            <span id="count_{{ item.mint }}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '{{ item.telegram }}')">-</span>
+
                         {% else %}   
                           <BR> 
                           <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
@@ -146,7 +150,10 @@
                               {% endif %}
                               
                                             
-                              >{{ item.website }}</a> 
+                              >{{ item.website }}
+                              <span id="count_{{ item.mint }}_website" onclick="getCountByNameAndValue(this.id, 'website', '{{ item.website }}')">-</span>
+
+                            </a> 
                         {% else %}   
                             <BR> 
                             <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >

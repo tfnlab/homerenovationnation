@@ -42,6 +42,8 @@
                   <div class="card-body">
                       <h5 class="card-title">
                         <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/{{ item.mint }}', 'newwindow', 'width=1200, height=2100'); return false;">{{ item.name }}</a>
+                        <span id="count_{{ item.mint }}_name" onclick="getCountByNameAndValue(this.id, 'name', '{{ item.name }}')">-</span>
+
                       </h5>
                       <p class="card-title"                       
                       {% if '$' in item.symbol %}
@@ -52,7 +54,7 @@
                       >
                       {{ item.symbol }}
 
-                      <span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">X</span>
+                      <span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">-</span>
                       </p>
                       <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
                       {% if item.username %}

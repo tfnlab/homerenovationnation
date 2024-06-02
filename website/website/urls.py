@@ -68,6 +68,7 @@ urlpatterns = [
     path('realtime/', views.realtime, name='realtime'),
     path('marketcap/', views.marketcap, name='marketcap'),
     path('create_token/', views.create_token, name='create_token'),
+    path('get_count/', views.get_count, name='get_count'),
 
 
     path('admin/', admin.site.urls),

@@ -98,6 +98,37 @@ def ask(request):
     print(story_text)
     return render(request, 'ask.html', {'query': story_text, 'search_text': search_text})
 
+def get_count(request):
+    csv_file_path = '/root/pumpfun/tokendata/coin_data.csv'
+
+    
+    # Read the CSV file into a DataFrame
+    try:
+        df = pd.read_csv(csv_file_path)
+    except FileNotFoundError:
+        return JsonResponse({'error': 'CSV file not found.'}, status=404)
+    except pd.errors.EmptyDataError:
+        return JsonResponse({'error': 'CSV file is empty.'}, status=400)
+    except pd.errors.ParserError:
+        return JsonResponse({'error': 'Error parsing CSV file.'}, status=400)
+
+    # Get the column name and value from the request
+    column_name = request.GET.get('column_name')
+    value = request.GET.get('value')
+    
+    if not column_name or not value:
+        return JsonResponse({'error': 'Both column_name and value must be provided.'}, status=400)
+
+    # Check if the column exists
+    if column_name not in df.columns:
+        return JsonResponse({'error': f'Column "{column_name}" not found.'}, status=400)
+    
+    # Search for the value in the specified column
+    occurrences = df[column_name].eq(value).sum()
+    
+    return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
+        
+
 def download_csv(request):
     # Get all products from the Product model
     products = Product.objects.all()

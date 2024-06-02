@@ -9,7 +9,7 @@
   function refreshPage() {
     setTimeout(function() {
       window.location.reload();
-    }, 25700); // 2000 milliseconds = 2 seconds
+    }, 35700); // 2000 milliseconds = 2 seconds
   }
   
   // Call the function when the page loads
@@ -155,7 +155,11 @@
                         {% endif %}                        
                         
                       </p>
-                      <p>{{ item.creator }}</p>
+                      <p>{{ item.creator }}
+                        <span id="count_{{ item.mint }}_creator" onclick="getCountByNameAndValue(this.id, 'creator', '{{ item.creator }}')">-</span>
+
+
+                      </p>
                       <p>{{ item.created_timestamp|format_timestamp }}</p>
                       
                       <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />

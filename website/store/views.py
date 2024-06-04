@@ -43,6 +43,7 @@ from .models import Cart
 from .models import CartProduct
 from .models import UserManager
 from .models import APIData
+from .models import Token
 
 from .forms import ProductForm
 from .forms import BrandForm
@@ -60,6 +61,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.context_processors import csrf
 from lxml import html
 import pandas as pd
+
+
+from datetime import datetime
+from django.utils.dateparse import parse_datetime
 
 register = template.Library()
 
@@ -99,16 +104,8 @@ def ask(request):
     print(story_text)
     return render(request, 'ask.html', {'query': story_text, 'search_text': search_text})
 
+@csrf_exempt
 def get_count(request):
-    directory = '/root/pumpfun/tokendata/'
-    
-    # List all CSV files in the directory
-    csv_files = [file for file in os.listdir(directory) if file.endswith('.csv')]
-    
-    # Check if there are any CSV files in the directory
-    if not csv_files:
-        return JsonResponse({'error': 'No CSV files found in the directory.'}, status=404)
-
     # Get the column name and value from the request
     column_name = request.GET.get('column_name')
     value = request.GET.get('value')
@@ -116,27 +113,11 @@ def get_count(request):
     if not column_name or not value:
         return JsonResponse({'error': 'Both column_name and value must be provided.'}, status=400)
     
-    occurrences = 0
-    
-    for csv_file in csv_files:
-        csv_file_path = os.path.join(directory, csv_file)
-        try:
-            # Read the CSV file into a DataFrame
-            df = pd.read_csv(csv_file_path)
-            
-            # Check if the column exists
-            if column_name not in df.columns:
-                continue  # Move to the next CSV file if column doesn't exist
-            
-            # Search for the value in the specified column and sum occurrences
-            occurrences += df[column_name].eq(value).sum()
-            
-        except (FileNotFoundError, pd.errors.EmptyDataError, pd.errors.ParserError):
-            continue  # Move to the next CSV file if any error occurs
-    
-    occurrences = int(occurrences)
+    # Count occurrences in the database
+    occurrences = Token.objects.filter(**{column_name: value}).count()
     
     return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
+
    
 def download_csv(request):
     # Get all products from the Product model
@@ -358,75 +339,71 @@ def add_to_cart(request):
 @csrf_exempt
 def create_token(request):
     if request.method == 'POST':
-        # Extracting variables from the POST request
-        mint = request.POST.get('mint', None)
-        name = request.POST.get('name', None)
-        symbol = request.POST.get('symbol', None)
-        description = request.POST.get('description', None)
-        image_uri = request.POST.get('image_uri', None)
-        metadata_uri = request.POST.get('metadata_uri', None)
-        twitter = request.POST.get('twitter', None)
-        telegram = request.POST.get('telegram', None)
-        bonding_curve = request.POST.get('bonding_curve', None)
-        associated_bonding_curve = request.POST.get('associated_bonding_curve', None)
-        creator = request.POST.get('creator', None)
-        raydium_pool = request.POST.get('raydium_pool', None)
-        complete = request.POST.get('complete', False)
-        virtual_sol_reserves = request.POST.get('virtual_sol_reserves', None)
-        virtual_token_reserves = request.POST.get('virtual_token_reserves', None)
-        hidden = request.POST.get('hidden', False)
-        total_supply = request.POST.get('total_supply', None)
-        website = request.POST.get('website', None)
-        show_name = request.POST.get('show_name', False)
-        last_trade_timestamp = request.POST.get('last_trade_timestamp', None)
-        king_of_the_hill_timestamp = request.POST.get('king_of_the_hill_timestamp', None)
-        market_cap = request.POST.get('market_cap', None)
-        reply_count = request.POST.get('reply_count', None)
-        last_reply = request.POST.get('last_reply', None)
-        nsfw = request.POST.get('nsfw', False)
-        market_id = request.POST.get('market_id', None)
-        inverted = request.POST.get('inverted', False)
-        username = request.POST.get('username', None)
-        profile_image = request.POST.get('profile_image', None)
-        usd_market_cap = request.POST.get('usd_market_cap', None)
-        
-        # Creating and saving the Token object
-        token = Token(
-            mint=mint,
-            name=name,
-            symbol=symbol,
-            description=description,
-            image_uri=image_uri,
-            metadata_uri=metadata_uri,
-            twitter=twitter,
-            telegram=telegram,
-            bonding_curve=bonding_curve,
-            associated_bonding_curve=associated_bonding_curve,
-            creator=creator,
-            raydium_pool=raydium_pool,
-            complete=complete,
-            virtual_sol_reserves=virtual_sol_reserves,
-            virtual_token_reserves=virtual_token_reserves,
-            hidden=hidden,
-            total_supply=total_supply,
-            website=website,
-            show_name=show_name,
-            last_trade_timestamp=last_trade_timestamp,
-            king_of_the_hill_timestamp=king_of_the_hill_timestamp,
-            market_cap=market_cap,
-            reply_count=reply_count,
-            last_reply=last_reply,
-            nsfw=nsfw,
-            market_id=market_id,
-            inverted=inverted,
-            username=username,
-            profile_image=profile_image,
-            usd_market_cap=usd_market_cap,
-            created_timestamp=timezone.now()  # Setting the created timestamp
-        )
-        token.save()
-        
-        return JsonResponse({'message': 'Token created successfully.'}, status=201)
+        try:
+            # Extracting variables from the POST request
+            mint = request.POST.get('mint')
+            name = request.POST.get('name')
+            symbol = request.POST.get('symbol')
+            description = request.POST.get('description')
+            image_uri = request.POST.get('image_uri')
+            metadata_uri = request.POST.get('metadata_uri')
+            twitter = request.POST.get('twitter')
+            telegram = request.POST.get('telegram')
+            bonding_curve = request.POST.get('bonding_curve')
+            associated_bonding_curve = request.POST.get('associated_bonding_curve')
+            creator = request.POST.get('creator')
+            raydium_pool = request.POST.get('raydium_pool')
+            complete = request.POST.get('complete', 'False').lower() == 'true'
+            virtual_sol_reserves = request.POST.get('virtual_sol_reserves')
+            virtual_token_reserves = request.POST.get('virtual_token_reserves')
+            hidden = request.POST.get('hidden', 'False').lower() == 'true'
+            total_supply = request.POST.get('total_supply')
+            website = request.POST.get('website')
+            show_name = request.POST.get('show_name', 'False').lower() == 'true'
+            last_trade_timestamp = request.POST.get('last_trade_timestamp')
+            king_of_the_hill_timestamp = request.POST.get('king_of_the_hill_timestamp')
+            market_cap = request.POST.get('market_cap')
+            reply_count = request.POST.get('reply_count')
+            last_reply = request.POST.get('last_reply')
+            nsfw = request.POST.get('nsfw', 'False').lower() == 'true'
+            market_id = request.POST.get('market_id')
+            inverted = request.POST.get('inverted', 'False').lower() == 'true'
+            username = request.POST.get('username')
+            profile_image = request.POST.get('profile_image')
+            usd_market_cap = request.POST.get('usd_market_cap')
+            
+            
+            # Creating and saving the Token object
+            token = Token(
+                mint=mint,
+                name=name,
+                symbol=symbol,
+                image_uri=image_uri,
+                metadata_uri=metadata_uri,
+                twitter=twitter,
+                telegram=telegram,
+                bonding_curve=bonding_curve,
+                associated_bonding_curve=associated_bonding_curve,
+                creator=creator,
+                raydium_pool=raydium_pool,
+                complete=complete,
+                hidden=hidden,
+                website=website,
+                show_name=show_name,
+                market_cap=market_cap,
+                last_reply=last_reply,
+                nsfw=nsfw,
+                inverted=inverted,
+                username=username,
+                profile_image=profile_image,
+                usd_market_cap=usd_market_cap,
+                created_timestamp=timezone.now()  # Setting the created timestamp
+            )
+            token.save()
+            
+            return JsonResponse({'message': 'Token created successfully.'}, status=201)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)
 

@@ -158,7 +158,7 @@ class APIData(models.Model):
 
 
 class Token(models.Model):
-    mint = models.CharField(max_length=100, null=True, blank=True)
+    mint = models.CharField(max_length=100, unique=True, null=True, blank=True)
     name = models.CharField(max_length=100, null=True, blank=True)
     symbol = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)

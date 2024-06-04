@@ -24,7 +24,7 @@ APPEND_SLASH = False
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =  os.environ.get('D_SECRET_KEY')
+SECRET_KEY =   'asdfasfdasfsdafasdfasf'
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('D_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('D_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
@@ -109,6 +109,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'website.urls'
@@ -139,11 +140,11 @@ WSGI_APPLICATION = 'website.wsgi.application'
 
 ## RDS Deployment
 # AWS RDS settings
-RDS_DATABASE = os.environ.get('RDS_DATABASE')
-RDS_USERNAME = os.environ.get('RDS_USERNAME')
-RDS_PASSWORD = os.environ.get('RDS_PASSWORD')
-RDS_HOST = os.environ.get('RDS_HOST')
-RDS_PORT = os.environ.get('RDS_PORT')
+RDS_DATABASE =  'django'
+RDS_USERNAME = 'root'
+RDS_PASSWORD = 'password2'
+RDS_HOST = 'localhost'
+RDS_PORT = '3306'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

@@ -140,11 +140,11 @@ WSGI_APPLICATION = 'website.wsgi.application'
 
 ## RDS Deployment
 # AWS RDS settings
-RDS_DATABASE =  'django'
-RDS_USERNAME = 'root'
-RDS_PASSWORD = 'password2'
-RDS_HOST = 'localhost'
-RDS_PORT = '3306'
+RDS_DATABASE = os.environ.get('RDS_DATABASE')
+RDS_USERNAME = os.environ.get('RDS_USERNAME')
+RDS_PASSWORD = os.environ.get('RDS_PASSWORD')
+RDS_HOST = os.environ.get('RDS_HOST')
+RDS_PORT = os.environ.get('RDS_PORT')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',

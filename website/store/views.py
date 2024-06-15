@@ -66,6 +66,8 @@ import pandas as pd
 from datetime import datetime
 from django.utils.dateparse import parse_datetime
 
+from django.core.serializers import serialize
+
 register = template.Library()
 
 def ask(request):
@@ -176,32 +178,29 @@ def generate_id():
     return uuid.uuid4().hex
 
 def marketcap(request):
-    json_data = None
+    tokens = None
     try:
-        start = request.GET.get('start', '0')
-        stop = int(start) + 50 
-        url = "https://client-api-2-74b1891ee9f9.herokuapp.com/coins?offset=" + start + "&limit=" + str(stop) + "&sort=created_timestamp&order=DESC&includeNsfw=false"
-        response = requests.get(url, timeout=15)
-        json_data = response.json()
+        # Fetch the latest 50 records from the Token model
+        tokens = Token.objects.order_by('-created_timestamp')[:100]
+        total_token_count = Token.objects.count()
     except Exception as e:
-        print("An error occurred:", e)
+        print("An error occurred while fetching data from the database:", e)
+        return render(request, 'error.html', {'error_message': 'An error occurred while fetching data from the database.'})
 
-    cart_id = request.COOKIES.get('cartId')
-
-    if cart_id is None:
-        cart_id = generate_id()
-
-    threshold = request.GET.get('threshold', '5000')
+    # Ensure threshold is always a string
+    threshold = str(request.GET.get('threshold', '5000'))
     search_key = request.GET.get('search_key', '')
-    detail = request.GET.get('detail', None)
-    if request.method == 'POST':
-        search_key = request.POST.get('search_key', '')
+    detail = request.GET.get('detail', '')
 
-    context = {'cart_id': cart_id, 'request': request, 'search_key': search_key, 'json_data': json_data, 'threshold': threshold, 'detail': detail}
-    response = render(request, 'marketcap.html', context)
-    response.set_cookie('cartId', cart_id)
- 
-    return render(request, 'marketcap.html', context)
+    context = {'request': request, 'search_key': search_key, 'json_data': tokens, 'threshold': threshold, 'detail': detail, 'total_token_count': total_token_count}
+
+    try:
+        return render(request, 'marketcap.html', context)
+    except Exception as e:
+        print("An error occurred while rendering the template:", e)
+        return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
+
+
 
 def realtime(request):
 
@@ -336,6 +335,12 @@ def add_to_cart(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request method'})
 
+
+def strip_non_unicode(text):
+    if isinstance(text, str):
+        return text.encode('ascii', 'ignore').decode('ascii')
+    return None
+
 @csrf_exempt
 def create_token(request):
     if request.method == 'POST':
@@ -344,7 +349,12 @@ def create_token(request):
             mint = request.POST.get('mint')
             name = request.POST.get('name')
             symbol = request.POST.get('symbol')
-            description = request.POST.get('description')
+
+            name = strip_non_unicode(name)
+            symbol = strip_non_unicode(symbol)
+
+            #description = request.POST.get('description')
+            description = 'description'
             image_uri = request.POST.get('image_uri')
             metadata_uri = request.POST.get('metadata_uri')
             twitter = request.POST.get('twitter')
@@ -403,6 +413,7 @@ def create_token(request):
             
             return JsonResponse({'message': 'Token created successfully.'}, status=201)
         except Exception as e:
+            print(str(e))
             return JsonResponse({'error': str(e)}, status=400)
     else:
         return JsonResponse({'error': 'Only POST requests are allowed.'}, status=405)

@@ -164,7 +164,7 @@ class Token(models.Model):
     description = models.TextField(null=True, blank=True)
     image_uri = models.URLField(null=True, blank=True)
     metadata_uri = models.URLField(null=True, blank=True)
-    twitter = models.CharField(max_length=100, null=True, blank=True)
+    twitter = models.CharField(max_length=300, null=True, blank=True)
     telegram = models.CharField(max_length=100, null=True, blank=True)
     bonding_curve = models.CharField(max_length=100, null=True, blank=True)
     associated_bonding_curve = models.CharField(max_length=100, null=True, blank=True)

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+
+{% block content %}
+<script>
+  // Function to refresh the page every 2 seconds
+  function refreshPage() {
+    setTimeout(function() {
+      window.location.reload();
+    }, 2700); // 2000 milliseconds = 2 seconds
+  }
+  
+  // Call the function when the page loads
+  window.onload = function() {
+    refreshPage();
+  };
+</script> 
+<script>
+  function copyTextToClipboard(text) {
+      var textArea = document.createElement("textarea");
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+  }
+</script>
+<!-- Displaying JSON data -->
+<section class="py-0">
+  <div class="container-fluid">
+    
+      <div class="row">
+        {% if json_data %}
+          {% for item in json_data %} 
+          {% if token.usd_market_cap %}
+          {% if item.usd_market_cap|compare_to_threshold:threshold %}
+    <!-- Do something if some_value is greater than or equal to threshold_value --> 
+
+          <div class="col-md-4">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">
+                        <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/{{ item.mint }}', 'newwindow', 'width=1200, height=2100'); return false;">{{ item.name }}</a>
+                        
+                      {% if detail %}
+                      (<span id="count_{{ item.mint }}_name" onclick="getCountByNameAndValue(this.id, 'name', '{{ item.name }}')">-</span>)
+                      {% endif %}
+                      </h5>
+                      <p class="card-title"                       
+                      {% if '$' in item.symbol %}
+                        style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                      {% elif item.symbol|lower == item.symbol %}
+                        style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"
+                      {% endif %}
+                      >
+                      {{ item.symbol }}
+                      {% if detail %}
+                      (<span id="count_{{ item.mint }}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '{{ item.symbol }}')">-</span>)
+                      {% endif %}
+                      </p>
+                      <p class="card-title"><B>${{ item.usd_market_cap|round_to_integer }}</B></p>
+                      {% if item.username %}
+                        <p>{{ item.username }}</p>
+                      {% endif %}
+                      <p >
+                        <a href="#" onclick="copyTextToClipboard('python3 pumpjson_token.py {{ item.mint }}')">
+                        CMD</a>
+                        <br/>
+                        <br/>
+                        <a href="#" onclick="copyTextToClipboard('{{ item.mint }}')">
+                        {{ item.mint }}</a> </p>
+                        
+                        
+
+                      <p 
+                      {% if 'https' in item.description %}
+                          style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                      {% endif %}                      
+                      class="card-text"><small>{{ item.description }}</small>  
+
+                        {% if item.twitter %}
+                            <BR><a href="{{ item.twitter }}"
+                            {% if 'https://twitter.com' in item.twitter %}
+                                    style="background-color: orange; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% elif 'https://x.com' in item.twitter %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.twitter }}</a>
+                            {% if detail %}  
+                            (<span id="count_{{ item.mint }}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '{{ item.twitter }}')">-</span>)
+                            {% endif %}
+                        {% else %}   
+                            <BR> 
+                            <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                            NO TWITTER
+                            </a>
+                        {% endif %}
+                        {% if item.telegram %}
+                            <BR><a href="{{ item.telegram }}"
+                            {% if 'https://t.me' in item.telegram %}
+                                    style="background-color: green; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                            {% else %}               
+                                    style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       
+                            {% endif %}
+                            >{{ item.telegram }}                          
+                          </a>
+                            {% if detail %}  
+                            (<span id="count_{{ item.mint }}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '{{ item.telegram }}')">-</span>)
+                            {% endif %}
+                        {% else %}   
+                          <BR> 
+                          <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                          NO TG
+                          </a>
+                        {% endif %}
+                        {% if item.website %}
+                            <BR>
+
+
+
+                              <a href="{{ item.website }}"   
+                              {% if item.website|check_string %}
+                                  
+                              {% else %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"  
+                              {% endif %}                              
+                              {% if 'framer.website' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}    
+                              {% if 'framer.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}    
+                              {% if 'bento.me' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"   
+                              {% endif %}                              
+                              {% if 'pump.gdn' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'toekn.com' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'uwu.ai' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}                              
+                              {% if 'https://twitter.com' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'https://t.me' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              {% if 'canva' in item.website %}
+                                style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"    
+                              {% endif %}
+                              
+                                            
+                              >{{ item.website }}
+                            </a> 
+                            {% if detail %}      
+                            (<span id="count_{{ item.mint }}_website" onclick="getCountByNameAndValue(this.id, 'website', '{{ item.website }}')">-</span>)
+                            {% endif %}
+                        {% else %}   
+                            <BR> 
+                            <a style="background-color: red; padding: 5px; display: inline-block; text-decoration: none; color: white;"       >
+                            NO WEBSITE
+                            </a>                              
+                        {% endif %}                        
+                        
+                      </p>
+                      <p>{{ item.creator }}
+                        <span id="count_{{ item.mint }}_creator" onclick="getCountByNameAndValue(this.id, 'creator', '{{ item.creator }}')">-</span>
+
+
+                      </p>
+                      <p>{{ item.created_timestamp|format_timestamp }}</p>
+                      
+                      <img src="https://pump.mypinata.cloud/ipfs/{{ item.image_uri|get_last_segment }}" style="max-width: 50%; height: auto;" />
+
+                      (<span id="count_{{ item.mint }}_image_uri" onclick="getCountByNameAndValue(this.id, 'image_uri', '{{ item.image_uri }}')">-</span>)
+                  </div>
+              </div>
+          </div>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+      {% else %}
+          <p>Sorry, error with pump.fun, no data available.</p>
+      {% endif %}          
+      </div>
+  </div>
+</section>  
+<script>
+  function getCountByNameAndValue(id, name, value) {
+    // Define the base URL
+    const baseURL = "http://localhost:8000/get_count/";
+  
+    // Construct the complete URL with provided name and value
+    const url = `${baseURL}?column_name=${name}&value=${value}`;
+  
+    // Make a GET request to the constructed URL
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Extract the occurrences count from the response data
+        const occurrences = data.occurrences;
+        
+        // Update the content of the dynamically created span element with the count
+        document.getElementById(id).textContent = `${occurrences}`;
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }
+  
+  // Call the function with the desired name and value
+  window.addEventListener('load', function() {
+    // Select all spans whose id starts with "count_"
+    var spans = document.querySelectorAll('span[id^="count_"]');
+    
+    // Iterate over each span and trigger a click event
+    spans.forEach(function(span) {
+        span.click();
+    });
+  });
+  </script>
+{% endblock %}

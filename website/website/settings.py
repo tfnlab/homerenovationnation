@@ -79,27 +79,21 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-
 INSTALLED_APPS = [
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',  # Required for allauth
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'store',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # Add the providers you want to enable:
+    'allauth.socialaccount.providers.google',  # Example provider
 ]
-
-
-AUTHENTICATION_BACKENDS = (
-    'allauth.account.auth_backends.AuthenticationBackend',
-    'social_core.backends.google.GoogleOAuth2',
-)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -109,9 +103,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Needed to login by username in Django admin, regardless of `allauth`
+    'allauth.account.auth_backends.AuthenticationBackend',  # `allauth` specific authentication methods
+]
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ 
 ROOT_URLCONF = 'website.urls'
 
 TEMPLATES = [

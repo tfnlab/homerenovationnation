@@ -24,8 +24,8 @@ APPEND_SLASH = False
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY =   'asdfasfdasfsdafasdfasf'
 
+SECRET_KEY =  os.environ.get('D_SECRET_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('D_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('D_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = ['email', 'profile']

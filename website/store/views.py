@@ -342,7 +342,11 @@ def strip_non_unicode(text):
         return text.encode('ascii', 'ignore').decode('ascii')
     return None
 
+def superuser_required(user):
+    return user.is_superuser
+
 @csrf_exempt
+@user_passes_test(superuser_required)
 def create_token(request):
     if request.method == 'POST':
         try:

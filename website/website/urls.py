@@ -23,7 +23,7 @@ from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', views.marketcap, name='index'),
     path('index_products/', views.index_products, name='index_products'),
     path('add_brand/', views.add_brand, name='add_brand'),
     path('brands/', views.list_brands, name='brand_list'),

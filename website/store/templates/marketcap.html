@@ -50,19 +50,20 @@
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         Stop Refresh 
       </div>
         <div class="col-md-1">
     <input type="checkbox" class="form-check-input" id="refreshCheckbox"> 
         </div>
 
-    <div class="col-md-4">
+    <div class="col-md-3">
     Show Detail 
+  </div>
+    <div class="col-md-1">
     <input type="checkbox" class="form-check-input" id="showDetail" {% if show_detail %} checked {% endif %} > 
       </div>
           <div class="col-md-4">
-    &nbsp;|&nbsp;
     Token Count
     {{ total_token_count}}
             </div>

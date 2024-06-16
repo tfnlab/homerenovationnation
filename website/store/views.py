@@ -178,6 +178,7 @@ def generate_id():
     return uuid.uuid4().hex
 
 def marketcap(request):
+    detail_param = request.GET.get('detail', '').lower() == 'true'
     tokens = None
     try:
         # Fetch the latest 50 records from the Token model
@@ -192,7 +193,7 @@ def marketcap(request):
     search_key = request.GET.get('search_key', '')
     detail = request.GET.get('detail', '')
 
-    context = {'request': request, 'search_key': search_key, 'json_data': tokens, 'threshold': threshold, 'detail': detail, 'total_token_count': total_token_count}
+    context = {'request': request, 'search_key': search_key, 'json_data': tokens, 'threshold': threshold, 'detail': detail, 'total_token_count': total_token_count, 'show_detail': detail_param}
 
     try:
         return render(request, 'marketcap.html', context)

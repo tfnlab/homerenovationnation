@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+{% block content %}
+<script>
+  // Function to fetch and update data every 3 seconds
+  function fetchAndUpdateData() {
+    // Define the URL to fetch data from
+    const url = "/marketcap_json/";
+
+    // Make a GET request to fetch data
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Update token count
+        document.getElementById('totalTokenCount').textContent = data.total_token_count;
+
+        // Update token list
+        const tokenListElement = document.getElementById('tokenList');
+        tokenListElement.innerHTML = ''; // Clear the existing list
+
+        // Iterate over each token and create list items
+        data.tokens.forEach(token => {
+          const tokenItem = document.createElement('div');
+          tokenItem.className = 'token-item';
+          tokenItem.innerHTML = `
+            <div>ID: ${token.id}</div>
+            <div>Mint: ${token.mint}</div>
+            <div>Name: ${token.name}</div>
+            <div>Symbol: ${token.symbol}</div>
+            <div>Description: ${token.description}</div>
+            <div>Image URI: <img src="${token.image_uri}" alt="${token.name}"></div>
+            <div>Metadata URI: ${token.metadata_uri}</div>
+            <div>Twitter: ${token.twitter}</div>
+            <div>Telegram: ${token.telegram}</div>
+            <div>Bonding Curve: ${token.bonding_curve}</div>
+            <div>Associated Bonding Curve: ${token.associated_bonding_curve}</div>
+            <div>Creator: ${token.creator}</div>
+            <div>Created Timestamp: ${token.created_timestamp}</div>
+            <div>Raydium Pool: ${token.raydium_pool}</div>
+            <div>Complete: ${token.complete}</div>
+            <div>Virtual SOL Reserves: ${token.virtual_sol_reserves}</div>
+            <div>Virtual Token Reserves: ${token.virtual_token_reserves}</div>
+            <div>Hidden: ${token.hidden}</div>
+            <div>Total Supply: ${token.total_supply}</div>
+            <div>Website: <a href="${token.website}" target="_blank">${token.website}</a></div>
+            <div>Show Name: ${token.show_name}</div>
+            <div>Last Trade Timestamp: ${token.last_trade_timestamp}</div>
+            <div>King of the Hill Timestamp: ${token.king_of_the_hill_timestamp}</div>
+            <div>Market Cap: ${token.market_cap}</div>
+            <div>Reply Count: ${token.reply_count}</div>
+            <div>Last Reply: ${token.last_reply}</div>
+            <div>NSFW: ${token.nsfw}</div>
+            <div>Market ID: ${token.market_id}</div>
+            <div>Market ID Two: ${token.market_id_two}</div>
+            <div>Inverted: ${token.inverted}</div>
+            <div>Username: ${token.username}</div>
+            <div>Profile Image: <img src="${token.profile_image}" alt="${token.username}"></div>
+            <div>USD Market Cap: ${token.usd_market_cap}</div>
+          `;
+          tokenListElement.appendChild(tokenItem);
+        });
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }
+
+  // Call fetchAndUpdateData initially
+  window.addEventListener('load', fetchAndUpdateData);
+
+  // Set interval to fetch data every 3 seconds
+  setInterval(fetchAndUpdateData, 3000); // 3000 milliseconds = 3 seconds
+</script>
+
+<!-- Displaying JSON data -->
+<section class="py-0">
+  <div class="container-fluid">
+    <div class="row mt-3">
+      <div class="col-md-3">
+        Stop Refresh
+      </div>
+      <div class="col-md-1">
+        <input type="checkbox" class="form-check-input" id="refreshCheckbox">
+      </div>
+      <div class="col-md-3">
+        Show Detail
+      </div>
+      <div class="col-md-1">
+        <input type="checkbox" class="form-check-input" id="showDetail" {% if show_detail %} checked {% endif %}>
+      </div>
+      <div class="col-md-4">
+        Token Count: <span id="totalTokenCount">{{ total_token_count }}</span>
+      </div>
+    </div>
+    <div id="tokenList" class="row mt-3">
+      <!-- Tokens will be populated here -->
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -201,8 +201,72 @@ def marketcap(request):
         print("An error occurred while rendering the template:", e)
         return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
 
+def marketcap_async(request): 
 
+    context = {'request': request }
 
+    try:
+        return render(request, 'marketcap_async.html', context)
+    except Exception as e:
+        print("An error occurred while rendering the template:", e)
+        return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
+
+def marketcap_json(request):
+    try:
+        # Fetch the latest 30 records from the Token model
+        tokens = Token.objects.order_by('-created_timestamp')[:30]
+        total_token_count = Token.objects.count()
+    except Exception as e:
+        print("An error occurred while fetching data from the database:", e)
+        return JsonResponse({'error_message': 'An error occurred while fetching data from the database.'}, status=500)
+
+    # Create a list of dictionaries to hold token data
+    token_list = []
+    for token in tokens:
+        token_data = {
+            'id': token.id,
+            'mint': token.mint,
+            'name': token.name,
+            'symbol': token.symbol,
+            'description': token.description,
+            'image_uri': token.image_uri,
+            'metadata_uri': token.metadata_uri,
+            'twitter': token.twitter,
+            'telegram': token.telegram,
+            'bonding_curve': token.bonding_curve,
+            'associated_bonding_curve': token.associated_bonding_curve,
+            'creator': token.creator,
+            'created_timestamp': token.created_timestamp.isoformat() if token.created_timestamp else None,
+            'raydium_pool': token.raydium_pool,
+            'complete': token.complete,
+            'virtual_sol_reserves': float(token.virtual_sol_reserves) if token.virtual_sol_reserves else None,
+            'virtual_token_reserves': float(token.virtual_token_reserves) if token.virtual_token_reserves else None,
+            'hidden': token.hidden,
+            'total_supply': float(token.total_supply) if token.total_supply else None,
+            'website': token.website,
+            'show_name': token.show_name,
+            'last_trade_timestamp': token.last_trade_timestamp.isoformat() if token.last_trade_timestamp else None,
+            'king_of_the_hill_timestamp': token.king_of_the_hill_timestamp.isoformat() if token.king_of_the_hill_timestamp else None,
+            'market_cap': float(token.market_cap) if token.market_cap else None,
+            'reply_count': token.reply_count,
+            'last_reply': token.last_reply,
+            'nsfw': token.nsfw,
+            'market_id': token.market_id,
+            'market_id_two': token.market_id_two,
+            'inverted': token.inverted,
+            'username': token.username,
+            'profile_image': token.profile_image,
+            'usd_market_cap': float(token.usd_market_cap) if token.usd_market_cap else None
+        }
+        token_list.append(token_data)
+
+    response_data = {
+        'tokens': token_list,
+        'total_token_count': total_token_count
+    }
+
+    return JsonResponse(response_data)
+ 
 def realtime(request):
 
     try:

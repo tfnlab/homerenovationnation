@@ -67,6 +67,9 @@ urlpatterns = [
     path('access_backend/', views.access_backend, name='access_backend'),
     path('realtime/', views.realtime, name='realtime'),
     path('marketcap/', views.marketcap, name='marketcap'),
+    path('marketcap_json/', views.marketcap_json, name='marketcap_json'),
+    path('marketcap_async/', views.marketcap_async, name='marketcap_async'),
+    
     path('create_token/', views.create_token, name='create_token'),
     path('get_count/', views.get_count, name='get_count'),
 

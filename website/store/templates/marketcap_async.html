@@ -54,7 +54,7 @@
                     X: ${token.twitter ? `<a href="${token.twitter}" target="_blank">${token.twitter}</a>` : `<span style="color: red;">NO X</span>`}
                     ${token.website ? `(<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${token.twitter}')">-</span>)` : ''}
                   </div>
-                  <div>Telegram: ${token.telegram}
+                  <div>
                   Telegram: ${token.telegram ? `<a href="${token.telegram}" target="_blank">${token.telegram}</a>` : `<span style="color: red;">NO TELEGRAM</span>`}
                   ${token.website ? `(<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${token.telegram}')">-</span>)` : ''}
                   </div>

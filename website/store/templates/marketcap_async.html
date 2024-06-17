@@ -4,6 +4,9 @@
 
 {% block content %}
 <script>
+  // Variable to keep track of displayed tokens
+  let displayedTokens = new Set();
+
   // Function to fetch and update data every 3 seconds
   function fetchAndUpdateData() {
     // Define the URL to fetch data from
@@ -18,53 +21,63 @@
         return response.json();
       })
       .then(data => {
+        console.log('Fetched data:', data); // Log fetched data for debugging
+
         // Update token count
         document.getElementById('totalTokenCount').textContent = data.total_token_count;
 
-        // Update token list
-        const tokenListElement = document.getElementById('tokenList');
-        tokenListElement.innerHTML = ''; // Clear the existing list
+        // Iterate over each token and append new tokens at the top
+        data.tokens.reverse().forEach(token => { // Reverse the array to prepend in order
+          // Check if token ID is not in displayedTokens set
+          if (!displayedTokens.has(token.id)) {
+            const tokenListElement = document.getElementById('tokenList');
 
-        // Iterate over each token and create list items
-        data.tokens.forEach(token => {
-          const tokenItem = document.createElement('div');
-          tokenItem.className = 'token-item';
-          tokenItem.innerHTML = `
-            <div>ID: ${token.id}</div>
-            <div>Mint: ${token.mint}</div>
-            <div>Name: ${token.name}</div>
-            <div>Symbol: ${token.symbol}</div>
-            <div>Description: ${token.description}</div>
-            <div>Image URI: <img src="${token.image_uri}" alt="${token.name}"></div>
-            <div>Metadata URI: ${token.metadata_uri}</div>
-            <div>Twitter: ${token.twitter}</div>
-            <div>Telegram: ${token.telegram}</div>
-            <div>Bonding Curve: ${token.bonding_curve}</div>
-            <div>Associated Bonding Curve: ${token.associated_bonding_curve}</div>
-            <div>Creator: ${token.creator}</div>
-            <div>Created Timestamp: ${token.created_timestamp}</div>
-            <div>Raydium Pool: ${token.raydium_pool}</div>
-            <div>Complete: ${token.complete}</div>
-            <div>Virtual SOL Reserves: ${token.virtual_sol_reserves}</div>
-            <div>Virtual Token Reserves: ${token.virtual_token_reserves}</div>
-            <div>Hidden: ${token.hidden}</div>
-            <div>Total Supply: ${token.total_supply}</div>
-            <div>Website: <a href="${token.website}" target="_blank">${token.website}</a></div>
-            <div>Show Name: ${token.show_name}</div>
-            <div>Last Trade Timestamp: ${token.last_trade_timestamp}</div>
-            <div>King of the Hill Timestamp: ${token.king_of_the_hill_timestamp}</div>
-            <div>Market Cap: ${token.market_cap}</div>
-            <div>Reply Count: ${token.reply_count}</div>
-            <div>Last Reply: ${token.last_reply}</div>
-            <div>NSFW: ${token.nsfw}</div>
-            <div>Market ID: ${token.market_id}</div>
-            <div>Market ID Two: ${token.market_id_two}</div>
-            <div>Inverted: ${token.inverted}</div>
-            <div>Username: ${token.username}</div>
-            <div>Profile Image: <img src="${token.profile_image}" alt="${token.username}"></div>
-            <div>USD Market Cap: ${token.usd_market_cap}</div>
-          `;
-          tokenListElement.appendChild(tokenItem);
+            const tokenItem = document.createElement('div');
+            tokenItem.className = 'col-md-4 token-item';
+            tokenItem.innerHTML = `
+              <div class="card">
+                <div class="card-body"> 
+                  <div>Mint: ${token.mint}</div>
+                  <div>Name: ${token.name}
+                  (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>)
+                  </div>
+                  <div>Symbol: ${token.symbol}
+                    (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
+                  </div>
+                  
+                  <div>Image URI: 
+                    (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, \\'image_uri\\', \\'${token.image_uri}\\')">-</span>)
+                    <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
+                  <div>Twitter: ${token.twitter}
+                    (<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, \\'twitter\\', \\'${token.twitter}\\')">-</span>)
+  
+                  </div>
+                  <div>Telegram: ${token.telegram}
+                  (<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, \\'telegram\\', \\'${token.telegram}\\')">-</span>)
+                  </div>
+                  <div>Creator: ${token.creator}
+                  (<span id="count_${token.mint}_creator" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.creator}\\')">-</span>)
+                  </div>
+                  <div>Website: <a href="${token.website}" target="_blank">${token.website}</a>
+                  (<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, \\'website\\', \\'${token.website}\\')">-</span>)
+                  </div>
+                </div>
+              </div>
+            `;
+
+            // Prepend token item to tokenListElement
+            tokenListElement.insertBefore(tokenItem, tokenListElement.firstChild);
+
+            // Add token ID to displayedTokens set
+            displayedTokens.add(token.id);
+            getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);
+            getCountByNameAndValue(`count_${token.mint}_symbol`, 'symbol', token.symbol);
+            getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
+            getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
+            getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
+            getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
+            getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
+          }
         });
       })
       .catch(error => {
@@ -82,26 +95,42 @@
 <!-- Displaying JSON data -->
 <section class="py-0">
   <div class="container-fluid">
-    <div class="row mt-3">
-      <div class="col-md-3">
-        Stop Refresh
-      </div>
-      <div class="col-md-1">
-        <input type="checkbox" class="form-check-input" id="refreshCheckbox">
-      </div>
-      <div class="col-md-3">
-        Show Detail
-      </div>
-      <div class="col-md-1">
-        <input type="checkbox" class="form-check-input" id="showDetail" {% if show_detail %} checked {% endif %}>
-      </div>
-      <div class="col-md-4">
+    <div class="row mt-3"> 
+      <div class="col-md-12">
         Token Count: <span id="totalTokenCount">{{ total_token_count }}</span>
       </div>
     </div>
-    <div id="tokenList" class="row mt-3">
+    <div id="tokenList" class="row">
       <!-- Tokens will be populated here -->
     </div>
   </div>
 </section>
+<script>
+  function getCountByNameAndValue(id, name, value) {
+    // Define the base URL
+    const baseURL = "http://localhost:8000/get_count/";
+  
+    // Construct the complete URL with provided name and value
+    const url = `${baseURL}?column_name=${name}&value=${value}`;
+  
+    // Make a GET request to the constructed URL
+    fetch(url)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        // Extract the occurrences count from the response data
+        const occurrences = data.occurrences;
+        
+        // Update the content of the dynamically created span element with the count
+        document.getElementById(id).textContent = `${occurrences}`;
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+  }
+  </script>
 {% endblock %}

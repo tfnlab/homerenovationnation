@@ -212,6 +212,7 @@ def marketcap_async(request):
         return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
 
 def marketcap_json(request):
+    tokens = None
     try:
         # Fetch the latest 30 records from the Token model
         tokens = Token.objects.order_by('-created_timestamp')[:30]
@@ -251,8 +252,7 @@ def marketcap_json(request):
             'reply_count': token.reply_count,
             'last_reply': token.last_reply,
             'nsfw': token.nsfw,
-            'market_id': token.market_id,
-            'market_id_two': token.market_id_two,
+            'market_id': token.market_id, 
             'inverted': token.inverted,
             'username': token.username,
             'profile_image': token.profile_image,

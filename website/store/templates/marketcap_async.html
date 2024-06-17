@@ -62,7 +62,7 @@
                   </div>
                   <div>Website: ${token.website ? `<a href="${token.website}" target="_blank">${token.website}</a>` : `<span style="color: red;">NO WEBSITE</span>`}
                   
-                    (${token.website ? `(<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, 'website', '${token.website}')">-</span>)` : ''}
+                    ${token.website ? `(<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, 'website', '${token.website}')">-</span>)` : ''}
                   </div>                  
                 </div>
               </div>

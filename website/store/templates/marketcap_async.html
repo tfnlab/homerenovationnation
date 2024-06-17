@@ -37,8 +37,10 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
-                  <div>Mint: ${token.mint}</div>
-                  <div>Name: ${token.name}
+                  <div>${token.mint}</div>
+                  <div>Name: 
+                  <a href="javascript:void(0);" onclick="window.open(\\'https://www.pump.fun/{{ item.mint }}\\', \\'newwindow\\', \\'width=1200, height=2100\\'); return false;">${token.name}</a>
+                            
                   (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>)
                   </div>
                   <div>Symbol: ${token.symbol}

@@ -35,37 +35,40 @@
             const tokenItem = document.createElement('div');
             tokenItem.className = 'col-md-4 token-item';
             tokenItem.innerHTML = `
-              <div class="card">
-                <div class="card-body"> 
-                  <div>${token.mint}</div>
-                  <div>Name: 
-                    <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/${item.mint}', 'newwindow', 'width=1200, height=2100'); return false;">${token.name}</a>      
-                           
-                  (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>)
-                  </div>
-                  <div>Symbol: ${token.symbol}
-                    (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
-                  </div>
-                  
-                  <div>Image URI: 
-                    (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, \\'image_uri\\', \\'${token.image_uri}\\')">-</span>)
-                    <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
-                  <div>Twitter: ${token.twitter}
-                    (<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, \\'twitter\\', \\'${token.twitter}\\')">-</span>)
-  
-                  </div>
-                  <div>Telegram: ${token.telegram}
-                  (<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, \\'telegram\\', \\'${token.telegram}\\')">-</span>)
-                  </div>
-                  <div>Creator: ${token.creator}
-                  (<span id="count_${token.mint}_creator" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.creator}\\')">-</span>)
-                  </div>
-                  <div>Website: <a href="${token.website}" target="_blank">${token.website}</a>
-                  (<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, \\'website\\', \\'${token.website}\\')">-</span>)
+                <div class="card">
+                  <div class="card-body"> 
+                    <div>${token.mint}</div>
+                    <div>Name: 
+                      <a href="javascript:void(0);" onclick="window.open('https://www.pump.fun/${item.mint}', 'newwindow', 'width=1200, height=2100'); return false;">${escapeSingleQuotes(token.name)}</a>
+                      (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, 'creator', '${escapeSingleQuotes(token.name)}')">-</span>)
+                    </div>
+                    <div>Symbol: ${escapeSingleQuotes(token.symbol)}
+                      (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, 'symbol', '${escapeSingleQuotes(token.symbol)}')">-</span>)
+                    </div>
+                    <div>Image URI: 
+                      (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, 'image_uri', '${escapeSingleQuotes(token.image_uri)}')">-</span>)
+                      <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;">
+                    </div>
+                    <div>Twitter: ${escapeSingleQuotes(token.twitter)}
+                      (<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${escapeSingleQuotes(token.twitter)}')">-</span>)
+                    </div>
+                    <div>Telegram: ${escapeSingleQuotes(token.telegram)}
+                      (<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${escapeSingleQuotes(token.telegram)}')">-</span>)
+                    </div>
+                    <div>Creator: ${escapeSingleQuotes(token.creator)}
+                      (<span id="count_${token.mint}_creator" onclick="getCountByNameAndValue(this.id, 'creator', '${escapeSingleQuotes(token.creator)}')">-</span>)
+                    </div>
+                    <div>Website: <a href="${token.website}" target="_blank">${token.website}</a>
+                      (<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, 'website', '${token.website}')">-</span>)
+                    </div>
                   </div>
                 </div>
-              </div>
-            `;
+              `;
+
+              function escapeSingleQuotes(value) {
+                // Replace single quotes with escaped single quotes
+                return value.replace(/'/g, "\\'");
+              }
 
             // Prepend token item to tokenListElement
             tokenListElement.insertBefore(tokenItem, tokenListElement.firstChild);

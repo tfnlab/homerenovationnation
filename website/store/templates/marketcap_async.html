@@ -51,11 +51,11 @@
                     (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, \\'image_uri\\', \\'${token.image_uri}\\')">-</span>)
                     <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
                   <div>
-                    X: ${token.twitter ? `<a href="${token.twitter}" target="_blank">${token.twitter}</a>` : `<span style="color: red;">NO X</span>`}
+                    X: ${token.twitter ? `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 10)}</a>` : `<span style="color: red;">NO X</span>`}
                     ${token.website ? `(<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${token.twitter}')">-</span>)` : ''}
                   </div>
                   <div>
-                  Telegram: ${token.telegram ? `<a href="${token.telegram}" target="_blank">${token.telegram}</a>` : `<span style="color: red;">NO TELEGRAM</span>`}
+                  Telegram: ${token.telegram ? `<a href="${token.telegram}" target="_blank">${token.telegram.substring(0, 10)}</a>` : `<span style="color: red;">NO TELEGRAM</span>`}
                   ${token.website ? `(<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${token.telegram}')">-</span>)` : ''}
                   </div>
                   <div>Creator: ${token.creator}

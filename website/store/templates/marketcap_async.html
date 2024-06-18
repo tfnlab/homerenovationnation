@@ -25,6 +25,12 @@
         // Update token count
         document.getElementById('totalTokenCount').textContent = data.total_token_count;
 
+        // Remove the loading GIF if it exists
+        const loadingGif = document.getElementById('loadingGif');
+        if (loadingGif) {
+          loadingGif.remove();
+        }
+
         // Iterate over each token and append new tokens at the top
         data.tokens.reverse().forEach(token => { // Reverse the array to prepend in order
           // Check if token ID is not in displayedTokens set
@@ -100,7 +106,7 @@
   <div class="container-fluid">
     <div class="row mt-3">
       <div class="col-md-12">
-        The official Pump Fun Club Solana wallet adress: 8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt  
+        The official Pump Fun Club Solana wallet address: 8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt  
       </div>
     </div>    
     <div class="row mt-3"> 
@@ -110,7 +116,7 @@
     </div>
     <div id="tokenList" class="row mt-3">
       <!-- Tokens will be populated here -->
-      <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+      <div id="loadingGif" style="display: flex; justify-content: center; align-items: center; height: 100vh;">
         <img src="https://pumpfunclub.com/static/images/loading.large.gif" alt="Loading Image" style="width: 80%;" />
       </div>
     </div>
@@ -143,5 +149,5 @@
         console.error('There was a problem with the fetch operation:', error);
       });
   }
-  </script>
+</script>
 {% endblock %}

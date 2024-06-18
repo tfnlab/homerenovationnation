@@ -42,14 +42,14 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
+                  <div>Symbol: <B>${token.symbol}</B>
+                    (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
+                  </div>
                   <div>${token.mint}</div>
                   <div>Name: 
                   <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">${token.name}</a>
                            
                   (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>)
-                  </div>
-                  <div>Symbol: ${token.symbol}
-                    (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
                   </div>
                   
                   <div>Image URI: 

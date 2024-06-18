@@ -55,14 +55,15 @@
                   <div>Image URI: 
                     (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, \\'image_uri\\', \\'${token.image_uri}\\')">-</span>)
                     <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
-                  <div>
-                    X: ${token.twitter ? `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>` : `<span style="color: red;">NONE</span>`}
-                    ${token.twitter ? `(<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${token.twitter}')">-</span>)` : ''}
-                  </div>
-                  <div>
-                  Telegram: ${token.telegram ? `<a href="${token.telegram}" target="_blank">${token.telegram.substring(0, 20)}...</a>` : `<span style="color: red;">NONE</span>`}
-                  ${token.telegram ? `(<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${token.telegram}')">-</span>)` : ''}
-                  </div>
+                    <div>
+                      X: ${token.twitter ? (token.twitter.includes('t.me') ? `<a href="${token.twitter}" target="_blank" style="color: red;">${token.twitter.substring(0, 20)}...</a>` : `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}
+                      ${token.twitter ? `(<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${token.twitter}')">-</span>)` : ''}
+                    </div>
+
+                    <div>
+                      Telegram: ${token.telegram ? (token.telegram.includes('x.com') ? `<a href="${token.telegram}" target="_blank" style="color: red;">${token.telegram.substring(0, 20)}...</a>` : `<a href="${token.telegram}" target="_blank">${token.telegram.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}
+                      ${token.telegram ? `(<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${token.telegram}')">-</span>)` : ''}
+                    </div>
                   <div>Website: ${token.website ? `<a href="${token.website}" target="_blank">${token.website}</a>` : `<span style="color: red;">NONE</span>`}
                   
                     ${token.website ? `(<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, 'website', '${token.website}')">-</span>)` : ''}

@@ -437,7 +437,7 @@ def create_token(request):
             virtual_token_reserves = request.POST.get('virtual_token_reserves')
             hidden = request.POST.get('hidden', 'False').lower() == 'true'
             total_supply = request.POST.get('total_supply')
-            website = request.POST.get('website')
+            website = request.POST.get('website', '')
             show_name = request.POST.get('show_name', 'False').lower() == 'true'
             last_trade_timestamp = request.POST.get('last_trade_timestamp')
             king_of_the_hill_timestamp = request.POST.get('king_of_the_hill_timestamp')

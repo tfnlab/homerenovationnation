@@ -215,7 +215,7 @@ def marketcap_json(request):
     tokens = None
     try:
         # Fetch the latest 30 records from the Token model
-        tokens = Token.objects.order_by('-created_timestamp')[:30]
+        tokens = Token.objects.order_by('-created_timestamp')[:13]
         total_token_count = Token.objects.count()
     except Exception as e:
         print("An error occurred while fetching data from the database:", e)

@@ -145,6 +145,12 @@
         
         // Update the content of the dynamically created span element with the count
         document.getElementById(id).textContent = `${occurrences}`;
+        let element = document.getElementById(id);
+        if (occurrences > 1) {
+          element.style.color = 'red';
+        } else {
+          element.style.color = 'green';
+        }        
       })
       .catch(error => {
         console.error('There was a problem with the fetch operation:', error);

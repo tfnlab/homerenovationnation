@@ -176,7 +176,7 @@ class Token(models.Model):
     virtual_token_reserves = models.DecimalField(max_digits=20, decimal_places=10, null=True, blank=True)
     hidden = models.BooleanField(default=False)
     total_supply = models.DecimalField(max_digits=20, decimal_places=10, null=True, blank=True)
-    website = models.CharField(max_length=100, null=True, blank=True)
+    website = models.CharField(max_length=300, null=True, blank=True)
     show_name = models.BooleanField(default=False)
     last_trade_timestamp = models.DateTimeField(null=True, blank=True)
     king_of_the_hill_timestamp = models.DateTimeField(null=True, blank=True)

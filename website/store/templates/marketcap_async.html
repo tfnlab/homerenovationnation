@@ -6,7 +6,8 @@
 <script>
   // Variable to keep track of displayed tokens
   let displayedTokens = new Set();
-
+  const tokenListElementNew = document.getElementById('tokenList');
+  tokenListElementNew = '';
   // Function to fetch and update data every 3 seconds
   function fetchAndUpdateData() {
     // Define the URL to fetch data from

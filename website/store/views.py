@@ -93,7 +93,7 @@ def extract_number_from_page_source(page_source):
     except Exception as e:
         # Handle any errors gracefully
         return None
-        
+
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
 
@@ -112,8 +112,7 @@ def bundlecheckerview(request):
         input_element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Pump Fun Token Address']"))
         )
-
-        input_element.clear()
+        input_element.click() 
         input_element.send_keys(ca_address)
         input_element.send_keys(Keys.RETURN)
 

@@ -77,61 +77,18 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 
-def extract_number_from_page_source(page_source):
-    """
-    Extracts the number of bundled transactions from the page source.
-    Example page source: "Bundled Transactions: 0"
-    """
-    try:
-        # Use regex to find "Bundled Transactions: <number>"
-        match = re.search(r'Bundled Transactions:\s*(\d+)', page_source)
-        if match:
-            number_of_transactions = int(match.group(1))
-            return number_of_transactions
-        else:
-            return None
-    except Exception as e:
-        # Handle any errors gracefully
-        return None
 
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
-
-    options = webdriver.ChromeOptions()
-    options.binary_location = '/usr/bin/google-chrome'  # Specify Chrome binary location if needed
-    options.add_argument('--headless')
-    options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')
-
-    try:
-        driver = webdriver.Chrome(options=options)
-        
-        driver.get("https://pumpv2.fun/bundleChecker")
-        time.sleep(1)  # Adjust as needed
-
-        input_element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Pump Fun Token Address']"))
-        )
-        input_element.click() 
-        input_element.send_keys(ca_address)
-        input_element.send_keys(Keys.RETURN)
-
-        # Wait for the page to load completely (adjust wait time as needed)
-        time.sleep(3)
-
-        # Scan the entire page for the text "Bundled Transactions:"
-        page_source = driver.page_source
-        number_of_transactions = extract_number_from_page_source(page_source)
-
-        return JsonResponse({'number_of_transactions': number_of_transactions})
-
-    except Exception as e:
-        return JsonResponse({'error': str(e)}, status=500)
-
-    finally:
-        if driver is not None:
-            driver.quit()
-
+    api_url = "https://api.pumpv2.fun/api/v1/pumpfun/checkBundle/" + ca_address
+    response = requests.get(api_url)
+    if response.status_code == 200:
+        # Return the JSON response
+        return response.json()
+    else:
+        # If the request was not successful, print the error code and message
+        print(f"Error: {response.status_code} - {response.reason}")
+        return None
 
 
 

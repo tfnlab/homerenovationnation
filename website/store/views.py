@@ -100,8 +100,9 @@ def bundlecheckerview(request):
     }
     
     response = requests.get(api_url, headers=headers)
-    
+    print("here")
     if response.status_code == 200:
+        print("here 3")
         # Return the JSON response
         try:
             # Convert JSON data to Python dictionary

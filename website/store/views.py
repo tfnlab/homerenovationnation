@@ -81,7 +81,26 @@ import time
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
     api_url = "https://api.pumpv2.fun/api/v1/pumpfun/checkBundle/" + ca_address
-    response = requests.get(api_url)
+    
+    headers = {
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate, br, zstd',
+        'Accept-Language': 'en-US,en;q=0.9',
+        'Connection': 'keep-alive',
+        'Host': 'api.pumpv2.fun',
+        'Origin': 'https://pumpv2.fun',
+        'Referer': 'https://pumpv2.fun/',
+        'Sec-Ch-Ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
+        'Sec-Ch-Ua-Mobile': '?0',
+        'Sec-Ch-Ua-Platform': '"macOS"',
+        'Sec-Fetch-Dest': 'empty',
+        'Sec-Fetch-Mode': 'cors',
+        'Sec-Fetch-Site': 'same-site',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
+    }
+    
+    response = requests.get(api_url, headers=headers)
+    
     if response.status_code == 200:
         # Return the JSON response
         return response.json()

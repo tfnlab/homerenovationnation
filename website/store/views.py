@@ -78,11 +78,13 @@ register = template.Library()
 
 
 def bundlecheckerview(request):
-    ca_address = request.GET.get('ca_address', '')
+    ca_address = request.GET.get('ca_address', '') 
     options = webdriver.ChromeOptions()
+    options.binary_location = '/usr/bin/google-chrome'  # Specify Chrome binary location if needed
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(executable_path='/path/to/chromedriver', options=options)
 
     driver = None
     try:

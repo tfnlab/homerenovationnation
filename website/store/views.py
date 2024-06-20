@@ -75,7 +75,7 @@ from django.utils.dateparse import parse_datetime
 from django.core.serializers import serialize
 
 register = template.Library()
-
+import time 
 
 
 def bundlecheckerview(request):

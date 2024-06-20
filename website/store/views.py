@@ -77,6 +77,7 @@ from django.core.serializers import serialize
 register = template.Library()
 
 
+
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
 
@@ -100,18 +101,38 @@ def bundlecheckerview(request):
         input_element.send_keys(ca_address)
         input_element.send_keys(Keys.RETURN)
 
-        response_element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "response_id"))  # Adjust selector as needed
-        )
+        # Wait for the page to load completely (adjust wait time as needed)
+        time.sleep(3)
 
-        response_text = response_element.text
-        return JsonResponse({'response': response_text})
+        # Scan the entire page for the text "Bundled Transactions:"
+        page_source = driver.page_source
+        number_of_transactions = extract_number_from_page_source(page_source)
+
+        return JsonResponse({'number_of_transactions': number_of_transactions})
 
     except Exception as e:
         return JsonResponse({'error': str(e)}, status=500)
 
     finally:
-        driver.quit()
+        if driver is not None:
+            driver.quit()
+
+def extract_number_from_page_source(page_source):
+    """
+    Extracts the number of bundled transactions from the page source.
+    Example page source: "Bundled Transactions: 0"
+    """
+    try:
+        # Use regex to find "Bundled Transactions: <number>"
+        match = re.search(r'Bundled Transactions:\s*(\d+)', page_source)
+        if match:
+            number_of_transactions = int(match.group(1))
+            return number_of_transactions
+        else:
+            return None
+    except Exception as e:
+        # Handle any errors gracefully
+        return None
 
 
 def ask(request):

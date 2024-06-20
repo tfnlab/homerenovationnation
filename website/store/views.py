@@ -36,6 +36,9 @@ from django.utils import timezone  # Import Django's timezone module
 
 import json
 
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+
 from .models import Brand
 from .models import Category
 from .models import Product

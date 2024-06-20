@@ -78,17 +78,17 @@ register = template.Library()
 
 
 def bundlecheckerview(request):
-    ca_address = request.GET.get('ca_address', '') 
+    ca_address = request.GET.get('ca_address', '')
+
     options = webdriver.ChromeOptions()
     options.binary_location = '/usr/bin/google-chrome'  # Specify Chrome binary location if needed
     options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
-    driver = webdriver.Chrome(executable_path='/path/to/chromedriver', options=options)
 
-    driver = None
     try:
         driver = webdriver.Chrome(options=options)
+        
         driver.get("https://pumpv2.fun/bundleChecker")
         time.sleep(1)  # Adjust as needed
 
@@ -111,8 +111,7 @@ def bundlecheckerview(request):
         return JsonResponse({'error': str(e)}, status=500)
 
     finally:
-        if driver is not None:
-            driver.quit()
+        driver.quit()
 
 
 def ask(request):

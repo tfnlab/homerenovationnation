@@ -92,21 +92,26 @@ def bundlecheckerview(request):
         driver.get("https://pumpv2.fun/bundleChecker")
 
         # Wait for the page to load
-        time.sleep(3)  # Adjust as needed
+        time.sleep(1)  # Adjust as needed
 
-        # Perform the task three times
-        for _ in range(3):
-            # Find the input element by name or id (adjust the selector as needed)
-            input_element = driver.find_element_by_name("input_name")  # Replace with actual name or id
-            input_element.clear()
-            input_element.send_keys(ca_address)
-            input_element.send_keys(Keys.RETURN)
+        driver.get("https://pumpv2.fun/bundleChecker")
 
-            # Wait for the response to load
-            time.sleep(3)  # Adjust as needed
+        # Wait for the page to load and the input field to be present
+        input_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Pump Fun Token Address']"))
+        )
+
+        # Clear the input field and enter the ca_address
+        input_element.clear()
+        input_element.send_keys(ca_address)
+        input_element.send_keys(Keys.RETURN)  # Hit Enter
+
+        # Wait for the page to refresh and the response element to be present
+        response_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "response_id"))  # Replace with actual id or class
+        )
 
         # Get the response text (adjust the selector as needed)
-        response_element = driver.find_element_by_id("response_id")  # Replace with actual id or class
         response_text = response_element.text
 
     finally:

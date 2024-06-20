@@ -71,7 +71,7 @@ from django.core.serializers import serialize
 register = template.Library()
 
 
-def bundleCheckerView(request): 
+def bundlecheckerview(request): 
     # Get the 'ca_address' parameter from the GET request
     ca_address = request.GET.get('ca_address', '')
 

@@ -77,7 +77,23 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 
-
+def extract_number_from_page_source(page_source):
+    """
+    Extracts the number of bundled transactions from the page source.
+    Example page source: "Bundled Transactions: 0"
+    """
+    try:
+        # Use regex to find "Bundled Transactions: <number>"
+        match = re.search(r'Bundled Transactions:\s*(\d+)', page_source)
+        if match:
+            number_of_transactions = int(match.group(1))
+            return number_of_transactions
+        else:
+            return None
+    except Exception as e:
+        # Handle any errors gracefully
+        return None
+        
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
 
@@ -117,22 +133,7 @@ def bundlecheckerview(request):
         if driver is not None:
             driver.quit()
 
-def extract_number_from_page_source(page_source):
-    """
-    Extracts the number of bundled transactions from the page source.
-    Example page source: "Bundled Transactions: 0"
-    """
-    try:
-        # Use regex to find "Bundled Transactions: <number>"
-        match = re.search(r'Bundled Transactions:\s*(\d+)', page_source)
-        if match:
-            number_of_transactions = int(match.group(1))
-            return number_of_transactions
-        else:
-            return None
-    except Exception as e:
-        # Handle any errors gracefully
-        return None
+
 
 
 def ask(request):

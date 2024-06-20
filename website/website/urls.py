@@ -72,6 +72,7 @@ urlpatterns = [
     
     path('create_token/', views.create_token, name='create_token'),
     path('get_count/', views.get_count, name='get_count'),
+    path('bundle_checker/', view.bundleCheckerView, name='bundleCheckerView'),
 
 
     path('admin/', admin.site.urls),

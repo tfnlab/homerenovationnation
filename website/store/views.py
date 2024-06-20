@@ -70,6 +70,49 @@ from django.core.serializers import serialize
 
 register = template.Library()
 
+
+def bundleCheckerView(request): 
+    # Get the 'ca_address' parameter from the GET request
+    ca_address = request.GET.get('ca_address', '')
+
+    # Set up the WebDriver (e.g., for Chrome)
+    options = webdriver.ChromeOptions()
+    options.add_argument('--headless')  # Run in headless mode (no GUI)
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+
+    driver = webdriver.Chrome(options=options)
+
+    try:
+        # Go to the specified URL
+        driver.get("https://pumpv2.fun/bundleChecker")
+
+        # Wait for the page to load
+        time.sleep(3)  # Adjust as needed
+
+        # Perform the task three times
+        for _ in range(3):
+            # Find the input element by name or id (adjust the selector as needed)
+            input_element = driver.find_element_by_name("input_name")  # Replace with actual name or id
+            input_element.clear()
+            input_element.send_keys(ca_address)
+            input_element.send_keys(Keys.RETURN)
+
+            # Wait for the response to load
+            time.sleep(3)  # Adjust as needed
+
+        # Get the response text (adjust the selector as needed)
+        response_element = driver.find_element_by_id("response_id")  # Replace with actual id or class
+        response_text = response_element.text
+
+    finally:
+        # Close the browser
+        driver.quit()
+
+    # Return the response as an HTTP response
+    return HttpResponse(response_text)
+
+
 def ask(request):
     search_key = None
     if request.method == 'GET':

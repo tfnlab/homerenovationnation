@@ -103,7 +103,21 @@ def bundlecheckerview(request):
     
     if response.status_code == 200:
         # Return the JSON response
-        return response.json()
+        try:
+            # Convert JSON data to Python dictionary
+            json_data = response.json()
+            
+            # Ensure json_data is a dictionary or list (JSON-compatible structure)
+            if isinstance(json_data, (dict, list)):
+                json_str = json.dumps(json_data, indent=4)  # Convert to pretty-printed JSON string
+                print(f"JSON response:\n{json_str}")  # Print JSON data as text
+                return json_data
+            else:
+                print("Response is not JSON data")
+                return None
+        except json.JSONDecodeError as e:
+            print(f"Error decoding JSON: {e}")
+            return None
     else:
         # If the request was not successful, print the error code and message
         print(f"Error: {response.status_code} - {response.reason}")

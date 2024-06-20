@@ -79,7 +79,7 @@ import time
 
 
 def bundlecheckerview(request):
-    ca_address = request.GET.get('ca_address', '')
+    ca_address = '4LyBRqAdVEsE2Zv29fq73y3gDPphFGFrqiicr2B1pump'
     api_url = "https://api.pumpv2.fun/api/v1/pumpfun/checkBundle/" + ca_address
     
     headers = {

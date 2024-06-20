@@ -38,6 +38,9 @@ import json
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 from .models import Brand
 from .models import Category
@@ -74,52 +77,41 @@ from django.core.serializers import serialize
 register = template.Library()
 
 
-def bundlecheckerview(request): 
-
-    # Get the 'ca_address' parameter from the GET request
+def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
 
-    # Set up the WebDriver (e.g., for Chrome)
     options = webdriver.ChromeOptions()
-    options.add_argument('--headless')  # Run in headless mode (no GUI)
+    options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
 
-    driver = webdriver.Chrome(options=options)
-
     try:
-        # Go to the specified URL
-        driver.get("https://pumpv2.fun/bundleChecker")
+        driver = webdriver.Chrome(options=options)
 
-        # Wait for the page to load
+        driver.get("https://pumpv2.fun/bundleChecker")
         time.sleep(1)  # Adjust as needed
 
-        driver.get("https://pumpv2.fun/bundleChecker")
-
-        # Wait for the page to load and the input field to be present
         input_element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Pump Fun Token Address']"))
         )
 
-        # Clear the input field and enter the ca_address
         input_element.clear()
         input_element.send_keys(ca_address)
-        input_element.send_keys(Keys.RETURN)  # Hit Enter
+        input_element.send_keys(Keys.RETURN)
 
-        # Wait for the page to refresh and the response element to be present
         response_element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "response_id"))  # Replace with actual id or class
+            EC.presence_of_element_located((By.ID, "response_id"))  # Adjust selector as needed
         )
 
-        # Get the response text (adjust the selector as needed)
         response_text = response_element.text
 
-    finally:
-        # Close the browser
-        driver.quit()
+        return JsonResponse({'response': response_text})
 
-    # Return the response as an HTTP response
-    return HttpResponse(response_text)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    finally:
+        driver.quit()
 
 
 def ask(request):

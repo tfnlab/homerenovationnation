@@ -102,6 +102,7 @@ def bundlecheckerview(request):
     try:
         response = requests.get(api_url, headers=headers)
         response.raise_for_status()  # Raise an HTTPError for bad responses
+        print(f"Raw Response Content: {response.content}")
         
         json_data = response.json()
         return JsonResponse(json_data)  # Return JSON response directly to the client

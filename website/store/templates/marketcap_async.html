@@ -103,7 +103,10 @@
   const url = `https://sel.pumpfunclub.com/bundlecheckerview/?&ca_address=${mintToken}`;
 
   // Perform the fetch operation
-  fetch(url)
+  const timeout = 15000; // 10 seconds
+
+// Perform the fetch operation
+  fetch(url, { timeout: timeout })
     .then(response => {
       if (!response.ok) {
         throw new Error('Network response was not ok');

@@ -89,7 +89,7 @@
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
             getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
-            getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
+            //getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
           }
         });
       })
@@ -97,7 +97,7 @@
         console.error('There was a problem with the fetch operation:', error);
       });
   }
-  
+
   function getCountBundleTrans(elementId, mintToken) {
   // Construct the URL with the mintToken parameter
   const url = `https://pumpfunclub.com/bundlecheckerview/?&ca_address=${mintToken}`;

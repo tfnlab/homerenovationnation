@@ -119,7 +119,7 @@ def bundlecheckerview(request):
         input_element.submit()
 
         # Wait for the page to load completely (adjust wait time as needed)
-        time.sleep(8)
+        time.sleep(10)
 
         # Extract the page source after waiting
         page_source = driver.page_source

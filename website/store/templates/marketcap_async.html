@@ -45,7 +45,9 @@
                   <div>Ticker: <B>${token.symbol}</B>
                     (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
                   </div>
-                  <div>${token.mint}</div>
+                  <div>${token.mint}
+                    (<span id="count_${token.mint}_bundle" onclick="getCountBundleTrans(this.id, \\'${token.mint}\\')">-</span>)
+                  </div>
                   <div>Name: 
                   <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">${token.name}</a>
                            
@@ -87,6 +89,7 @@
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
             getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
+            getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
           }
         });
       })
@@ -94,7 +97,32 @@
         console.error('There was a problem with the fetch operation:', error);
       });
   }
+  
+  function getCountBundleTrans(elementId, mintToken) {
+  // Construct the URL with the mintToken parameter
+  const url = `https://pumpfunclub.com/bundlecheckerview/?&ca_address=${mintToken}`;
 
+  // Perform the fetch operation
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Update the count on the page
+      const countElement = document.getElementById(elementId);
+      if (countElement) {
+        countElement.textContent = data.number_of_transactions;
+      } else {
+        console.error(`Element with id ${elementId} not found.`);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching bundle transaction count:', error);
+    });
+}
   // Call fetchAndUpdateData initially
   window.addEventListener('load', fetchAndUpdateData);
 

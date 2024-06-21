@@ -72,6 +72,7 @@
                   </div>                  
                   <div>Creator: ${token.creator}
                   (<span id="count_${token.mint}_creator" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.creator}\\')">-</span>)
+                  (<span id="count_${token.mint}_creatorbalance" onclick="getCreatorBalance(this.id, \\'${token.creator}\\')">-</span>)
                   </div>
                 </div>
               </div>
@@ -90,6 +91,7 @@
             getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
             getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
+            getCreatorBalance(`count_${token.mint}_creatorbalance`, token.creator);
           }
         });
       })
@@ -101,6 +103,35 @@
   function getCountBundleTrans(elementId, mintToken) {
   // Construct the URL with the mintToken parameter
   const url = `https://sel.pumpfunclub.com/bundlecheckerview/?&ca_address=${mintToken}`;
+
+  // Perform the fetch operation
+  const timeout = 15000; // 10 seconds
+
+// Perform the fetch operation
+  fetch(url, { timeout: timeout })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json();
+    })
+    .then(data => {
+      // Update the count on the page
+      const countElement = document.getElementById(elementId);
+      if (countElement) {
+        countElement.textContent = data.number_of_transactions;
+      } else {
+        console.error(`Element with id ${elementId} not found.`);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching bundle transaction count:', error);
+    });
+}
+
+function getCreatorBalance(elementId, mintAddress) {
+  // Construct the URL with the mintToken parameter
+  const url = `https://sel.pumpfunclub.com/get_wallet_balance/?&wallet_address=${mintAddress}`;
 
   // Perform the fetch operation
   const timeout = 15000; // 10 seconds

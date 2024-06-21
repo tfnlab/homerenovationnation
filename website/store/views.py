@@ -77,39 +77,71 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 
+def extract_number_from_page_source(page_source):
+    """
+    Extracts the number of bundled transactions from the page source.
+    Example page source: "Bundled Transactions: 0"
+    """
+    try:
+        # Use regex to find "Bundled Transactions: <number>"
+        match = re.search(r'Bundled Transactions:\s*(\d+)', page_source)
+        if match:
+            number_of_transactions = int(match.group(1))
+            return number_of_transactions
+        else:
+            return None
+    except Exception as e:
+        # Handle any errors gracefully
+        print(f"Exception occurred: {e}")
+        return None
 
 def bundlecheckerview(request):
     ca_address = request.GET.get('ca_address', '')
-    api_url = f"https://api.pumpv2.fun/api/v1/pumpfun/checkBundle/{ca_address}"
-    
-    headers = {
-        'Accept': '*/*',
-        'Accept-Encoding': 'gzip, deflate, br, zstd',
-        'Accept-Language': 'en-US,en;q=0.9',
-        'Connection': 'keep-alive',
-        'Host': 'api.pumpv2.fun',
-        'Origin': 'https://pumpv2.fun',
-        'Referer': 'https://pumpv2.fun/',
-        'Sec-Ch-Ua': '"Google Chrome";v="125", "Chromium";v="125", "Not.A/Brand";v="24"',
-        'Sec-Ch-Ua-Mobile': '?0',
-        'Sec-Ch-Ua-Platform': '"macOS"',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-site',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
-    }
-    
+
+    options = webdriver.ChromeOptions()
+    options.binary_location = '/usr/bin/google-chrome'  # Specify Chrome binary location if needed
+    options.add_argument('--headless')
+    options.add_argument('--no-sandbox')
+    options.add_argument('--disable-dev-shm-usage')
+
     try:
-        response = requests.get(api_url, headers=headers)
-        response.raise_for_status()  # Raise an HTTPError for bad responses
-        print(f"Raw Response Content: {response.content}")
+        driver = webdriver.Chrome(options=options)
         
-        json_data = response.json()
-        return JsonResponse(json_data)  # Return JSON response directly to the client
-    
-    except requests.RequestException as e:
-        print(f"Request failed: {e}")
-        return JsonResponse({'error': 'Failed to fetch data'}, status=500)
+        driver.get("https://pumpv2.fun/bundleChecker")
+        time.sleep(3)  # Adjust as needed
+
+        input_element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//input[@placeholder='Pump Fun Token Address']"))
+        )
+        input_element.click()
+        input_element.clear()
+        input_element.send_keys(ca_address)
+        input_element.submit()
+
+        # Wait for the page to load completely (adjust wait time as needed)
+        time.sleep(8)
+
+        # Extract the page source after waiting
+        page_source = driver.page_source
+
+        # Extract number of transactions
+        number_of_transactions = extract_number_from_page_source(page_source)
+
+        if number_of_transactions is not None:
+            print(f"Number of Bundled Transactions: {number_of_transactions}")
+            return JsonResponse({'number_of_transactions': number_of_transactions})
+        else:
+            print("Unable to extract number of bundled transactions.")
+            return JsonResponse({'number_of_transactions': None})
+
+
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+    finally:
+        if driver is not None:
+            driver.quit()
+
 
 
 

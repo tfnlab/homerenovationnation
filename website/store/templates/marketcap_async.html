@@ -53,7 +53,11 @@
                   <div>Name: 
                   <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">${token.name}</a>
                            
-                  (<span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>)
+                  (
+                    <a href="/marketcap_async_search/?search_name=name&search_value=${token.name}" >   
+                  <span id="count_${token.mint}_name" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.name}\\')">-</span>
+                    </a>  
+                  )
                   </div>
                   
                   <div>Image URI: 
@@ -68,7 +72,7 @@
 
                     <div>
                       Telegram: ${token.telegram ? (token.telegram.includes('x.com') ? `<a href="${token.telegram}" target="_blank" style="color: red;">${token.telegram.substring(0, 20)}...</a>` : `<a href="${token.telegram}" target="_blank">${token.telegram.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}
-                      ${token.telegram ? `(<span id="count_${token.mint}_telegram" onclick="getCountByNameAndValue(this.id, 'telegram', '${token.telegram}')">-</span>)` : ''}
+                      ${token.telegram ? `(<a href="/marketcap_async_search/?search_name=telegram&search_value=${token.telegram}" ><span id="count_${token.mint}_telegram"  >-</span>)</a>` : ''}
                     </div>
                   <div>Website: ${token.website ? `<a href="${token.website}" target="_blank">${token.website}</a>` : `<span style="color: red;">NONE</span>`}
                   

@@ -43,10 +43,12 @@
               <div class="card">
                 <div class="card-body"> 
                   <div>Ticker: <B>${token.symbol}</B>
-                    (<span id="count_${token.mint}_symbol" onclick="getCountByNameAndValue(this.id, \\'symbol\\', \\'${token.symbol}\\')">-</span>)
+                    (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
+                      <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
+                    </a>)
                   </div>
                   <div>${token.mint}
-                    (<span id="count_${token.mint}_bundle" onclick="getCountBundleTrans(this.id, \\'${token.mint}\\')">-</span>)
+                    (<span id="count_${token.mint}_bundle" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>)
                   </div>
                   <div>Name: 
                   <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">${token.name}</a>

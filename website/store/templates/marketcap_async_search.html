@@ -9,7 +9,7 @@
   // Function to fetch and update data every 3 seconds
   function fetchAndUpdateData() {
     // Define the URL to fetch data from
-    const url = "/marketcap_json/";
+    const url = "/marketcap_json/?search_name={{search_name}}&search_value={{search_value}}";
 
     // Make a GET request to fetch data
     fetch(url)
@@ -55,9 +55,7 @@
                   </div>
                   
                   <div>Image URI: 
-                    <a href="/marketcap_async_search/?search_name=image_uri&search_value=${token.image_uri}" > 
-                    (<span id="count_${token.mint}_image_uri" >-</span>)
-                    </a>
+                    (<span id="count_${token.mint}_image_uri" onclick="getCountByNameAndValue(this.id, \\'image_uri\\', \\'${token.image_uri}\\')">-</span>)
                     <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
                     <div>
                       X: ${token.twitter ? (token.twitter.includes('t.me') ? `<a href="${token.twitter}" target="_blank" style="color: red;">${token.twitter.substring(0, 20)}...</a>` : `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}

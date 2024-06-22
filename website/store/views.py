@@ -277,6 +277,18 @@ def marketcap(request):
         print("An error occurred while rendering the template:", e)
         return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
 
+def marketcap_async_search(request): 
+
+    search_name = str(request.GET.get('search_name', ''))
+    search_value = request.GET.get('search_value', '')
+    context = {'request': request, 'search_name': search_name , 'search_value': search_value  }
+
+    try:
+        return render(request, 'marketcap_async_search.html', context)
+    except Exception as e:
+        print("An error occurred while rendering the template:", e)
+        return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})
+
 def marketcap_async(request): 
 
     context = {'request': request }
@@ -289,9 +301,20 @@ def marketcap_async(request):
 
 def marketcap_json(request):
     tokens = None
+    
     try:
         # Fetch the latest 30 records from the Token model
-        tokens = Token.objects.order_by('-created_timestamp')[:13]
+        search_name = request.GET.get('search_name')
+        search_value = request.GET.get('search_value')
+        
+        if search_name and search_value:
+            # Using **kwargs to dynamically filter by search_name and search_value
+            filter_kwargs = {search_name: search_value}
+            tokens = Token.objects.filter(**filter_kwargs).order_by('-created_timestamp')[:20]
+        else:
+            tokens = Token.objects.order_by('-created_timestamp')[:13]
+
+
         total_token_count = Token.objects.count()
     except Exception as e:
         print("An error occurred while fetching data from the database:", e)

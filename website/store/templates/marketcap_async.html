@@ -67,7 +67,7 @@
                     <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
                     <div>
                       X: ${token.twitter ? (token.twitter.includes('t.me') ? `<a href="${token.twitter}" target="_blank" style="color: red;">${token.twitter.substring(0, 20)}...</a>` : `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}
-                      ${token.twitter ? `(<span id="count_${token.mint}_twitter" onclick="getCountByNameAndValue(this.id, 'twitter', '${token.twitter}')">-</span>)` : ''}
+                      ${token.twitter ? `(<a href="/marketcap_async_search/?search_name=twitter&search_value=${token.twitter}" ><span id="count_${token.mint}_twitter" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></a>)` : ''}
                     </div>
 
                     <div>
@@ -76,7 +76,7 @@
                     </div>
                   <div>Website: ${token.website ? `<a href="${token.website}" target="_blank">${token.website}</a>` : `<span style="color: red;">NONE</span>`}
                   
-                    ${token.website ? `(<span id="count_${token.mint}_website" onclick="getCountByNameAndValue(this.id, 'website', '${token.website}')">-</span>)` : ''}
+                    ${token.website ? `(<a href="/marketcap_async_search/?search_name=website&search_value=${token.website}" ><span id="count_${token.mint}_website" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></span></a>)` : ''}
                   </div>                  
                   <div>Creator: ${token.creator}
                   (<span id="count_${token.mint}_creator" onclick="getCountByNameAndValue(this.id, \\'creator\\', \\'${token.creator}\\')">-</span>)

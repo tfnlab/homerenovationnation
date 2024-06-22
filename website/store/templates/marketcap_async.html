@@ -189,9 +189,12 @@ function getCreatorBalance(elementId, mintAddress) {
   function getCountByNameAndValue(id, name, value) {
     // Define the base URL
     const baseURL = "/get_count/";
-  
-    // Construct the complete URL with provided name and value
-    const url = `${baseURL}?column_name=${name}&value=${value}`;
+
+    const encodedName = encodeURIComponent(name);
+    const encodedValue = encodeURIComponent(value);
+
+    const url = `${baseURL}?column_name=${encodedName}&value=${encodedValue}`;
+      
   
     // Make a GET request to the constructed URL
     fetch(url)

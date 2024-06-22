@@ -55,9 +55,9 @@
                   </div>
                   
                   <div>Image URI: 
-                    <a href="/marketcap_async_search/?search_name=image_uri&search_value=${token.image_uri}" > 
-                    (<span id="count_${token.mint}_image_uri" >-</span>)
-                    </a>
+                    (<a href="/marketcap_async_search/?search_name=image_uri&search_value=${token.image_uri}" > 
+                    <span id="count_${token.mint}_image_uri" ><img src="/static/images/load.circle.gif"></span>
+                    </a>)
                     <img src="${token.image_uri}" alt="${token.name}" style="width: 100%;"></div>
                     <div>
                       X: ${token.twitter ? (token.twitter.includes('t.me') ? `<a href="${token.twitter}" target="_blank" style="color: red;">${token.twitter.substring(0, 20)}...</a>` : `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}

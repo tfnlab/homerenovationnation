@@ -301,7 +301,7 @@ def marketcap_async(request):
 
 def marketcap_json(request):
     tokens = None
-    
+
     try:
         # Fetch the latest 30 records from the Token model
         search_name = request.GET.get('search_name')
@@ -310,9 +310,9 @@ def marketcap_json(request):
         if search_name and search_value:
             # Using **kwargs to dynamically filter by search_name and search_value
             filter_kwargs = {search_name: search_value}
-            tokens = Token.objects.filter(**filter_kwargs).order_by('-created_timestamp')[:20]
+            tokens = Token.objects.filter(**filter_kwargs).order_by('-created_timestamp')[:30]
         else:
-            tokens = Token.objects.order_by('-created_timestamp')[:13]
+            tokens = Token.objects.order_by('-created_timestamp')[:11]
 
 
         total_token_count = Token.objects.count()

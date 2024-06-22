@@ -9,7 +9,12 @@
   // Function to fetch and update data every 3 seconds
   function fetchAndUpdateData() {
     // Define the URL to fetch data from
-    const url = "/marketcap_json/?search_name={{search_name}}&search_value={{search_value}}";
+    const search_name = encodeURIComponent("{{search_name}}");
+    const search_value = encodeURIComponent("{{search_value}}");
+
+    // Define the URL with encoded parameters
+    const url = `/marketcap_json/?search_name=${search_name}&search_value=${search_value}`;
+
 
     // Make a GET request to fetch data
     fetch(url)

@@ -522,7 +522,7 @@ def create_token(request):
             symbol = strip_non_unicode(symbol)
 
             #description = request.POST.get('description')
-            description = 'description'
+            description = request.POST.get('description')
             image_uri = request.POST.get('image_uri')
             metadata_uri = request.POST.get('metadata_uri')
             twitter = request.POST.get('twitter')

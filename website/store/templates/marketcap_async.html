@@ -175,15 +175,6 @@ function getCreatorBalance(elementId, mintAddress) {
 <!-- Displaying JSON data -->
 <section class="py-0">
   <div class="container-fluid">
-    <div class="row justify-content-center mt-3">
-      <div class="col-md-12 text-center">
-      <form action="/marketcap_async_search/" method="get">
-        <label for="search_value">Name:</label>
-        <input type="text" id="search_value" name="search_value" value="" required>
-        <input type="submit" value="Submit">
-      </form>
-      </div>
-    </div> 
 <div class="row justify-content-center mt-3">
       <div class="col-md-12 text-center">
         <a href="https://x.com/pumpfunclubsol"><img src="/static/images/placeadhere.png" class="img-fluid" /></a>
@@ -199,6 +190,15 @@ function getCreatorBalance(elementId, mintAddress) {
         We have recorded <span id="totalTokenCount">{{ total_token_count }}</span> tokens from Pump Fun launches in our database for use in our analytics.
       </div>
     </div>
+    <div class="row justify-content-center mt-3">
+      <div class="col-md-12 text-center">
+      <form action="/marketcap_async_search/" method="get">
+        <label for="search_value">Search</label>
+        <input type="text" id="search_value" name="search_value" value="" required>
+        <input type="submit" value="Submit">
+      </form>
+      </div>
+    </div> 
     <div id="tokenList" class="row mt-3">
       <!-- Tokens will be populated here -->
       <div id="loadingGif" style="display: flex; justify-content: center; align-items: center; height: 100vh;">

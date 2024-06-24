@@ -193,9 +193,11 @@ function getCreatorBalance(elementId, mintAddress) {
     <div class="row justify-content-center mt-3">
       <div class="col-md-12 text-center">
       <form action="/marketcap_async_search/" method="get">
-        <label for="search_value">Search</label>
-        <input type="text" id="search_value" name="search_value" value="" required>
-        <input type="submit" value="Submit">
+          <div class="form-group">
+              <label for="search_value">Search</label>
+              <input type="text" class="form-control" id="search_value" name="search_value" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
       </form>
       </div>
     </div> 

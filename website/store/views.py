@@ -311,6 +311,16 @@ def marketcap_json(request):
             # Using **kwargs to dynamically filter by search_name and search_value
             filter_kwargs = {search_name: search_value}
             tokens = Token.objects.filter(**filter_kwargs).order_by('-created_timestamp')[:30]
+        elif search_value:
+            # Perform a like search on specific fields
+            tokens = Token.objects.filter(
+                Q(name__icontains=search_value) | 
+                Q(symbol__icontains=search_value) | 
+                Q(image_uri__icontains=search_value) | 
+                Q(twitter__icontains=search_value) | 
+                Q(telegram__icontains=search_value) | 
+                Q(website__icontains=search_value)
+            ).order_by('-created_timestamp')[:30]            
         else:
             tokens = Token.objects.order_by('-created_timestamp')[:11]
 

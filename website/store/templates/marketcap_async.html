@@ -253,22 +253,25 @@ function getCreatorBalance(elementId, mintAddress) {
 </script>
  
 <script>
-  document.getElementById('connectButton').addEventListener('click', async () => {
-    if (window.solana && window.solana.isPhantom) {
-      try {
-        // Connect to Phantom wallet
-        await window.solana.connect();
-        console.log('Connected to Phantom wallet');
+    document.getElementById('connectButton').addEventListener('click', async () => {
+      if (window.solana && window.solana.isPhantom) {
+        try {
+          // Connect to Phantom wallet
+          const response = await window.solana.connect();
+          console.log('Connected to Phantom wallet');
 
-        // Enable the send token button
-        document.getElementById('sendTokenButton').disabled = false;
-      } catch (error) {
-        console.error('Error connecting to Phantom wallet:', error);
+          // Update the page with the connected wallet address
+          document.getElementById('walletAddress').textContent = `Connected wallet: ${response.publicKey.toString()}`;
+
+          // Enable the send token button
+          document.getElementById('sendTokenButton').disabled = false;
+        } catch (error) {
+          console.error('Error connecting to Phantom wallet:', error);
+        }
+      } else {
+        alert('Phantom wallet not found');
       }
-    } else {
-      alert('Phantom wallet not found');
-    }
-  });
+    });
 
   document.getElementById('sendTokenButton').addEventListener('click', async () => {
     if (!window.solana.isConnected) {

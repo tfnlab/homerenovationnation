@@ -262,6 +262,11 @@ function getCreatorBalance(elementId, mintAddress) {
           // Update the page with the connected wallet address
           document.getElementById('walletAddress').textContent = `Connected wallet: ${response.publicKey.toString()}`;
 
+          // Sign a message and print it to the console
+          const message = new TextEncoder().encode('Hello from Solana!');
+          const signature = await window.solana.signMessage(message);
+          console.log('Message signed:', signature);
+          
         } catch (error) {
           console.error('Error connecting to Phantom wallet:', error);
         }

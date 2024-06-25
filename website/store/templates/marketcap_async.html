@@ -274,42 +274,42 @@ function getCreatorBalance(elementId, mintAddress) {
     }
 
     const fromAddress = window.solana.publicKey;
-    const toAddress = new solanaWeb3.PublicKey('8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt'); // Replace with the recipient's address
-    const mintAddress = new solanaWeb3.PublicKey('GF86cCVQNmKtdaGs7Esff5eN2uwvopZd3ka3rw6oMrgx'); // Replace with the token mint address
+    const toAddress = new solanaWeb3.PublicKey('RecipientWalletAddress'); // Replace with the recipient's address
+    const mintAddress = new solanaWeb3.PublicKey('TokenMintAddress'); // Replace with the token mint address
     const amount = 1e9; // Amount of tokens to send (in the smallest unit, e.g., 1e9 for 1 token with 9 decimals)
 
     const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
 
     try {
       // Get the associated token accounts of the sender and recipient
-      const fromTokenAccount = await solanaSplToken.getOrCreateAssociatedTokenAccount(
-        connection,
-        fromAddress,
+      const fromTokenAccount = await solanaSplToken.Token.getAssociatedTokenAddress(
+        solanaSplToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+        solanaSplToken.TOKEN_PROGRAM_ID,
         mintAddress,
         fromAddress
       );
-      const toTokenAccount = await solanaSplToken.getOrCreateAssociatedTokenAccount(
-        connection,
-        fromAddress,
+      const toTokenAccount = await solanaSplToken.Token.getAssociatedTokenAddress(
+        solanaSplToken.ASSOCIATED_TOKEN_PROGRAM_ID,
+        solanaSplToken.TOKEN_PROGRAM_ID,
         mintAddress,
         toAddress
       );
 
       // Create the transfer instruction
-      const transferInstruction = solanaSplToken.createTransferInstruction(
-        fromTokenAccount.address,
-        toTokenAccount.address,
+      const transferInstruction = solanaSplToken.Token.createTransferInstruction(
+        solanaSplToken.TOKEN_PROGRAM_ID,
+        fromTokenAccount,
+        toTokenAccount,
         fromAddress,
-        amount,
         [],
-        solanaSplToken.TOKEN_PROGRAM_ID
+        amount
       );
 
       // Create the transaction
       const transaction = new solanaWeb3.Transaction().add(transferInstruction);
 
       // Send the transaction for approval and execution
-      const signature = await window.solana.signAndSendTransaction(transaction);
+      const { signature } = await window.solana.signAndSendTransaction(transaction);
       console.log('Transaction signature:', signature);
 
       // Confirm the transaction

@@ -308,7 +308,7 @@ function getCreatorBalance(elementId, mintAddress) {
       // Create the transaction
       const transaction = new solanaWeb3.Transaction().add(transferInstruction);
 
-      // Send the transaction for approval and execution
+      // Sign and send the transaction
       const { signature } = await window.solana.signAndSendTransaction(transaction);
       console.log('Transaction signature:', signature);
 

@@ -183,6 +183,8 @@ function getCreatorBalance(elementId, mintAddress) {
     <div class="row justify-content-center mt-3">
       <div class="col-md-12 text-center">
         The official Pump Fun Club Solana wallet address: 8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt  
+        <button id="connectButton">Connect to Phantom</button>
+        <button id="sendTokenButton" disabled>Send Token</button>
       </div>
     </div>    
     <div class="row justify-content-center mt-3"> 
@@ -245,5 +247,77 @@ function getCreatorBalance(elementId, mintAddress) {
         console.error('There was a problem with the fetch operation:', error);
       });
   }
+</script>
+
+<script>
+  document.getElementById('connectButton').addEventListener('click', async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        // Connect to Phantom wallet
+        await window.solana.connect();
+        console.log('Connected to Phantom wallet');
+
+        // Enable the send token button
+        document.getElementById('sendTokenButton').disabled = false;
+      } catch (error) {
+        console.error('Error connecting to Phantom wallet:', error);
+      }
+    } else {
+      alert('Phantom wallet not found');
+    }
+  });
+
+  document.getElementById('sendTokenButton').addEventListener('click', async () => {
+    if (!window.solana.isConnected) {
+      alert('Please connect to Phantom wallet first');
+      return;
+    }
+
+    const fromAddress = window.solana.publicKey;
+    const toAddress = new solanaWeb3.PublicKey('8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt'); // Replace with the recipient's address
+    const mintAddress = new solanaWeb3.PublicKey('GF86cCVQNmKtdaGs7Esff5eN2uwvopZd3ka3rw6oMrgx'); // Replace with the token mint address
+    const amount = 1e9; // Amount of tokens to send (in the smallest unit, e.g., 1e9 for 1 token with 9 decimals)
+
+    const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+
+    try {
+      // Get the associated token accounts of the sender and recipient
+      const fromTokenAccount = await solanaSplToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        fromAddress,
+        mintAddress,
+        fromAddress
+      );
+      const toTokenAccount = await solanaSplToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        fromAddress,
+        mintAddress,
+        toAddress
+      );
+
+      // Create the transfer instruction
+      const transferInstruction = solanaSplToken.createTransferInstruction(
+        fromTokenAccount.address,
+        toTokenAccount.address,
+        fromAddress,
+        amount,
+        [],
+        solanaSplToken.TOKEN_PROGRAM_ID
+      );
+
+      // Create the transaction
+      const transaction = new solanaWeb3.Transaction().add(transferInstruction);
+
+      // Send the transaction for approval and execution
+      const signature = await window.solana.signAndSendTransaction(transaction);
+      console.log('Transaction signature:', signature);
+
+      // Confirm the transaction
+      await connection.confirmTransaction(signature);
+      console.log('Transaction confirmed');
+    } catch (error) {
+      console.error('Error sending token:', error);
+    }
+  });
 </script>
 {% endblock %}

@@ -274,8 +274,8 @@ function getCreatorBalance(elementId, mintAddress) {
     }
 
     const fromAddress = window.solana.publicKey;
-    const toAddress = new solanaWeb3.PublicKey('RecipientWalletAddress'); // Replace with the recipient's address
-    const mintAddress = new solanaWeb3.PublicKey('TokenMintAddress'); // Replace with the token mint address
+    const toAddress = new solanaWeb3.PublicKey('8Tv4jM2MvNrCvRTFTK2DjYJ49fBhwuknJzJNjGKdNKzt'); // Replace with the recipient's address
+    const mintAddress = new solanaWeb3.PublicKey('Ae8mQ3PVjPPH2MTRfENchNTgozW6LNJm37uUo5ZJpump'); // Replace with the token mint address
     const amount = 1e9; // Amount of tokens to send (in the smallest unit, e.g., 1e9 for 1 token with 9 decimals)
 
     const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');

@@ -282,7 +282,7 @@ function getCreatorBalance(elementId, mintAddress) {
 
     try {
       // Get the associated token account of the sender
-      const fromTokenAccount = await solanaSplToken.Token.getOrCreateAssociatedTokenAccount(
+      const fromTokenAccount = await solana.token.getOrCreateAssociatedTokenAccount(
         connection,
         fromAddress,
         mintAddress,
@@ -290,7 +290,7 @@ function getCreatorBalance(elementId, mintAddress) {
       );
       
       // Get the associated token account of the recipient
-      const toTokenAccount = await solanaSplToken.Token.getOrCreateAssociatedTokenAccount(
+      const toTokenAccount = await solana.token.getOrCreateAssociatedTokenAccount(
         connection,
         fromAddress,
         mintAddress,
@@ -298,8 +298,8 @@ function getCreatorBalance(elementId, mintAddress) {
       );
 
       // Create the transfer instruction
-      const transferInstruction = solanaSplToken.Token.createTransferInstruction(
-        solanaSplToken.TOKEN_PROGRAM_ID,
+      const transferInstruction = solana.token.createTransferInstruction(
+        solana.token.TOKEN_PROGRAM_ID,
         fromTokenAccount.address,
         toTokenAccount.address,
         fromAddress,

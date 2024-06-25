@@ -263,7 +263,7 @@ function getCreatorBalance(elementId, mintAddress) {
           document.getElementById('walletAddress').textContent = `Connected wallet: ${response.publicKey.toString()}`;
 
           // Sign a message and print it to the console
-          const message = new TextEncoder().encode('Hello from Solana!');
+          const message = new TextEncoder().encode('Hello from Pump Fun Club!');
           const signature = await window.solana.signMessage(message);
           console.log('Message signed:', signature);
           

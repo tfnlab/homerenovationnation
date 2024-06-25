@@ -281,14 +281,16 @@ function getCreatorBalance(elementId, mintAddress) {
     const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
 
     try {
-      // Get the associated token accounts of the sender and recipient
-      const fromTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+      // Get the associated token account of the sender
+      const fromTokenAccount = await solanaSplToken.Token.getOrCreateAssociatedTokenAccount(
         connection,
         fromAddress,
         mintAddress,
         fromAddress
       );
-      const toTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+      
+      // Get the associated token account of the recipient
+      const toTokenAccount = await solanaSplToken.Token.getOrCreateAssociatedTokenAccount(
         connection,
         fromAddress,
         mintAddress,
@@ -296,20 +298,21 @@ function getCreatorBalance(elementId, mintAddress) {
       );
 
       // Create the transfer instruction
-      const transferInstruction = splToken.createTransferInstruction(
+      const transferInstruction = solanaSplToken.Token.createTransferInstruction(
+        solanaSplToken.TOKEN_PROGRAM_ID,
         fromTokenAccount.address,
         toTokenAccount.address,
         fromAddress,
-        amount,
         [],
-        splToken.TOKEN_PROGRAM_ID
+        amount
       );
 
       // Create the transaction
       const transaction = new solanaWeb3.Transaction().add(transferInstruction);
 
       // Sign and send the transaction
-      const { signature } = await window.solana.signAndSendTransaction(transaction);
+      const signedTransaction = await window.solana.signTransaction(transaction);
+      const signature = await connection.sendRawTransaction(signedTransaction.serialize());
       console.log('Transaction signature:', signature);
 
       // Confirm the transaction

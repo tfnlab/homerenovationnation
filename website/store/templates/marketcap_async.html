@@ -248,7 +248,7 @@ function getCreatorBalance(elementId, mintAddress) {
       });
   }
 </script>
-
+ 
 <script>
   document.getElementById('connectButton').addEventListener('click', async () => {
     if (window.solana && window.solana.isPhantom) {
@@ -282,27 +282,27 @@ function getCreatorBalance(elementId, mintAddress) {
 
     try {
       // Get the associated token accounts of the sender and recipient
-      const fromTokenAccount = await solanaSplToken.Token.getAssociatedTokenAddress(
-        solanaSplToken.ASSOCIATED_TOKEN_PROGRAM_ID,
-        solanaSplToken.TOKEN_PROGRAM_ID,
+      const fromTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        fromAddress,
         mintAddress,
         fromAddress
       );
-      const toTokenAccount = await solanaSplToken.Token.getAssociatedTokenAddress(
-        solanaSplToken.ASSOCIATED_TOKEN_PROGRAM_ID,
-        solanaSplToken.TOKEN_PROGRAM_ID,
+      const toTokenAccount = await splToken.getOrCreateAssociatedTokenAccount(
+        connection,
+        fromAddress,
         mintAddress,
         toAddress
       );
 
       // Create the transfer instruction
-      const transferInstruction = solanaSplToken.Token.createTransferInstruction(
-        solanaSplToken.TOKEN_PROGRAM_ID,
-        fromTokenAccount,
-        toTokenAccount,
+      const transferInstruction = splToken.createTransferInstruction(
+        fromTokenAccount.address,
+        toTokenAccount.address,
         fromAddress,
+        amount,
         [],
-        amount
+        splToken.TOKEN_PROGRAM_ID
       );
 
       // Create the transaction

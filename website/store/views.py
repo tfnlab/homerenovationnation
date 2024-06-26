@@ -343,29 +343,8 @@ def marketcap_json(request):
             'metadata_uri': token.metadata_uri,
             'twitter': token.twitter,
             'telegram': token.telegram,
-            'bonding_curve': token.bonding_curve,
-            'associated_bonding_curve': token.associated_bonding_curve,
             'creator': token.creator,
-            'created_timestamp': token.created_timestamp.isoformat() if token.created_timestamp else None,
-            'raydium_pool': token.raydium_pool,
-            'complete': token.complete,
-            'virtual_sol_reserves': float(token.virtual_sol_reserves) if token.virtual_sol_reserves else None,
-            'virtual_token_reserves': float(token.virtual_token_reserves) if token.virtual_token_reserves else None,
-            'hidden': token.hidden,
-            'total_supply': float(token.total_supply) if token.total_supply else None,
-            'website': token.website,
-            'show_name': token.show_name,
-            'last_trade_timestamp': token.last_trade_timestamp.isoformat() if token.last_trade_timestamp else None,
-            'king_of_the_hill_timestamp': token.king_of_the_hill_timestamp.isoformat() if token.king_of_the_hill_timestamp else None,
-            'market_cap': float(token.market_cap) if token.market_cap else None,
-            'reply_count': token.reply_count,
-            'last_reply': token.last_reply,
-            'nsfw': token.nsfw,
-            'market_id': token.market_id, 
-            'inverted': token.inverted,
-            'username': token.username,
-            'profile_image': token.profile_image,
-            'usd_market_cap': float(token.usd_market_cap) if token.usd_market_cap else None
+            'website': token.website
         }
         token_list.append(token_data)
 

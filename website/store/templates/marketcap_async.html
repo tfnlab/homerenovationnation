@@ -187,6 +187,8 @@ function getCreatorBalance(elementId, mintAddress) {
         <div id="walletAddress"></div>  
         <BR>
         <button id="connectButton">Connect to Phantom</button> 
+        <BR>
+        <p id="tokenBalance">Token balance: </p>
       </div>
     </div>    
     <div class="row justify-content-center mt-3"> 
@@ -252,29 +254,46 @@ function getCreatorBalance(elementId, mintAddress) {
 </script>
  
 <script>
-    document.getElementById('connectButton').addEventListener('click', async () => {
-      if (window.solana && window.solana.isPhantom) {
-        try {
-          // Connect to Phantom wallet
-          const response = await window.solana.connect();
-          console.log('Connected to Phantom wallet');
+  document.getElementById('connectButton').addEventListener('click', async () => {
+    if (window.solana && window.solana.isPhantom) {
+      try {
+        // Connect to Phantom wallet
+        const response = await window.solana.connect();
+        console.log('Connected to Phantom wallet');
 
-          // Update the page with the connected wallet address
-          document.getElementById('walletAddress').textContent = `Connected wallet: ${response.publicKey.toString()}`;
+        // Update the page with the connected wallet address
+        document.getElementById('walletAddress').textContent = `Connected wallet: ${response.publicKey.toString()}`;
 
-          // Sign a message and print it to the console
-          const message = new TextEncoder().encode('Hello from Pump Fun Club!');
-          const signature = await window.solana.signMessage(message);
-          console.log('Message signed:', signature);
-          
-        } catch (error) {
-          console.error('Error connecting to Phantom wallet:', error);
+        // Sign a message and print it to the console
+        const message = new TextEncoder().encode('Hello from Pump Fun Club!');
+        const signature = await window.solana.signMessage(message);
+        console.log('Message signed:', signature);
+
+        // Fetch the balance of a specific SPL token
+        const tokenMintAddress = 'YOUR_SPL_TOKEN_MINT_ADDRESS'; // Replace with the actual SPL token mint address
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'));
+        
+        const tokenAccounts = await connection.getTokenAccountsByOwner(response.publicKey, {
+          mint: new solanaWeb3.PublicKey(tokenMintAddress)
+        });
+
+        let tokenBalance = 0;
+        if (tokenAccounts.value.length > 0) {
+          tokenAccounts.value.forEach(account => {
+            const accountData = solanaWeb3.AccountLayout.decode(account.account.data);
+            tokenBalance += accountData.amount.toNumber();
+          });
         }
-      } else {
-        alert('Phantom wallet not found');
-      }
-    });
 
-   
+        console.log(`Token balance: ${tokenBalance}`);
+        document.getElementById('tokenBalance').textContent = `Token balance: ${tokenBalance}`;
+
+      } catch (error) {
+        console.error('Error connecting to Phantom wallet:', error);
+      }
+    } else {
+      alert('Phantom wallet not found');
+    }
+  });
 </script>
 {% endblock %}

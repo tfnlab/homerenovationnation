@@ -271,9 +271,9 @@ function getCreatorBalance(elementId, mintAddress) {
 
         // Fetch the balance of a specific SPL token
         const tokenMintAddress = 'JDyXs3GcbJ13Cy4r7ateV6VLL6gvnthwuEj6MKEdpump'; // Replace with the actual SPL token mint address
-        const clusterUrl = solanaWeb3.clusterApiUrl('mainnet-beta');
-        console.log('Cluster URL:', clusterUrl);
-        const connection = new solanaWeb3.Connection(clusterUrl);
+        const rpcUrl = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'; // Replace with your QuickNode URL
+        console.log('RPC URL:', rpcUrl);
+        const connection = new solanaWeb3.Connection(rpcUrl);
         
         const tokenAccounts = await connection.getTokenAccountsByOwner(response.publicKey, {
           mint: new solanaWeb3.PublicKey(tokenMintAddress)

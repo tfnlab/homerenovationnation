@@ -203,6 +203,8 @@ function getCreatorBalance(elementId, mintAddress) {
         <button id="connectButton">Connect to Phantom</button> 
         <BR>
         <p id="tokenBalance">Pump Fun Club Token balance: </p>
+        <BR>
+        CA: DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump
       </div>
     </div>    
     
@@ -309,7 +311,7 @@ function getCreatorBalance(elementId, mintAddress) {
         console.log('Message signed:', signature);
 
         // Fetch the balance of a specific SPL token
-        const tokenMintAddress = 'JDyXs3GcbJ13Cy4r7ateV6VLL6gvnthwuEj6MKEdpump'; // Replace with the actual SPL token mint address
+        const tokenMintAddress = 'DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump'; // Replace with the actual SPL token mint address
         const rpcUrl = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'; // Replace with your QuickNode URL
         console.log('RPC URL:', rpcUrl);
         const connection = new solanaWeb3.Connection(rpcUrl);

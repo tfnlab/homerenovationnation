@@ -291,6 +291,17 @@ function getCreatorBalance(elementId, mintAddress) {
   }
 </script> 
 <script>
+  // Function to convert ArrayBuffer to Base64
+  function arrayBufferToBase64(buffer) {
+      let binary = '';
+      const bytes = new Uint8Array(buffer);
+      const len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+  }
+
   document.getElementById('connectButton').addEventListener('click', async () => {
     if (window.solana && window.solana.isPhantom) {
       try {
@@ -307,12 +318,10 @@ function getCreatorBalance(elementId, mintAddress) {
         console.log('Message signed:', signature);
 
         // Convert the signature bytes to Base64
-        const signatureBytes = new Uint8Array(signature);
-        let signatureBase64 = '';
-        signatureBytes.forEach(byte => signatureBase64 += String.fromCharCode(byte));
-        signatureBase64 = btoa(signatureBase64);
+        let signatureBase64 = arrayBufferToBase64(signature);
 
-        console.log('Message signed (Base64):', signatureBase64);
+        console.log('Message signed (Base64):', signatureBase64); // Log Base64 encoded signature
+
 
         
         // Fetch the balance of a specific SPL token

@@ -46,6 +46,7 @@
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)
+                    (<span id="count_${token.mint}_total" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>)
                   </div>
                   <div>${token.mint}
                     (<span id="count_${token.mint}_bundle" ><img src="/static/images/load.circle.gif" style="height: 1em;" alt="Checks if the token has been bundled"></span>)
@@ -220,6 +221,13 @@ function getCreatorBalance(elementId, mintAddress) {
 <script>
   function getCountByNameAndValue(id, name, value) {
     // Define the base URL
+
+    const idParts = id.split('_');
+    const secondItem = idParts[1]; // Assuming id is in the format like "count_item_total"
+
+    // Construct the new element id
+    const newElementId = `count_${secondItem}_total`;
+
     const baseURL = "/get_count/";
 
     const encodedName = encodeURIComponent(name);
@@ -240,6 +248,16 @@ function getCreatorBalance(elementId, mintAddress) {
         // Extract the occurrences count from the response data
         const occurrences = data.occurrences;
         
+        let element = document.getElementById(newElementId);
+
+        // Check if the innerHTML is not an integer, set it to zero
+        if (isNaN(parseInt(element.innerHTML))) {
+          element.innerHTML = '0';
+        }
+
+        // Add the occurrences to the current count
+        element.innerHTML = parseInt(element.innerHTML) + occurrences;
+                
         // Update the content of the dynamically created span element with the count
         document.getElementById(id).textContent = `${occurrences}`;
         let element = document.getElementById(id);

@@ -84,6 +84,7 @@ from solders.pubkey import Pubkey
 
 
 
+
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.exceptions import InvalidSignature
@@ -523,6 +524,11 @@ def verify_signature(request):
 
             # Decode the public key (example with SECP256K1)
             public_key_bytes = base64.b64decode(public_key_base58)
+            # Check if the public key is compressed (33 bytes) or uncompressed (65 bytes)
+            if len(public_key_bytes) == 33:
+                # If compressed format, add prefix 0x02 or 0x03 to convert to uncompressed
+                public_key_bytes = b'\x04' + public_key_bytes
+            # Create public key object
             public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), public_key_bytes)
 
             # Verify the signature

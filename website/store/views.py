@@ -77,7 +77,7 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
-
+import base64
 
 def extract_number_from_page_source(page_source):
     """

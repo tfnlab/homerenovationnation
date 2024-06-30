@@ -506,11 +506,11 @@ def verify_signature(request):
             signature_base64 = request.GET.get('signature', '')
 
             # Decode Base64 signature to bytes
-            signature_bytes = b64decode(signature_base64)
+            signature_bytes = base64.b64decode(signature_base64)
 
             # Example message or transaction that was signed (if known)
             # Replace with the actual data that was signed, if available
-            message_or_transaction = None
+            message_or_transaction = 'Hello from Pump Fun Club!'
 
             # Example: Verify signature using Solana's verify_transaction_signature
             is_valid = verify_transaction_signature(signature_bytes, public_key_base58, message_or_transaction)

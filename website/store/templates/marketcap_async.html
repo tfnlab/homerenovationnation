@@ -100,12 +100,12 @@
             displayedTokens.add(token.id);
             getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);
             getCountByNameAndValue(`count_${token.mint}_symbol`, 'symbol', token.symbol);
-            {% if not token.twitter %}
+            {% if token.twitter %}
               getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
             {% endif %}
             getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
-            {% if not token.mint %}
+            {% if token.mint %}
               getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             {% endif %}
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);

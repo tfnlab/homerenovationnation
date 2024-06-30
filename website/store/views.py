@@ -78,6 +78,7 @@ register = template.Library()
 import time 
 import re
 import base64
+from solana.transaction import verify_transaction_signature
 
 def extract_number_from_page_source(page_source):
     """

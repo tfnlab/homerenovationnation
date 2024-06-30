@@ -323,11 +323,9 @@ function getCreatorBalance(elementId, mintAddress) {
         // Convert the signature bytes to Base64 
 
 
-        // Convert the signature data to a Uint8Array
-        const signatureBytes = new Uint8Array(signature.data);
-
-        // Convert the signature bytes to Base64
-        const signatureBase64 = arrayBufferToBase64(signatureBytes.buffer);
+        // Convert the signature data to a Uint8Array 
+        const signatureBase64 = arrayBufferToBase64(signature.data);
+ 
 
         console.log('Message signed (Base64):', signatureBase64);
         

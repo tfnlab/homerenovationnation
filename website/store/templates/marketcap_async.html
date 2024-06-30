@@ -248,16 +248,16 @@ function getCreatorBalance(elementId, mintAddress) {
         // Extract the occurrences count from the response data
         const occurrences = data.occurrences;
         
-        let element = document.getElementById(newElementId);
+        let element_total = document.getElementById(newElementId);
 
         // Check if the innerHTML is not an integer, set it to zero
-        if (isNaN(parseInt(element.innerHTML))) {
-          element.innerHTML = '0';
+        if (isNaN(parseInt(element_total.innerHTML))) {
+          element_total.innerHTML = '0';
         }
 
         // Add the occurrences to the current count
-        element.innerHTML = parseInt(element.innerHTML) + occurrences;
-                
+        element_total.innerHTML = parseInt(element_total.innerHTML) + occurrences;
+
         // Update the content of the dynamically created span element with the count
         document.getElementById(id).textContent = `${occurrences}`;
         let element = document.getElementById(id);

@@ -83,6 +83,7 @@
                   (<span id="count_${token.mint}_creatorbalance" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>)
                   </div>
                   <div>
+                      Rug Score <span id="count_${token.mint}_items" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                       Rug Score <span id="count_${token.mint}_total" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                   </div>  
                 </div>
@@ -229,6 +230,7 @@ function getCreatorBalance(elementId, mintAddress) {
 
     // Construct the new element id
     const newElementId = `count_${secondItem}_total`;
+    const newElementId_items = `count_${secondItem}_items`;
 
     const baseURL = "/get_count/";
 
@@ -251,14 +253,18 @@ function getCreatorBalance(elementId, mintAddress) {
         const occurrences = data.occurrences;
         
         let element_total = document.getElementById(newElementId);
+        let element_items = document.getElementById(newElementId_items);
 
         // Check if the innerHTML is not an integer, set it to zero
         if (isNaN(parseInt(element_total.innerHTML))) {
           element_total.innerHTML = '0';
         }
-
+        if (isNaN(parseInt(element_items.innerHTML))) {
+          element_items.innerHTML = '0';
+        }
         // Add the occurrences to the current count
         element_total.innerHTML = parseInt(element_total.innerHTML) + occurrences;
+        element_items.innerHTML = parseInt(element_items.innerHTML) + 1;
 
         // Update the content of the dynamically created span element with the count
         document.getElementById(id).textContent = `${occurrences}`;

@@ -509,6 +509,14 @@ def strip_non_unicode(text):
 def superuser_required(user):
     return user.is_superuser
 
+def base58_decode(base58_string):
+    alphabet = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz'
+    base_count = len(alphabet)
+    num = 0
+    for char in base58_string:
+        num = num * base_count + alphabet.index(char)
+    return num.to_bytes((num.bit_length() + 7) // 8, 'big')
+
 def verify_signature(request):
     if request.method == 'GET':
         try:
@@ -523,7 +531,7 @@ def verify_signature(request):
             message_or_transaction = 'Hello from Pump Fun Club!'
 
             # Decode the public key (Base58 to bytes)
-            public_key_bytes = base58.b58decode(public_key_base58)
+            public_key_bytes = base58_decode(public_key_base58)
 
             # Ensure the public key is in uncompressed format (65 bytes)
             if len(public_key_bytes) == 33:

@@ -77,10 +77,7 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
-import base64 
-from solana.transaction import Transaction
-from solana.account import Account
-from solana.rpc.api import Client
+import base64  
 
 def extract_number_from_page_source(page_source):
     """
@@ -513,22 +510,21 @@ def verify_signature(request):
 
             # Example message or transaction that was signed (if known)
             # Replace with the actual data that was signed, if available
-            transaction_data = 'Hello from Pump Fun Club!'
+            message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Example: Create a Solana Account and Transaction
-            account = Account(private_key='your_private_key_here')
-            client = Client("https://api.mainnet-beta.solana.com")
-            transaction = Transaction()
-            transaction.add_signer(account.public_key(), account.secret_key)
-            transaction.recent_blockhash = client.get_recent_blockhash()['result']['value']['blockhash']
-            transaction.add_signature(account.public_key(), signature_bytes)
+            # Example: Verify signature using Solana's RPC API
+            rpc_url = 'https://api.mainnet-beta.solana.com'  # Replace with appropriate Solana RPC URL
+            response = requests.get(f'{rpc_url}/verifySignature', params={
+                'message': message_or_transaction,
+                'publicKey': public_key_base58,
+                'signature': signature_base64
+            })
+            result = response.json()
 
-            # Example: Verify signature using Solana's verify_transaction_signature
-            result = client.send_transaction(transaction, account)
-            if result['result']['err']:
-                return JsonResponse({'valid': False, 'message': f'Transaction failed: {result["result"]["err"]}'})
+            if 'error' in result:
+                return JsonResponse({'valid': False, 'message': f'Signature verification failed: {result["error"]}'})
             else:
-                return JsonResponse({'valid': True, 'message': 'Transaction successful.'})
+                return JsonResponse({'valid': result['result']})
 
         except Exception as e:
             # Print the error to console for debugging purposes
@@ -538,6 +534,8 @@ def verify_signature(request):
 
     # Handle cases where request method is not GET
     return JsonResponse({'error': 'Method not allowed.'}, status=405)
+
+
 
 @csrf_exempt
 @user_passes_test(superuser_required)

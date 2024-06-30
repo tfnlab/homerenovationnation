@@ -508,8 +508,7 @@ def verify_signature(request):
             # Decode Base64 signature to bytes
             signature_bytes = base64.b64decode(signature_base64)
 
-            # Example message or transaction that was signed (if known)
-            # Replace with the actual data that was signed, if available
+            # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
             # Example: Verify signature using Solana's RPC API
@@ -523,8 +522,10 @@ def verify_signature(request):
 
             if 'error' in result:
                 return JsonResponse({'valid': False, 'message': f'Signature verification failed: {result["error"]}'})
-            else:
+            elif 'result' in result:
                 return JsonResponse({'valid': result['result']})
+            else:
+                return JsonResponse({'valid': False, 'message': 'Unexpected response format from RPC endpoint.'})
 
         except Exception as e:
             # Print the error to console for debugging purposes

@@ -297,6 +297,7 @@ function getCreatorBalance(elementId, mintAddress) {
     const bytes = new Uint8Array(buffer);
     const len = bytes.byteLength;
     console.log('test');
+    console.log(len);
     for (let i = 0; i < len; i++) {
         binary += String.fromCharCode(bytes[i]);
         console.log(binary);

@@ -329,7 +329,25 @@ function getCreatorBalance(elementId, mintAddress) {
  
 
         console.log('Message signed (Base64):', signatureBase64);
-        
+        const verifySignatureUrl = `/verify_signature/?publicKey=${response.publicKey.toString()}&signature=${encodeURIComponent(signatureBase64)}`;
+
+        // Example function to send GET request to Django view
+        async function verifySignature() {
+            try {
+                const response = await fetch(verifySignatureUrl);
+                if (!response.ok) {
+                    throw new Error('Failed to verify signature.');
+                }
+                const result = await response.json();
+                console.log('Verification Result:', result);
+            } catch (error) {
+                console.error('Verification Error:', error.message);
+            }
+        }
+
+        verifySignature();
+
+
         // Fetch the balance of a specific SPL token
         const tokenMintAddress = 'DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump'; // Replace with the actual SPL token mint address
         const rpcUrl = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'; // Replace with your QuickNode URL

@@ -268,7 +268,7 @@ function getCreatorBalance(elementId, mintAddress) {
         // Add the occurrences to the current count
         element_total.innerHTML = parseInt(element_total.innerHTML) + occurrences;
         element_items.innerHTML = parseInt(element_items.innerHTML) + 1;
-        element_rate.innerHTML  = parseInt(element_total.innerHTML) / parseInt(element_items.innerHTML);
+        element_rate.innerHTML  = (parseInt(element_total.innerHTML) / parseInt(element_items.innerHTML)).toFixed(2);
 
         // Update the content of the dynamically created span element with the count
         document.getElementById(id).textContent = `${occurrences}`;

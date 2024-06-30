@@ -103,7 +103,7 @@
             getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
             getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
-            getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
+            ${token.website ? 'getCountByNameAndValue(\`count_${token.mint}_website\`, \'website\', token.website)' : ''};
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
             //getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
             getCreatorBalance(`count_${token.mint}_creatorbalance`, token.creator);

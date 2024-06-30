@@ -103,7 +103,7 @@
             getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
             getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
-            {% if token.mint %}
+            {% if not token.mint %}
               getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             {% endif %}
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);

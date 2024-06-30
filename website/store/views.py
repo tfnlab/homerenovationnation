@@ -513,8 +513,8 @@ def verify_signature(request):
             message_or_transaction = 'Hello from Pump Fun Club!'
 
             # Example: Verify signature using Solana's RPC API
-            rpc_url = 'https://api.mainnet-beta.solana.com'  # Replace with appropriate Solana RPC URL
-            response = requests.get(f'{rpc_url}/verifySignature', params={
+            rpc_url = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'
+            response = requests.post(f'{rpc_url}/verifySignature', json={
                 'message': message_or_transaction,
                 'publicKey': public_key_base58,
                 'signature': signature_base64
@@ -534,7 +534,6 @@ def verify_signature(request):
 
     # Handle cases where request method is not GET
     return JsonResponse({'error': 'Method not allowed.'}, status=405)
-
 
 
 @csrf_exempt

@@ -88,7 +88,7 @@ from solders.pubkey import Pubkey
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.exceptions import InvalidSignature
-
+import base58
 
 def extract_number_from_page_source(page_source):
     """
@@ -522,8 +522,8 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Decode the public key (example with SECP256K1)
-            public_key_bytes = base64.b64decode(public_key_base58)
+            # Decode the public key (Base58 to bytes)
+            public_key_bytes = base58.b58decode(public_key_base58)
 
             # Ensure the public key is in uncompressed format (65 bytes)
             if len(public_key_bytes) == 33:

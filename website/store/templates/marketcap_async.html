@@ -100,16 +100,16 @@
             displayedTokens.add(token.id);
             getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);
             getCountByNameAndValue(`count_${token.mint}_symbol`, 'symbol', token.symbol);
-            {% if token.twitter %}
+            if (document.getElementById(`count_${token.mint}_twitter`)) {
               getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
-            {% endif %}
-            {% if token.telegram %}
+            }
+            if (document.getElementById(`count_${token.mint}_telegram`)) {
               getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
-            {% endif %}
+            }
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
-            {% if token.mint %}
+            if (document.getElementById(`count_${token.mint}_website`)) {
               getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
-            {% endif %}
+            }  
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
             //getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
             getCreatorBalance(`count_${token.mint}_creatorbalance`, token.creator);

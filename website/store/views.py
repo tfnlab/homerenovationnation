@@ -82,11 +82,9 @@ from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey
 
+
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
-from cryptography.hazmat.primitives.asymmetric.utils import (
-    decode_dss_signature, encode_dss_signature
-)
 from cryptography.exceptions import InvalidSignature
 
 
@@ -522,20 +520,16 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Decode the public key (replace this with Solana's specific method if necessary)
-            # Example: Assuming public_key_base58 is the base58 encoded public key
-            # publicKey = decodePublicKey(public_key_base58)
-
-            # Example public key and signature verification
-            # Replace this with the appropriate method for Solana's public key structure and signing algorithm
+            # Decode the public key (example with SECP256K1)
+            # Replace with the appropriate method for Solana's public key structure and decoding
             public_key = ec.EllipticCurvePublicKey.from_encoded_point(
-                ec.SECP256K1(),
-                public_key_bytes
+                ec.SECP256K1(),  # Replace with appropriate curve if Solana uses a different one
+                base64.b64decode(public_key_base58)
             )
 
             # Verify the signature
             public_key.verify(
-                signature,
+                signature_bytes,
                 message_or_transaction.encode(),
                 ec.ECDSA(hashes.SHA256())
             )

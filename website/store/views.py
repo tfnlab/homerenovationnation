@@ -524,10 +524,14 @@ def verify_signature(request):
 
             # Decode the public key (example with SECP256K1)
             public_key_bytes = base64.b64decode(public_key_base58)
-            # Check if the public key is compressed (33 bytes) or uncompressed (65 bytes)
+
+            # Ensure the public key is in uncompressed format (65 bytes)
             if len(public_key_bytes) == 33:
-                # If compressed format, add prefix 0x02 or 0x03 to convert to uncompressed
-                public_key_bytes = b'\x04' + public_key_bytes
+                # Decode compressed format to uncompressed format
+                x = int.from_bytes(public_key_bytes[1:], byteorder='big')
+                y = ec.SECP256K1.curve.y_from_x(x, is_even=(public_key_bytes[0] & 1) == 0)
+                public_key_bytes = b'\x04' + x.to_bytes(32, byteorder='big') + y.to_bytes(32, byteorder='big')
+
             # Create public key object
             public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), public_key_bytes)
 

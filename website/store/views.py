@@ -77,8 +77,8 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
-import base64
-from solana.transaction import verify_transaction_signature
+import base64 
+from solana.transaction import Transaction, Account
 
 def extract_number_from_page_source(page_source):
     """
@@ -511,10 +511,12 @@ def verify_signature(request):
 
             # Example message or transaction that was signed (if known)
             # Replace with the actual data that was signed, if available
-            message_or_transaction = 'Hello from Pump Fun Club!'
+            transaction_data = 'Hello from Pump Fun Club!'
 
-            # Example: Verify signature using Solana's verify_transaction_signature
-            is_valid = verify_transaction_signature(signature_bytes, public_key_base58, message_or_transaction)
+            # Example: Verify signature using a Solana Transaction and Account
+            account = Account(public_key_base58)
+            transaction = Transaction(transaction_data)
+            is_valid = transaction.verify(account.public_key(), signature_bytes)
 
             if is_valid:
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})

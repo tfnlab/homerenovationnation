@@ -520,24 +520,22 @@ def verify_signature(request):
             # Initialize Solana RPC client
             client = Client(rpc_url)
 
-            # Fetch transaction details (example)
+            # Fetch confirmed transaction details (example)
             transaction_signature = signature_bytes.hex()
-            transaction_details = client.get_signature_status(transaction_signature)
+            transaction_details = client.get_confirmed_transaction(transaction_signature)
 
-            if transaction_details['result']:
-                # Extract details from the response
-                transaction_info = transaction_details['result']['value']
-                if transaction_info and transaction_info['confirmationStatus'] == 'confirmed':
-                    # Assuming you have the message and public key to verify against
-                    public_key = Pubkey(public_key_base58)
-                    is_valid_signature = public_key.verify(message_or_transaction.encode(), signature_bytes)
+            if transaction_details:
+                # Extract message or transaction details from the response
+                message_from_transaction = 'Hello from Pump Fun Club!'  # Example: Extract message from transaction
 
-                    if is_valid_signature:
-                        return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-                    else:
-                        return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
+                # Assuming you have the correct message and public key to verify against
+                public_key = Pubkey(public_key_base58)
+                is_valid_signature = public_key.verify(message_from_transaction.encode(), signature_bytes)
+
+                if is_valid_signature:
+                    return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
                 else:
-                    return JsonResponse({'valid': False, 'message': 'Transaction not confirmed.'})
+                    return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
             else:
                 return JsonResponse({'valid': False, 'message': 'Transaction details not found.'})
 
@@ -549,7 +547,6 @@ def verify_signature(request):
 
     # Handle cases where request method is not GET
     return JsonResponse({'error': 'Method not allowed.'}, status=405)
-
 
 @csrf_exempt
 @user_passes_test(superuser_required)

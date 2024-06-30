@@ -78,7 +78,9 @@ register = template.Library()
 import time 
 import re
 import base64 
-from solana.transaction import Transaction, Account
+from solana.transaction import Transaction
+from solana.account import Account
+from solana.rpc.api import Client
 
 def extract_number_from_page_source(page_source):
     """
@@ -513,15 +515,20 @@ def verify_signature(request):
             # Replace with the actual data that was signed, if available
             transaction_data = 'Hello from Pump Fun Club!'
 
-            # Example: Verify signature using a Solana Transaction and Account
-            account = Account(public_key_base58)
-            transaction = Transaction(transaction_data)
-            is_valid = transaction.verify(account.public_key(), signature_bytes)
+            # Example: Create a Solana Account and Transaction
+            account = Account(private_key='your_private_key_here')
+            client = Client("https://api.mainnet-beta.solana.com")
+            transaction = Transaction()
+            transaction.add_signer(account.public_key(), account.secret_key)
+            transaction.recent_blockhash = client.get_recent_blockhash()['result']['value']['blockhash']
+            transaction.add_signature(account.public_key(), signature_bytes)
 
-            if is_valid:
-                return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+            # Example: Verify signature using Solana's verify_transaction_signature
+            result = client.send_transaction(transaction, account)
+            if result['result']['err']:
+                return JsonResponse({'valid': False, 'message': f'Transaction failed: {result["result"]["err"]}'})
             else:
-                return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
+                return JsonResponse({'valid': True, 'message': 'Transaction successful.'})
 
         except Exception as e:
             # Print the error to console for debugging purposes

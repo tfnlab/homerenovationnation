@@ -502,6 +502,45 @@ def superuser_required(user):
     return user.is_superuser
 
 def verify_signature(request):
+    if request.method == 'POST':
+        # Assuming signature and publicKey are sent as JSON in the request body
+        signature_base58 = request.POST.get('signature', '')
+        public_key_base58 = request.POST.get('publicKey', '')
+
+        try:
+            # Replace with the actual Solana API endpoint for signature verification
+            solana_api_url = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'
+
+            # Example message or transaction that was signed (if known)
+            # Replace with the actual data that was signed, if available
+            message_or_transaction = 'Hello from Pump Fun Club!'
+
+            # Construct the API request URL for signature verification
+            verify_url = f'{solana_api_url}/verifySignature'
+
+            # Construct the payload for the API request
+            payload = {
+                'signature': signature_base58,
+                'publicKey': public_key_base58,
+                'message': message_or_transaction  # Include message if available
+            }
+
+            # Make a POST request to Solana's API
+            response = requests.post(verify_url, json=payload)
+            response_data = response.json()
+
+            # Check if the signature is valid based on the API response
+            if response_data.get('valid', False):
+                return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+            else:
+                return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
+
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+
+    # Handle cases where request method is not POST
+    return JsonResponse({'error': 'Method not allowed.'}, status=405)
+
     if request.method == 'GET':
         # Assuming signature and publicKey are sent as JSON in the request body
         signature_base64 = request.GET.get('signature', '')

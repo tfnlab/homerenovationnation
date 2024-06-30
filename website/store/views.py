@@ -78,6 +78,9 @@ register = template.Library()
 import time 
 import re
 import base64  
+from solana.rpc.api import Client
+from solana.publickey import PublicKey
+from solana.transaction import Transaction
 
 def extract_number_from_page_source(page_source):
     """
@@ -511,27 +514,38 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Example: Verify signature using Solana's RPC API
+            # Solana RPC URL
             rpc_url = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'
-            response = requests.post(f'{rpc_url}/verifySignature', json={
-                'message': message_or_transaction,
-                'publicKey': public_key_base58,
-                'signature': signature_base64
-            })
-            result = response.json()
 
-            if 'error' in result:
-                return JsonResponse({'valid': False, 'message': f'Signature verification failed: {result["error"]}'})
-            elif 'result' in result:
-                return JsonResponse({'valid': result['result']})
+            # Initialize Solana RPC client
+            client = Client(rpc_url)
+
+            # Fetch transaction details (example)
+            transaction_signature = signature_bytes.hex()
+            transaction_details = client.get_signature_status(transaction_signature)
+
+            if transaction_details['result']:
+                # Extract details from the response
+                transaction_info = transaction_details['result']['value']
+                if transaction_info and transaction_info['confirmationStatus'] == 'confirmed':
+                    # Assuming you have the message and public key to verify against
+                    public_key = PublicKey(public_key_base58)
+                    is_valid_signature = public_key.verify(message_or_transaction.encode(), signature_bytes)
+
+                    if is_valid_signature:
+                        return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+                    else:
+                        return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
+                else:
+                    return JsonResponse({'valid': False, 'message': 'Transaction not confirmed.'})
             else:
-                return JsonResponse({'valid': False, 'message': 'Unexpected response format from RPC endpoint.'})
+                return JsonResponse({'valid': False, 'message': 'Transaction details not found.'})
 
         except Exception as e:
             # Print the error to console for debugging purposes
             print(f'Error verifying signature: {str(e)}')
             # Return error message in JSON response
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'valid': False, 'message': str(e)}, status=500)
 
     # Handle cases where request method is not GET
     return JsonResponse({'error': 'Method not allowed.'}, status=405)

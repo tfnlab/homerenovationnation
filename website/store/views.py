@@ -82,6 +82,14 @@ from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey
 
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives.asymmetric.utils import (
+    decode_dss_signature, encode_dss_signature
+)
+from cryptography.exceptions import InvalidSignature
+
+
 def extract_number_from_page_source(page_source):
     """
     Extracts the number of bundled transactions from the page source.
@@ -514,30 +522,28 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Solana RPC URL
-            rpc_url = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'
+            # Decode the public key (replace this with Solana's specific method if necessary)
+            # Example: Assuming public_key_base58 is the base58 encoded public key
+            # publicKey = decodePublicKey(public_key_base58)
 
-            # Initialize Solana RPC client
-            client = Client(rpc_url)
+            # Example public key and signature verification
+            # Replace this with the appropriate method for Solana's public key structure and signing algorithm
+            public_key = ec.EllipticCurvePublicKey.from_encoded_point(
+                ec.SECP256K1(),
+                public_key_bytes
+            )
 
-            # Fetch confirmed transaction details (example)
-            transaction_signature = signature_bytes.hex()
-            transaction_details = client.get_confirmed_transaction(transaction_signature)
+            # Verify the signature
+            public_key.verify(
+                signature,
+                message_or_transaction.encode(),
+                ec.ECDSA(hashes.SHA256())
+            )
 
-            if transaction_details:
-                # Extract message or transaction details from the response
-                message_from_transaction = 'Hello from Pump Fun Club!'  # Example: Extract message from transaction
+            return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
 
-                # Assuming you have the correct message and public key to verify against
-                public_key = Pubkey(public_key_base58)
-                is_valid_signature = public_key.verify(message_from_transaction.encode(), signature_bytes)
-
-                if is_valid_signature:
-                    return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-                else:
-                    return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
-            else:
-                return JsonResponse({'valid': False, 'message': 'Transaction details not found.'})
+        except InvalidSignature:
+            return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
 
         except Exception as e:
             # Print the error to console for debugging purposes

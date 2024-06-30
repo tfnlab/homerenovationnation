@@ -74,6 +74,7 @@ urlpatterns = [
     path('create_token/', views.create_token, name='create_token'),
     path('get_count/', views.get_count, name='get_count'),
     path('bundlecheckerview/', views.bundlecheckerview, name='bundlecheckerview'),
+    path('verify_signature/', views.verify_signature, name='verify_signature'),
 
 
     path('admin/', admin.site.urls),

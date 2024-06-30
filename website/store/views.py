@@ -77,6 +77,10 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
+import base64
+from solana.publickey import PublicKey
+from solana.transaction import verify_transaction_signature
+
 
 def extract_number_from_page_source(page_source):
     """
@@ -496,6 +500,41 @@ def strip_non_unicode(text):
 
 def superuser_required(user):
     return user.is_superuser
+
+def verify_signature(request):
+    if request.method == 'GET':
+        # Assuming signature and publicKey are sent as JSON in the request body
+        signature_base64 = request.GET.get('signature', '')
+        public_key_base58 = request.GET.get('publicKey', '')
+
+        try:
+            # Decode Base64 signature to bytes
+            signature_bytes = base64.b64decode(signature_base64)
+
+            # Create PublicKey object from base58 encoded public key
+            public_key = PublicKey(public_key_base58)
+
+            # Example message or transaction that was signed (if known)
+            # Replace with the actual data that was signed, if available
+            # Solana doesn't require passing the message explicitly for signature verification
+            # but you should have context of what was signed for your application's logic.
+            message_or_transaction = 'Hello from Pump Fun Club!'  # Replace with the actual signed data
+
+            # Verify the signature
+            is_valid = verify_transaction_signature(signature_bytes, public_key, message_or_transaction)
+
+            if is_valid:
+                response_data = {'valid': True, 'message': 'Signature is valid.'}
+            else:
+                response_data = {'valid': False, 'message': 'Signature verification failed.'}
+
+        except Exception as e:
+            response_data = {'valid': False, 'message': f'Error: {str(e)}'}
+
+        return JsonResponse(response_data)
+
+    # Handle cases where request method is not POST
+    return JsonResponse({'error': 'Method not allowed.'}, status=405)
 
 @csrf_exempt
 @user_passes_test(superuser_required)

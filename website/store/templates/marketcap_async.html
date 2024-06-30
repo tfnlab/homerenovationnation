@@ -307,9 +307,13 @@ function getCreatorBalance(elementId, mintAddress) {
         console.log('Message signed:', signature);
 
         // Convert the signature to a base64 string
-        const signatureArray = Array.from(new Uint8Array(signature));
-        const signatureString = btoa(signatureArray.reduce((data, byte) => data + String.fromCharCode(byte), ''));
-        console.log('Message signed string:', signatureString);
+        const signatureBytes = new Uint8Array(signature);
+        let signatureString = '';
+        for (let i = 0; i < signatureBytes.length; i++) {
+            signatureString += String.fromCharCode(signatureBytes[i]);
+        }
+        signatureString = btoa(signatureString);
+        console.log('Message signed:', signatureString);
         
         // Fetch the balance of a specific SPL token
         const tokenMintAddress = 'DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump'; // Replace with the actual SPL token mint address

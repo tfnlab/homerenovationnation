@@ -79,8 +79,8 @@ import time
 import re
 import base64  
 from solana.rpc.api import Client
-from solana.publickey import PublicKey
 from solana.transaction import Transaction
+from solders.pubkey import Pubkey
 
 def extract_number_from_page_source(page_source):
     """
@@ -529,7 +529,7 @@ def verify_signature(request):
                 transaction_info = transaction_details['result']['value']
                 if transaction_info and transaction_info['confirmationStatus'] == 'confirmed':
                     # Assuming you have the message and public key to verify against
-                    public_key = PublicKey(public_key_base58)
+                    public_key = Pubkey(public_key_base58)
                     is_valid_signature = public_key.verify(message_or_transaction.encode(), signature_bytes)
 
                     if is_valid_signature:

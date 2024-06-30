@@ -499,77 +499,34 @@ def superuser_required(user):
     return user.is_superuser
 
 def verify_signature(request):
-    if request.method == 'POST':
-        # Assuming signature and publicKey are sent as JSON in the request body
-        signature_base58 = request.POST.get('signature', '')
-        public_key_base58 = request.POST.get('publicKey', '')
-
+    if request.method == 'GET':
         try:
-            # Replace with the actual Solana API endpoint for signature verification
-            solana_api_url = 'https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg'
+            # Get publicKey and signature from query parameters
+            public_key_base58 = request.GET.get('publicKey', '')
+            signature_base64 = request.GET.get('signature', '')
+
+            # Decode Base64 signature to bytes
+            signature_bytes = b64decode(signature_base64)
 
             # Example message or transaction that was signed (if known)
             # Replace with the actual data that was signed, if available
-            message_or_transaction = 'Hello from Pump Fun Club!'
+            message_or_transaction = None
 
-            # Construct the API request URL for signature verification
-            verify_url = f'{solana_api_url}/verifySignature'
+            # Example: Verify signature using Solana's verify_transaction_signature
+            is_valid = verify_transaction_signature(signature_bytes, public_key_base58, message_or_transaction)
 
-            # Construct the payload for the API request
-            payload = {
-                'signature': signature_base58,
-                'publicKey': public_key_base58,
-                'message': message_or_transaction  # Include message if available
-            }
-
-            # Make a POST request to Solana's API
-            response = requests.post(verify_url, json=payload)
-            response_data = response.json()
-
-            # Check if the signature is valid based on the API response
-            if response_data.get('valid', False):
+            if is_valid:
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
             else:
                 return JsonResponse({'valid': False, 'message': 'Signature verification failed.'})
 
         except Exception as e:
+            # Print the error to console for debugging purposes
+            print(f'Error verifying signature: {str(e)}')
+            # Return error message in JSON response
             return JsonResponse({'error': str(e)}, status=500)
 
-    # Handle cases where request method is not POST
-    return JsonResponse({'error': 'Method not allowed.'}, status=405)
-
-    if request.method == 'GET':
-        # Assuming signature and publicKey are sent as JSON in the request body
-        signature_base64 = request.GET.get('signature', '')
-        public_key_base58 = request.GET.get('publicKey', '')
-
-        try:
-            # Decode Base64 signature to bytes
-            signature_bytes = base64.b64decode(signature_base64)
-
-            # Create PublicKey object from base58 encoded public key
-            public_key = PublicKey(public_key_base58)
-
-            # Example message or transaction that was signed (if known)
-            # Replace with the actual data that was signed, if available
-            # Solana doesn't require passing the message explicitly for signature verification
-            # but you should have context of what was signed for your application's logic.
-            message_or_transaction = 'Hello from Pump Fun Club!'  # Replace with the actual signed data
-
-            # Verify the signature
-            is_valid = verify_transaction_signature(signature_bytes, public_key, message_or_transaction)
-
-            if is_valid:
-                response_data = {'valid': True, 'message': 'Signature is valid.'}
-            else:
-                response_data = {'valid': False, 'message': 'Signature verification failed.'}
-
-        except Exception as e:
-            response_data = {'valid': False, 'message': f'Error: {str(e)}'}
-
-        return JsonResponse(response_data)
-
-    # Handle cases where request method is not POST
+    # Handle cases where request method is not GET
     return JsonResponse({'error': 'Method not allowed.'}, status=405)
 
 @csrf_exempt

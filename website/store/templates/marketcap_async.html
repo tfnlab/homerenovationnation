@@ -340,6 +340,16 @@ function getCreatorBalance(elementId, mintAddress) {
                 }
                 const result = await response.json();
                 console.log('Verification Result:', result);
+
+                // Assuming result.valid is a boolean indicating verification status
+                if (result.valid) {
+                    // Change text color to green
+                    document.getElementById('tokenBalance').style.color = 'green';
+                } else {
+                    // Optionally handle non-verified state
+                    document.getElementById('tokenBalance').style.color = 'black'; // Or default color
+                }
+
             } catch (error) {
                 console.error('Verification Error:', error.message);
             }

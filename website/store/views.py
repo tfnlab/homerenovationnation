@@ -531,7 +531,7 @@ def verify_signature(request):
         message_or_transaction = 'Hello from Pump Fun Club!'
 
         # Decode the base64 signature into bytes
-        signature_bytes = signature_base64.b64decode(signature_b64)
+        signature_bytes = signature_base64.b64decode(signature_base64)
 
         # Prepare the message as bytes
         message_bytes = message_or_transaction.encode('utf-8')

@@ -524,26 +524,27 @@ def verify_signature(request):
     if request.method == 'GET':
         try:
             # Get publicKey and signature from query parameters
-            public_key = request.GET.get('publicKey', '')
+            public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
             signature_base64 = request.GET.get('signature', '')
 
             # Decode Base64 signature to bytes
             signature_bytes = base64.b64decode(signature_base64)
 
             # Example message or transaction that was signed
-            message_or_transaction = 'Hello from Pump Fun Club!' 
-            
+            message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Replace with your own values  
-            signed_message = b'Hello from Pump Fun Club!'  # The signed message is a bytes object 
-            # Verify the signature
-            pubkey_bytes = nacl.encoding.HexEncoder.decode(public_key)
+            # Convert message to bytes
+            message_bytes = message_or_transaction.encode('utf-8')
+
+            # Decode public_key from hexadecimal to bytes
+            pubkey_bytes = bytes.fromhex(public_key)
 
             # Create a VerifyKey object from the decoded bytes
-            public_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
+            verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
 
-
+            # Verify the signature
             try:
+                verify_key.verify(signature_bytes + message_bytes)
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
             except nacl.exceptions.BadSignatureError:
                 return JsonResponse({'valid': False, 'message': 'Invalid signature.'})

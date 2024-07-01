@@ -77,7 +77,7 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
-from solana.account import Account
+
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey 

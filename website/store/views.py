@@ -77,10 +77,12 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
+from solana.account import Account
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey 
 import solana
+
 
 
 
@@ -551,7 +553,7 @@ def verify_signature(request):
             token_balance = token_account_info['result']['value']['amount']
 
             print(f"Token balance for {public_key}: {token_balance}")
-                        
+
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
         except BadSignatureError:
             print("Signature verification failed: Invalid signature")

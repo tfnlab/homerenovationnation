@@ -548,37 +548,33 @@ def verify_signature(request):
             verify_key.verify(message_bytes, signature_bytes)
             print("Signature is valid!")
 
+            MY_TOKEN = "DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump"
 
+            url = "https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg"
+            headers = {"accept": "application/json", "content-type": "application/json"}
 
-            
-            rpc_url = "https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg"
-            token_address = "DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump"
-
-            # Construct the request payload for fetching token balance
             payload = {
-                "jsonrpc": "2.0",
                 "id": 1,
-                "method": "getTokenAccountBalance",
+                "jsonrpc": "2.0",
+                "method": "getTokenAccountsByOwner",
                 "params": [
-                    token_address,
-                    {
-                        "account": public_key_bytes,
-                        "commitment": "single"
-                    }
-                ]
+                    public_key,
+                    {"mint": MY_TOKEN},
+                    {"encoding": "jsonParsed"},
+                ],
             }
 
-            headers = {
-                'Content-Type': 'application/json'
-            }
+            response = requests.post(url, json=payload, headers=headers)
+            token_amount_str = response.json()["result"]["value"][0]["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"]
+            token_amount_float = float(token_amount_str)
 
-            # Make the RPC request
-            response = requests.post(rpc_url, headers=headers, json=payload)
-            response_json = response.json()
+            if token_amount_float > 1000000:
+                print("Token amount is greater than 1,000,000")
+            else:
+                print("Token amount is not greater than 1,000,000")
 
-            print("JSON Response:", response_json)
-            if 'result' in response_json and 'value' in response_json['result']:
-                print(f"Token balance for {public_key}: {token_balance}")  
+            print("Token Amount as Float:", token_amount_float)
+
 
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
         except BadSignatureError:

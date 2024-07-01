@@ -77,7 +77,6 @@ from django.core.serializers import serialize
 register = template.Library()
 import time 
 import re
-import base64  
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey 
@@ -88,10 +87,13 @@ import solana
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.exceptions import InvalidSignature
-import base58
 
-import nacl.signing
-import nacl.encoding
+
+import base64
+import base58
+from nacl.signing import VerifyKey
+from nacl.exceptions import BadSignatureError
+
 
 def extract_number_from_page_source(page_source):
     """
@@ -522,51 +524,36 @@ def base58_decode(base58_string):
 
 def verify_signature(request):
     if request.method == 'GET':
+        public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
+        print(public_key)
+        signature_base64 = request.GET.get('signature', '')
+        print(signature_base64)
+        message_or_transaction = 'Hello from Pump Fun Club!'
+
+        # Decode the base64 signature into bytes
+        signature_bytes = signature_base64.b64decode(signature_b64)
+
+        # Prepare the message as bytes
+        message_bytes = message_or_transaction.encode('utf-8')
+
+        # Decode the Solana public key from Base58 to bytes
+        public_key_bytes = base58.b58decode(public_key)
+
+        # Create a VerifyKey instance
+        verify_key = VerifyKey(public_key_bytes)
+
+        # Verify the signature
         try:
-            # Get publicKey and signature from query parameters
-            public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
-            print(public_key)
-            signature_base64 = request.GET.get('signature', '')
-            print(signature_base64)
-            # Decode Base64 signature to bytes
-            signature_bytes = base64.b64decode(signature_base64)
-
-            # Example message or transaction that was signed
-            message_or_transaction = 'Hello from Pump Fun Club!'
-
-            # Convert message to bytes
-            message_bytes = message_or_transaction.encode('utf-8')
-
-            # Validate the format of public_key
-            if not all(c in '0123456789abcdefABCDEF' for c in public_key):
-                raise ValueError("Invalid hexadecimal characters in public key")
-
-            # Decode public_key from hexadecimal to bytes
-            pubkey_bytes = bytes.fromhex(public_key)
-
-            # Create a VerifyKey object from the decoded bytes
-            verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
-
-            # Verify the signature
-            verify_key.verify(signature_bytes + message_bytes)
-
+            verify_key.verify(message_bytes, signature_bytes)
+            print("Signature is valid!")
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-
-        except ValueError as ve:
-            # Handle ValueError (invalid hexadecimal)
-            return JsonResponse({'valid': False, 'message': str(ve)})
-
-        except nacl.exceptions.BadSignatureError:
-            return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
-
+        except BadSignatureError:
+            print("Signature verification failed: Invalid signature")
+            return JsonResponse({'valid': False, 'message': 'Invalid signature'})
         except Exception as e:
-            # Print the error to console for debugging purposes
-            print(f'Error verifying signature: {str(e)}')
-            # Return error message in JSON response
+            print(f"Signature verification failed: {str(e)}")
             return JsonResponse({'valid': False, 'message': str(e)}, status=500)
 
-    # Handle cases where request method is not GET
-    return JsonResponse({'error': 'Method not allowed.'}, status=405)
 
 @csrf_exempt
 @user_passes_test(superuser_required)

@@ -579,12 +579,20 @@ def verify_signature(request):
                 }
                 response = JsonResponse(response_data)
                 response.set_cookie('access_id', access_id)     
-                # Create and save AccessToken instance
-                access_token = AccessToken.objects.create(
-                    access_cookie=access_id,
+ 
+                access_token, created = Accesstoken.objects.get_or_create(
                     public_wallet_address=public_key,
-                    token_balance=token_amount_float
+                    defaults={
+                        'access_cookie': access_id,
+                        'token_balance': token_amount_float,
+                    }
                 )
+
+                # If not created, update existing access_token
+                if not created:
+                    access_token.access_cookie = access_id
+                    access_token.token_balance = token_amount_float
+                    access_token.save()
 
                 # Optionally, you can print or log the instance for verification
                 print(access_token)                

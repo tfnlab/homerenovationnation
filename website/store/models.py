@@ -197,7 +197,7 @@ class Token(models.Model):
 class Accesstoken(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     access_cookie = models.CharField(max_length=255)
-    public_wallet_address = models.CharField(max_length=255)
+    public_wallet_address = models.CharField(max_length=255, unique=True)
     token_balance = models.FloatField()
 
     def __str__(self):

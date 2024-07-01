@@ -81,7 +81,7 @@ import base64
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey 
-from solana.rpc import RPCClient
+from solana.client import RPCClient
 import solana
 
 

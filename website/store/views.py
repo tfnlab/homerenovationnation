@@ -548,9 +548,7 @@ def verify_signature(request):
             verify_key.verify(message_bytes, signature_bytes)
             print("Signature is valid!")
 
-            account = Account(public_key_bytes)
-            token_account_info = client.get_token_account_balance("DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump")
-            token_balance = token_account_info['result']['value']['amount']
+
 
             
             rpc_url = "https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg"

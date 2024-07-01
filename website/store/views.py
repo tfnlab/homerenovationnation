@@ -50,7 +50,7 @@ from .models import CartProduct
 from .models import UserManager
 from .models import APIData
 from .models import Token
-from .models import AccessToken
+from .models import Accesstoken
 
 from .forms import ProductForm
 from .forms import BrandForm

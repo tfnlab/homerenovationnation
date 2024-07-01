@@ -205,6 +205,8 @@ def ask(request):
 @csrf_exempt
 def get_count(request):
     # Get the column name and value from the request
+    access_id = request.COOKIES.get('access_id')
+    print(access_id)
     column_name = request.GET.get('column_name')
     value = request.GET.get('value')
     

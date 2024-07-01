@@ -525,8 +525,9 @@ def verify_signature(request):
         try:
             # Get publicKey and signature from query parameters
             public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
+            print(public_key)
             signature_base64 = request.GET.get('signature', '')
-
+            print(signature_base64)
             # Decode Base64 signature to bytes
             signature_bytes = base64.b64decode(signature_base64)
 

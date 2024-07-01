@@ -529,18 +529,18 @@ def verify_signature(request):
         signature_base64 = request.GET.get('signature', '')
         print(signature_base64)
         message_or_transaction = 'Hello from Pump Fun Club!'
-
-        # Decode the base64 signature into bytes
-        signature_bytes = signature_base64.b64decode(signature_base64)
-
-        # Prepare the message as bytes
-        message_bytes = message_or_transaction.encode('utf-8')
-
-        # Decode the Solana public key from Base58 to bytes
-        public_key_bytes = base58.b58decode(public_key)
-
-        # Create a VerifyKey instance
         try:
+
+            # Decode the base64 signature into bytes
+            signature_bytes = signature_base64.b64decode(signature_base64)
+            
+            # Prepare the message as bytes
+            message_bytes = message_or_transaction.encode('utf-8')
+
+            # Decode the Solana public key from Base58 to bytes
+            public_key_bytes = base58.b58decode(public_key)
+
+            # Create a VerifyKey instance
             verify_key = VerifyKey(public_key_bytes)
             print('Made it here')
             verify_key.verify(message_bytes, signature_bytes)

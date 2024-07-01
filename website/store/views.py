@@ -536,16 +536,22 @@ def verify_signature(request):
             # Convert message to bytes
             message_bytes = message_or_transaction.encode('utf-8')
 
-            # Decode public_key from hexadecimal to bytes
-            pubkey_bytes = bytes.fromhex(public_key)
-
-            # Create a VerifyKey object from the decoded bytes
-            verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
-
-            # Verify the signature
             try:
+                # Decode public_key from hexadecimal to bytes
+                pubkey_bytes = bytes.fromhex(public_key)
+
+                # Create a VerifyKey object from the decoded bytes
+                verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
+
+                # Verify the signature
                 verify_key.verify(signature_bytes + message_bytes)
+
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+
+            except ValueError as ve:
+                # Handle ValueError (invalid hexadecimal)
+                return JsonResponse({'valid': False, 'message': 'Invalid public key format.'})
+
             except nacl.exceptions.BadSignatureError:
                 return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
 

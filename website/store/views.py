@@ -575,7 +575,8 @@ def verify_signature(request):
             # Make the RPC request
             response = requests.post(rpc_url, headers=headers, json=payload)
             response_json = response.json()
-
+            
+            print("JSON Response:", response_json)
             if 'result' in response_json and 'value' in response_json['result']:
                 print(f"Token balance for {public_key}: {token_balance}")  
 

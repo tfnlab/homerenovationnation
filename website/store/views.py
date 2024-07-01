@@ -542,6 +542,7 @@ def verify_signature(request):
         # Create a VerifyKey instance
         try:
             verify_key = VerifyKey(public_key_bytes)
+            print('Made it here')
             verify_key.verify(message_bytes, signature_bytes)
             print("Signature is valid!")
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})

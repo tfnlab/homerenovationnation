@@ -345,6 +345,7 @@ function getCreatorBalance(elementId, mintAddress) {
                 if (result.valid) {
                     // Change text color to green
                     document.getElementById('tokenBalance').style.color = 'green';
+                    document.getElementById('connectButton').style.display = 'none';
                 } else {
                     // Optionally handle non-verified state
                     document.getElementById('tokenBalance').style.color = 'black'; // Or default color

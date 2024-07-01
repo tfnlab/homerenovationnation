@@ -525,13 +525,15 @@ def base58_decode(base58_string):
 def verify_signature(request):
     if request.method == 'GET':
         public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
+        print(public_key)
         signature_base64 = request.GET.get('signature', '')
-
+        
+        print(signature_base64)
         message_or_transaction = 'Hello from Pump Fun Club!'
         try:
+
             # Decode the base64 signature into bytes
             signature_bytes = base64.b64decode(signature_base64)
-            
             # Prepare the message as bytes
             message_bytes = message_or_transaction.encode('utf-8')
 
@@ -539,18 +541,14 @@ def verify_signature(request):
             public_key_bytes = base58.b58decode(public_key)
 
             # Create a VerifyKey instance
-            verify_key = VerifyingKey.from_string(public_key_bytes)
-            
-            # Verify the signature
-            verify_key.verify(signature_bytes, message_bytes)
-            
+            verify_key = VerifyKey(public_key_bytes)
+            print('Made it here')
+            verify_key.verify(message_bytes, signature_bytes)
             print("Signature is valid!")
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-        
         except BadSignatureError:
             print("Signature verification failed: Invalid signature")
             return JsonResponse({'valid': False, 'message': 'Invalid signature'})
-        
         except Exception as e:
             print(f"Signature verification failed: {str(e)}")
             return JsonResponse({'valid': False, 'message': str(e)}, status=500)

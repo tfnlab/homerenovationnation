@@ -204,9 +204,16 @@ def ask(request):
 
 @csrf_exempt
 def get_count(request):
-    # Get the column name and value from the request
+    # Get the access token from cookies
     access_id = request.COOKIES.get('access_id')
-    print(access_id)
+    
+    # Check if access token exists in the database
+    if access_id and Token.objects.filter(access_token=access_id).exists():
+        print("authorized")
+    else:
+        print("not authorized")
+    
+    # Get the column name and value from the request
     column_name = request.GET.get('column_name')
     value = request.GET.get('value')
     

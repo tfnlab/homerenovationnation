@@ -80,8 +80,8 @@ import re
 import base64  
 from solana.rpc.api import Client
 from solana.transaction import Transaction
-from solders.pubkey import Pubkey
-from solana.rpc.api import RPCClient
+from solders.pubkey import Pubkey 
+from solana.rpc import RPCClient
 import solana
 
 

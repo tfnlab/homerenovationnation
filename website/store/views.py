@@ -552,7 +552,34 @@ def verify_signature(request):
             token_account_info = client.get_token_account_balance("DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump")
             token_balance = token_account_info['result']['value']['amount']
 
-            print(f"Token balance for {public_key}: {token_balance}")
+            
+            rpc_url = "https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg"
+            token_address = "DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump"
+
+            # Construct the request payload for fetching token balance
+            payload = {
+                "jsonrpc": "2.0",
+                "id": 1,
+                "method": "getTokenAccountBalance",
+                "params": [
+                    token_address,
+                    {
+                        "account": public_key,
+                        "commitment": "single"
+                    }
+                ]
+            }
+
+            headers = {
+                'Content-Type': 'application/json'
+            }
+
+            # Make the RPC request
+            response = requests.post(rpc_url, headers=headers, json=payload)
+            response_json = response.json()
+
+            if 'result' in response_json and 'value' in response_json['result']:
+                print(f"Token balance for {public_key}: {token_balance}")  
 
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
         except BadSignatureError:

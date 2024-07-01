@@ -78,9 +78,9 @@ register = template.Library()
 import time 
 import re
 import base64  
+from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey 
-from solana.client import Client
 import solana
 
 
@@ -532,9 +532,9 @@ def verify_signature(request):
 
             rpc_endpoint = 'https://api.testnet.solana.com'  # For testnet
             # rpc_endpoint = 'https://api.mainnet-beta.solana.com'  # For mainnet
-
-            #rpc_client = RPCClient(rpc_endpoint)
+            
             rpc_client = Client(rpc_endpoint)
+            
 
             # Replace with your own values
             signature = base64.b64decode(signature_base64)

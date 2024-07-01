@@ -542,7 +542,7 @@ def verify_signature(request):
             public_key = public_key_base58.encode('utf-8')
             # Verify the signature
 
-            valid = rpc_client.verify_signature(signature, signed_message, public_key)
+            valid = rpc_client.sign_and_verify(signature, signed_message, public_key)
 
             if valid:
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})

@@ -577,7 +577,17 @@ def verify_signature(request):
                     'message': 'Signature is valid.'
                 }
                 response = JsonResponse(response_data)
-                response.set_cookie('access_id', access_id)                
+                response.set_cookie('access_id', access_id)     
+                # Create and save AccessToken instance
+                access_token = AccessToken.objects.create(
+                    access_cookie=access_id,
+                    public_wallet_address=public_key,
+                    token_balance=token_amount_float
+                )
+
+                # Optionally, you can print or log the instance for verification
+                print(access_token)                
+
                 return response    
             else:
                 print("Token amount is not greater than 1,000,000")

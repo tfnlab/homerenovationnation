@@ -540,10 +540,8 @@ def verify_signature(request):
         public_key_bytes = base58.b58decode(public_key)
 
         # Create a VerifyKey instance
-        verify_key = VerifyKey(public_key_bytes)
-
-        # Verify the signature
         try:
+            verify_key = VerifyKey(public_key_bytes)
             verify_key.verify(message_bytes, signature_bytes)
             print("Signature is valid!")
             return JsonResponse({'valid': True, 'message': 'Signature is valid.'})

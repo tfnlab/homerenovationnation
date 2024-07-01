@@ -570,13 +570,19 @@ def verify_signature(request):
 
             if token_amount_float > 1000000:
                 print("Token amount is greater than 1,000,000")
+                access_id = generate_id()
+                print(access_id)
+                response_data = {
+                    'valid': True,
+                    'message': 'Signature is valid.'
+                }
+                response = JsonResponse(response_data)
+                response.set_cookie('access_id', access_id)                
+                return response    
             else:
                 print("Token amount is not greater than 1,000,000")
-
-            print("Token Amount as Float:", token_amount_float)
-
-
-            return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+                print("Token Amount as Float:", token_amount_float)
+                return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
         except BadSignatureError:
             print("Signature verification failed: Invalid signature")
             return JsonResponse({'valid': False, 'message': 'Invalid signature'})

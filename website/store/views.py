@@ -536,24 +536,27 @@ def verify_signature(request):
             # Convert message to bytes
             message_bytes = message_or_transaction.encode('utf-8')
 
-            try:
-                # Decode public_key from hexadecimal to bytes
-                pubkey_bytes = bytes.fromhex(public_key)
+            # Validate the format of public_key
+            if not all(c in '0123456789abcdefABCDEF' for c in public_key):
+                raise ValueError("Invalid hexadecimal characters in public key")
 
-                # Create a VerifyKey object from the decoded bytes
-                verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
+            # Decode public_key from hexadecimal to bytes
+            pubkey_bytes = bytes.fromhex(public_key)
 
-                # Verify the signature
-                verify_key.verify(signature_bytes + message_bytes)
+            # Create a VerifyKey object from the decoded bytes
+            verify_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
 
-                return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+            # Verify the signature
+            verify_key.verify(signature_bytes + message_bytes)
 
-            except ValueError as ve:
-                # Handle ValueError (invalid hexadecimal)
-                return JsonResponse({'valid': False, 'message': 'Invalid public key format.'})
+            return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
 
-            except nacl.exceptions.BadSignatureError:
-                return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
+        except ValueError as ve:
+            # Handle ValueError (invalid hexadecimal)
+            return JsonResponse({'valid': False, 'message': str(ve)})
+
+        except nacl.exceptions.BadSignatureError:
+            return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
 
         except Exception as e:
             # Print the error to console for debugging purposes

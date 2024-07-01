@@ -219,7 +219,7 @@ def get_count(request):
         occurrences = Token.objects.filter(**{column_name: value}).count()
         return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
     else:
-        value = 0
+        occurrences = -1
         return JsonResponse({'column': column_name, 'value': value, 'occurrences': occurrences})
 
 

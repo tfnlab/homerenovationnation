@@ -193,3 +193,12 @@ class Token(models.Model):
 
     def __str__(self):
         return self.name  # or any other field you want to represent the object with
+
+class Accesstoken(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    access_cookie = models.CharField(max_length=255)
+    public_wallet_address = models.CharField(max_length=255)
+    token_balance = models.FloatField()
+
+    def __str__(self):
+        return f'{self.public_wallet_address} - {self.access_cookie}'

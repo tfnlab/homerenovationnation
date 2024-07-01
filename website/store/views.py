@@ -81,6 +81,7 @@ import base64
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey
+from solana.rpc.api import RPCClient
 import solana
 
 
@@ -530,15 +531,19 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            solana.set_endpoint('https://api.testnet.solana.com')  # For testnet
-            # solana.set_endpoint('https://api.mainnet-beta.solana.com')  # For mainnet
+            rpc_endpoint = 'https://api.testnet.solana.com'  # For testnet
+            # rpc_endpoint = 'https://api.mainnet-beta.solana.com'  # For mainnet
+
+            rpc_client = RPCClient(rpc_endpoint)
+
 
             # Replace with your own values
             signature = base64.b64decode(signature_base64)
             signed_message = b'Hello from Pump Fun Club!'  # The signed message is a bytes object
             public_key = public_key_base58.encode('utf-8')
             # Verify the signature
-            valid = solana.verify_signature(signature, signed_message, public_key)
+
+            valid = rpc_client.verify_signature(signature, signed_message, public_key)
 
             if valid:
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})

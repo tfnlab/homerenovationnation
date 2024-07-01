@@ -81,7 +81,7 @@ import base64
 from solana.rpc.api import Client
 from solana.transaction import Transaction
 from solders.pubkey import Pubkey
-
+import solana
 
 
 
@@ -530,30 +530,22 @@ def verify_signature(request):
             # Example message or transaction that was signed
             message_or_transaction = 'Hello from Pump Fun Club!'
 
-            # Decode the public key (Base58 to bytes)
-            public_key_bytes = base58_decode(public_key_base58)
+            solana.set_endpoint('https://api.testnet.solana.com')  # For testnet
+            # solana.set_endpoint('https://api.mainnet-beta.solana.com')  # For mainnet
 
-            # Ensure the public key is in uncompressed format (65 bytes)
-            if len(public_key_bytes) == 33:
-                # Decode compressed format to uncompressed format
-                x = int.from_bytes(public_key_bytes[1:], byteorder='big')
-                y = ec.SECP256K1.curve.y_from_x(x, is_even=(public_key_bytes[0] & 1) == 0)
-                public_key_bytes = b'\x04' + x.to_bytes(32, byteorder='big') + y.to_bytes(32, byteorder='big')
-
-            # Create public key object
-            public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), public_key_bytes)
-
+            # Replace with your own values
+            signature = base64.b64decode(signature_base64)
+            signed_message = b'Hello from Pump Fun Club!'  # The signed message is a bytes object
+            public_key = public_key_base58.encode('utf-8')
             # Verify the signature
-            public_key.verify(
-                signature_bytes,
-                message_or_transaction.encode(),
-                ec.ECDSA(hashes.SHA256())
-            )
+            valid = solana.verify_signature(signature, signed_message, public_key)
 
-            return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-
-        except InvalidSignature:
-            return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
+            if valid:
+                return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
+                print('The signature is valid!')
+            else:
+                return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
+                print('The signature is invalid.')
 
         except Exception as e:
             # Print the error to console for debugging purposes

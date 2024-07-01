@@ -527,10 +527,11 @@ def verify_signature(request):
         public_key = request.GET.get('publicKey', '').strip()  # Ensure no leading/trailing spaces
         print(public_key)
         signature_base64 = request.GET.get('signature', '')
+        
         print(signature_base64)
         message_or_transaction = 'Hello from Pump Fun Club!'
-
         try:
+
             # Decode the base64 signature into bytes
             signature_bytes = base64.b64decode(signature_base64)
             # Prepare the message as bytes
@@ -539,27 +540,22 @@ def verify_signature(request):
             # Decode the Solana public key from Base58 to bytes
             public_key_bytes = base58.b58decode(public_key)
 
-            # Verify the signature
-            verify_key = VerifyKey.from_string(public_key_bytes, curve=SECP256k1)
-            verify_key.verify(signature_bytes, message_bytes)
+            # Create a VerifyKey instance
+            verify_key = VerifyKey(public_key_bytes)
+            print('Made it here')
+            verify_key.verify(message_bytes, signature_bytes)
+            print("Signature is valid!")
 
-            # Signature is valid, now fetch token balance using Solana RPC
-            rpc_url = "https://solana-mainnet.g.alchemy.com/v2/brUu7bUWYqnL02KEqM_k1GWoLgTtkGvg"
-            client = Client(rpc_url)
-
-            # Fetch token balance for the given public key
             account = Account(public_key_bytes)
             token_account_info = client.get_token_account_balance("DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump")
             token_balance = token_account_info['result']['value']['amount']
 
             print(f"Token balance for {public_key}: {token_balance}")
-
-            return JsonResponse({'valid': True, 'message': 'Signature is valid.', 'token_balance': token_balance})
-        
+                        
+            return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
         except BadSignatureError:
             print("Signature verification failed: Invalid signature")
             return JsonResponse({'valid': False, 'message': 'Invalid signature'})
-        
         except Exception as e:
             print(f"Signature verification failed: {str(e)}")
             return JsonResponse({'valid': False, 'message': str(e)}, status=500)

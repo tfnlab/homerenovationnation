@@ -90,6 +90,9 @@ from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.exceptions import InvalidSignature
 import base58
 
+import nacl.signing
+import nacl.encoding
+
 def extract_number_from_page_source(page_source):
     """
     Extracts the number of bundled transactions from the page source.
@@ -521,35 +524,29 @@ def verify_signature(request):
     if request.method == 'GET':
         try:
             # Get publicKey and signature from query parameters
-            public_key_base58 = request.GET.get('publicKey', '')
+            public_key = request.GET.get('publicKey', '')
             signature_base64 = request.GET.get('signature', '')
 
             # Decode Base64 signature to bytes
             signature_bytes = base64.b64decode(signature_base64)
 
             # Example message or transaction that was signed
-            message_or_transaction = 'Hello from Pump Fun Club!'
-
-            rpc_endpoint = 'https://api.testnet.solana.com'  # For testnet
-            # rpc_endpoint = 'https://api.mainnet-beta.solana.com'  # For mainnet
-            
-            rpc_client = Client(rpc_endpoint)
+            message_or_transaction = 'Hello from Pump Fun Club!' 
             
 
-            # Replace with your own values
-            signature = base64.b64decode(signature_base64)
-            signed_message = b'Hello from Pump Fun Club!'  # The signed message is a bytes object
-            public_key = public_key_base58.encode('utf-8')
+            # Replace with your own values  
+            signed_message = b'Hello from Pump Fun Club!'  # The signed message is a bytes object 
             # Verify the signature
+            pubkey_bytes = nacl.encoding.HexEncoder.decode(public_key)
 
-            valid = rpc_client.sign_and_verify(signature, signed_message, public_key)
+            # Create a VerifyKey object from the decoded bytes
+            public_key = nacl.signing.VerifyKey(pubkey_bytes, encoder=nacl.encoding.HexEncoder)
 
-            if valid:
+
+            try:
                 return JsonResponse({'valid': True, 'message': 'Signature is valid.'})
-                print('The signature is valid!')
-            else:
+            except nacl.exceptions.BadSignatureError:
                 return JsonResponse({'valid': False, 'message': 'Invalid signature.'})
-                print('The signature is invalid.')
 
         except Exception as e:
             # Print the error to console for debugging purposes

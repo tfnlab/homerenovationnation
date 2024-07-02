@@ -48,7 +48,7 @@
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)
                   </div>
-                  <div>${token.mint}
+                  <div><small>${token.mint}</small>
                     (<span id="count_${token.mint}_bundle" ><img src="/static/images/load.circle.gif" style="height: 1em;" alt="Checks if the token has been bundled"></span>)
                   </div>
                   <div>Name: 
@@ -84,7 +84,7 @@
                   
                     ${token.website ? `(<a href="/marketcap_async_search/?search_name=website&search_value=${token.website}" ><span id="count_${token.mint}_website" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></span></a>)` : ''}
                   </div>                  
-                  <div>Creator: ${token.creator}
+                  <div>Creator: <small>${token.creator}</small>
                   (<a href="/marketcap_async_search/?search_name=creator&search_value=${token.creator}" ><span id="count_${token.mint}_creator"  ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></a>)
                   (<span id="count_${token.mint}_creatorbalance" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>)
                   </div>

@@ -186,3 +186,7 @@ def get_wallet_token_balance(wallet_address, token_address):
         return balance
     except requests.exceptions.RequestException as e:
         print("Error:", e)    
+
+
+def needs_red(symbol):
+    return not symbol.startswith('$') or not symbol.isupper()

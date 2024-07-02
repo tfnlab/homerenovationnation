@@ -84,9 +84,10 @@
                   
                     ${token.website ? `(<a href="/marketcap_async_search/?search_name=website&search_value=${token.website}" ><span id="count_${token.mint}_website" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></span></a>)` : ''}
                   </div>                  
-                  <div>Creator: <span class="text-xxs">${token.creator}</span>
+                  <div>Creator: 
                   (<a href="/marketcap_async_search/?search_name=creator&search_value=${token.creator}" ><span id="count_${token.mint}_creator"  ><img src="/static/images/load.circle.gif" style="height: 1em;"></span></a>)
                   (<span id="count_${token.mint}_creatorbalance" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>)
+                  <span class="text-xxs">${token.creator}</span>
                   </div>
                   <div>
                       <B>RUG REPORT</B> 

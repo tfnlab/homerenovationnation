@@ -44,11 +44,11 @@
               <div class="card">
                 <div class="card-body"> 
                   <div>Ticker: 
-{% if token.symbol|needs_red %}
-    <b style="color: red;">${{ token.symbol }}</b>
-{% else %}
-    <b>${{ token.symbol }}</b>
-{% endif %}                    
+                  {% if token.symbol|needs_red %}
+                      <b style="color: red;">${ token.symbol }</b>
+                  {% else %}
+                      <b>${ token.symbol }</b>
+                  {% endif %}                    
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

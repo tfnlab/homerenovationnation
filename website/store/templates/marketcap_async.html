@@ -43,13 +43,7 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
-                  <div>Ticker: 
-                    {% if not token.symbol.isupper() %}
-                        <b style="color: red;">${{ token.symbol }}</b>
-                    {% else %}
-                        <b>${{ token.symbol }}</b>
-                    {% endif %}
-
+                  <div>Ticker: <B>${token.symbol}</B>
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

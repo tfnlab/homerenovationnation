@@ -187,6 +187,6 @@ def get_wallet_token_balance(wallet_address, token_address):
     except requests.exceptions.RequestException as e:
         print("Error:", e)    
 
-
+@register.filter
 def needs_red(symbol):
     return not symbol.startswith('$') or not symbol.isupper()

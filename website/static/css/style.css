@@ -8126,3 +8126,10 @@ background-color: white;
 border-color: #28a745;
 color: green;
 }
+
+.text-xs {
+	font-size: 0.75rem; /* Adjust as needed */
+}
+.text-xxs {
+	font-size: 0.6rem; /* Adjust as needed */
+}

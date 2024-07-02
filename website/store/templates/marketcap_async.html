@@ -40,10 +40,15 @@
             var encodedImageUrl = encodeURIComponent(token.image_uri);
             const tokenItem = document.createElement('div');
             tokenItem.className = 'col-md-4 token-item';
+            const needsRed = {% if token.symbol|needs_red %}true{% else %}false{% endif %};
+
+            // Generate the HTML based on the filter result
+            const symbolHtml = needsRed ? `<b style="color: red;">${token.symbol}</b>` : `<b>${token.symbol}</b>`;
+            
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
-                  <div>Ticker: <b>${ token.symbol }</b>                
+                  <div>Ticker: ${symbolHtml}                
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

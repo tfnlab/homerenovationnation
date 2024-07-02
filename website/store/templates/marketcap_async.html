@@ -40,10 +40,12 @@
             var encodedImageUrl = encodeURIComponent(token.image_uri);
             const tokenItem = document.createElement('div');
             tokenItem.className = 'col-md-4 token-item';
+            const symbolStyle = (token.symbol.startsWith('$') || token.symbol !== token.symbol.toUpperCase()) ? 'color: red;' : '';
+
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
-                  <div>Ticker: <b>${ token.symbol }</b>                
+                  <div>Ticker: <b style="${symbolStyle}">${token.symbol}</b>               
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

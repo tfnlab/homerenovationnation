@@ -44,12 +44,6 @@
               <div class="card">
                 <div class="card-body"> 
                   <div>Ticker: <B>${token.symbol}</B>
-                    {% if not token.symbol.startswith('$') or not token.symbol.isupper() %}
-                        <b style="color: red;">${{ token.symbol }}</b>
-                    {% else %}
-                        <b>${{ token.symbol }}</b>
-                    {% endif %}
-
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

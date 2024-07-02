@@ -43,7 +43,7 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body"> 
-                  <div>Ticker:
+                  <div>Ticker: <B>${token.symbol}</B>
                     {% if not token.symbol.startswith('$') or not token.symbol.isupper() %}
                         <b style="color: red;">${{ token.symbol }}</b>
                     {% else %}

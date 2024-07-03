@@ -578,7 +578,7 @@ def verify_signature(request):
             token_amount_str = response.json()["result"]["value"][0]["account"]["data"]["parsed"]["info"]["tokenAmount"]["uiAmount"]
             token_amount_float = float(token_amount_str)
 
-            if token_amount_float > 1000000:
+            if token_amount_float >= 1000000:    
                 print("Token amount is greater than 1,000,000")
                 access_id = generate_id()
                 print(access_id)

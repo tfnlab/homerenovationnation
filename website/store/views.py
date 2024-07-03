@@ -343,6 +343,7 @@ def marketcap_json(request):
         elif search_value:
             # Perform a like search on specific fields
             tokens = Token.objects.filter(
+                Q(mint__icontains=search_value) | 
                 Q(name__icontains=search_value) | 
                 Q(symbol__icontains=search_value) | 
                 Q(image_uri__icontains=search_value) | 

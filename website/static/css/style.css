@@ -1680,7 +1680,9 @@ select.input-lg {
 }
 
 .container {	
-	background-color: white;
+	font: 15px/1.5 Arial, sans-serif;
+	background-color: #121212; /* Example dark background color */
+
 }
 /* ---------------------------------
 ------------- 13 Tabs */

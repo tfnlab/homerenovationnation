@@ -55,8 +55,9 @@ Version:1.4
 
 body {
 	font: 15px/1.5 Arial, sans-serif;
-	background-color: white;
-	color: black;
+	background-color: #121212; /* Example dark background color */
+	color: #fff; /* Example text color for dark mode */
+
 	-webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }

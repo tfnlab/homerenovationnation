@@ -200,10 +200,10 @@ function getCreatorBalance(elementId, mintAddress) {
       <div class="col-md-12 text-center">
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
-          {% if access_token and access_token is not None %}
+          {% if access_token %}
               <input type="hidden" id="isScamFilterOn" name="isScamFilterOn" value="{{ access_token.is_scam_filter_on }}">
+              <button id="toggleScamFilterBtn" class="btn btn-primary">Toggle Scam Filter</button>
           {% endif %}
-          <button id="toggleScamFilterBtn" class="btn btn-primary">Toggle Scam Filter</button>
         </p>
         <p><div id="walletAddress"></div>  </p>
         <p><button id="connectButton" class="btn btn-primary">Connect to Phantom</button> </p> 

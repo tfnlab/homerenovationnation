@@ -318,7 +318,7 @@ function getCreatorBalance(elementId, mintAddress) {
             if(name != 'name' && name != 'symbol'){
               var audio = document.getElementById('audio_' + secondItem);
               if (audio) {
-                  audio.stop();
+                  audio.pause();
               }                
               //element.parentElement.parentElement.parentElement.style.display = 'none';
               element.parentElement.parentElement.parentElement.remove();

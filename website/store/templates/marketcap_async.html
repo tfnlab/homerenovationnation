@@ -45,7 +45,7 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body bg-dark text-white"> 
-                  <div>Ticker: <b style="${symbolStyle}">${token.symbol}</b>               
+                  <div>Ticker: <b style="${symbolStyle}"><button id="speakButton">${token.symbol}</button></b>               
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)
@@ -467,12 +467,12 @@ function getCreatorBalance(elementId, mintAddress) {
   });
 </script>
 <script>
-  function speakText() {
+  function speakText(event) {
       // Create a new instance of SpeechSynthesisUtterance
       const message = new SpeechSynthesisUtterance();
 
-      // Set the text that you want to convert to speech
-      message.text = "Hello, this is text-to-speech on your webpage.";
+      // Set the text to the button's text content
+      message.text = event.target.textContent;
 
       // Optionally, set speech parameters
       message.volume = 1; // 0 to 1

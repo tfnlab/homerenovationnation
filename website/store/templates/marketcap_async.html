@@ -200,9 +200,9 @@ function getCreatorBalance(elementId, mintAddress) {
       <div class="col-md-12 text-center">
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
-          <button id="toggleScamFilterBtn">Toggle Scam Filter</button></p>
+          <button id="toggleScamFilterBtn" class="btn btn-primary">Toggle Scam Filter</button></p>
         <p><div id="walletAddress"></div>  </p>
-        <p><button id="connectButton">Connect to Phantom</button> </p> 
+        <p><button id="connectButton" class="btn btn-primary">Connect to Phantom</button> </p> 
         <p id="tokenBalance">Pump Fun Club Token balance: </p> 
         <p>Pump Fun Club CA: <a href="https://www.pump.fun/DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump" >DF2LXZ9msqFihobc8MVMo8fL7zPfLjJbuNTR1JMCpump</a></p> 
         <p><small>To unlock the full potential of the Pump Fun Club, 
@@ -295,6 +295,7 @@ function getCreatorBalance(elementId, mintAddress) {
         let element = document.getElementById(id);
         if (occurrences > 1) {
           element.style.color = 'red';
+          element.parentElement.parentElement.style.display = 'none';
         } else {
           element.style.color = 'green';
         }        

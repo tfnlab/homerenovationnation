@@ -315,14 +315,9 @@ function getCreatorBalance(elementId, mintAddress) {
           element.style.color = 'red';
           var isScamFilterOn = document.getElementById('isScamFilterOn').value;
           if (isScamFilterOn === 'True' || isScamFilterOn === 'true' || isScamFilterOn === true) {
-            if(name != 'name' && name != 'symbol'){
-              var audio = document.getElementById('audio_${secondItem}');
-              if (audio) {
-                  audio.stop();
-              }                
+            if(name != 'name' && name != 'symbol'){              
               //element.parentElement.parentElement.parentElement.style.display = 'none';
               element.parentElement.parentElement.parentElement.remove();
-
             }
           }
         } else {

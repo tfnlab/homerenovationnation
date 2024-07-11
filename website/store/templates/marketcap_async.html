@@ -45,7 +45,7 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body bg-dark text-white"> 
-                  <div>Ticker: <b style="${symbolStyle}"><button id="speakButton" onclick="speakText(event)">${token.symbol} name is ${token.name}</button></b>               
+                  <div>Ticker: <b style="${symbolStyle}"><button id="speakButton" onclick="speakText(event)">${token.symbol} ${token.name}</button></b>               
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)
@@ -207,9 +207,7 @@ function getCreatorBalance(elementId, mintAddress) {
   <div class="container-fluid">
     
     <div class="row justify-content-center mt-3">
-      <div class="col-md-12 text-center">    
-       
-        <button id="speakButton">Click to Speak</button>      
+      <div class="col-md-12 text-center">      
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
           {% if access_token %}

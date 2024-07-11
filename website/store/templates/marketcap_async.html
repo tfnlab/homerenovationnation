@@ -298,7 +298,10 @@ function getCreatorBalance(elementId, mintAddress) {
         let element = document.getElementById(id);
         if (occurrences > 1) {
           element.style.color = 'red';
-          element.parentElement.parentElement.parentElement.style.display = 'none';
+          var isScamFilterOn = document.getElementById('isScamFilterOn').value;
+          if (isScamFilterOn === 'On' || isScamFilterOn === true) {
+            element.parentElement.parentElement.parentElement.style.display = 'none';
+          }
         } else {
           element.style.color = 'green';
         }        

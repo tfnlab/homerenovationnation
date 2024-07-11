@@ -45,7 +45,7 @@
             tokenItem.innerHTML = `
               <div class="card">
                 <div class="card-body bg-dark text-white"> 
-                  <div>Ticker: <b style="${symbolStyle}"><button id="speakButton">${token.symbol}</button></b>               
+                  <div>Ticker: <b style="${symbolStyle}"><button id="speakButton" onclick="speakText(event)">${token.symbol}</button></b>               
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)

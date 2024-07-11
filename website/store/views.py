@@ -101,8 +101,8 @@ from nacl.exceptions import BadSignatureError
 def toggle_scam_filter(request):
     if request.method == 'POST':
         # Get the access cookie and hidden field value from the request
-        access_cookie = request.COOKIES.get('access_cookie')
-        hidden_field_value = request.POST.get('hiddenField')
+        access_cookie = request.COOKIES.get('access_id')
+        hidden_field_value = request.POST.get('isScamFilterOn')
         
         # Check if the access cookie matches in the Accesstoken model
         access_token = get_object_or_404(Accesstoken, access_cookie=access_cookie)

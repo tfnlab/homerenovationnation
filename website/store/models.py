@@ -199,6 +199,7 @@ class Accesstoken(models.Model):
     access_cookie = models.CharField(max_length=255)
     public_wallet_address = models.CharField(max_length=255, unique=True)
     token_balance = models.FloatField()
+    is_scam_filter_on = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.public_wallet_address} - {self.access_cookie}'

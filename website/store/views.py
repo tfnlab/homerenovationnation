@@ -97,8 +97,7 @@ import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 
-
-@require_POST
+ 
 def toggle_scam_filter(request):
     access_id = request.COOKIES.get('access_id')
     

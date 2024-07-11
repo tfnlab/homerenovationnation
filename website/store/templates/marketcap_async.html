@@ -299,7 +299,7 @@ function getCreatorBalance(elementId, mintAddress) {
         if (occurrences > 1) {
           element.style.color = 'red';
           var isScamFilterOn = document.getElementById('isScamFilterOn').value;
-          if (isScamFilterOn === 'ON' || isScamFilterOn === true) {
+          if (isScamFilterOn === 'True' || isScamFilterOn === true) {
             element.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
           }
         } else {

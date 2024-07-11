@@ -317,7 +317,11 @@ function getCreatorBalance(elementId, mintAddress) {
           if (isScamFilterOn === 'True' || isScamFilterOn === 'true' || isScamFilterOn === true) {
             if(name != 'name' && name != 'symbol'){
               element.parentElement.parentElement.parentElement.remove();
-              //element.parentElement.parentElement.parentElement.style.display = 'none';
+              var audio = document.getElementById('audio_${secondItem}');
+              if (audio) {
+                  audio.stop();
+              }                //element.parentElement.parentElement.parentElement.style.display = 'none';
+
             }
           }
         } else {

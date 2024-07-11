@@ -95,7 +95,13 @@
                       Items <span id="count_${token.mint}_items" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                       Total <span id="count_${token.mint}_total" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                       Rate <span id="count_${token.mint}_rate" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
+
+                      <audio id="myAudio" autoplay>
+                        <source src="/static/sounds/61287__juskiddink__money-down-the-toilet.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                      </audio>                            
                   </div>  
+
                 </div>
               </div>
             `;
@@ -197,11 +203,7 @@ function getCreatorBalance(elementId, mintAddress) {
   <div class="container-fluid">
     
     <div class="row justify-content-center mt-3">
-      <div class="col-md-12 text-center">
-        <audio id="myAudio" autoplay>
-          <source src="/static/sounds/61287__juskiddink__money-down-the-toilet.mp3" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>        
+      <div class="col-md-12 text-center">  
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
           {% if access_token %}
@@ -306,7 +308,8 @@ function getCreatorBalance(elementId, mintAddress) {
           var isScamFilterOn = document.getElementById('isScamFilterOn').value;
           if (isScamFilterOn === 'True' || isScamFilterOn === 'true' || isScamFilterOn === true) {
             if(name != 'name' && name != 'symbol'){
-              element.parentElement.parentElement.parentElement.style.display = 'none';
+              element.parentElement.parentElement.parentElement.remove();
+              //element.parentElement.parentElement.parentElement.style.display = 'none';
             }
           }
         } else {

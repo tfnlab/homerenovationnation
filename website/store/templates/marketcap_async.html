@@ -200,7 +200,10 @@ function getCreatorBalance(elementId, mintAddress) {
       <div class="col-md-12 text-center">
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
-          <button id="toggleScamFilterBtn" class="btn btn-primary">Toggle Scam Filter</button></p>
+          <input type="hidden" id="isScamFilterOn" name="isScamFilterOn" value="{{ initial_is_scam_filter_on }}">
+  
+          <button id="toggleScamFilterBtn" class="btn btn-primary">Toggle Scam Filter</button>
+        </p>
         <p><div id="walletAddress"></div>  </p>
         <p><button id="connectButton" class="btn btn-primary">Connect to Phantom</button> </p> 
         <p id="tokenBalance">Pump Fun Club Token balance: </p> 
@@ -412,16 +415,24 @@ function getCreatorBalance(elementId, mintAddress) {
 <script>
   // JavaScript to handle the button click and AJAX request
   document.getElementById('toggleScamFilterBtn').addEventListener('click', function() {
+      // Get the current value of the hidden field
+      var isScamFilterOn = document.getElementById('isScamFilterOn').value;
+
       $.ajax({
           url: '/toggle-scam-filter/',
           type: 'POST',
-          data: {},
+          data: {
+              isScamFilterOn: isScamFilterOn  // Include the hidden field value in the request
+          },
           headers: {
               'X-CSRFToken': '{{ csrf_token }}'  // Add the CSRF token for security
           },
           success: function(response) {
               if (response.success) {
                   alert('Scam filter status: ' + (response.is_scam_filter_on ? 'ON' : 'OFF'));
+                  
+                  // Update the hidden field value based on the response
+                  document.getElementById('isScamFilterOn').value = response.is_scam_filter_on;
               } else {
                   alert('Failed to toggle scam filter.');
               }

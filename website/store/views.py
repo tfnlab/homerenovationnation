@@ -344,7 +344,6 @@ def marketcap_async(request):
     try:
         try:
             access_token = Accesstoken.objects.get(access_cookie=access_id)
-            context['access_token'] = access_token
             context = {'request': request, 'access_token': access_token }
             return render(request, 'marketcap_async.html', context)
         except Accesstoken.DoesNotExist:

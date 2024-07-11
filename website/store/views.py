@@ -338,10 +338,20 @@ def marketcap_async_search(request):
 
 def marketcap_async(request): 
 
-    context = {'request': request }
+    access_id = request.COOKIES.get('access_id')
+
 
     try:
-        return render(request, 'marketcap_async.html', context)
+        try:
+            access_token = Accesstoken.objects.get(access_cookie=access_id)
+            context['access_token'] = access_token
+            context = {'request': request, 'access_token': access_token }
+            return render(request, 'marketcap_async.html', context)
+        except Accesstoken.DoesNotExist:
+            access_token = None
+            context = {'request': request, 'access_token': access_token }
+            return render(request, 'marketcap_async.html', context)
+
     except Exception as e:
         print("An error occurred while rendering the template:", e)
         return render(request, 'error.html', {'error_message': 'An error occurred while rendering the template.'})

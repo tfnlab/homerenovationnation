@@ -208,10 +208,8 @@ function getCreatorBalance(elementId, mintAddress) {
     
     <div class="row justify-content-center mt-3">
       <div class="col-md-12 text-center">    
-        <audio  autoplay>
-          <source src="/static/sounds/audioSound.trump.mp3" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>        
+       
+        <button id="speakButton">Click to Speak</button>      
         <h3 class="bg-dark text-white">Meme coins are like new songs: you know within seconds if it's a hit or miss!</h3>
         <p>
           {% if access_token %}
@@ -467,5 +465,29 @@ function getCreatorBalance(elementId, mintAddress) {
           }
       });
   });
+</script>
+<script>
+  function speakText() {
+      // Create a new instance of SpeechSynthesisUtterance
+      const message = new SpeechSynthesisUtterance();
+
+      // Set the text that you want to convert to speech
+      message.text = "Hello, this is text-to-speech on your webpage.";
+
+      // Optionally, set speech parameters
+      message.volume = 1; // 0 to 1
+      message.rate = 1;   // 0.1 to 10
+      message.pitch = 1;  // 0 to 2
+
+      // Get available voices and choose one
+      const voices = window.speechSynthesis.getVoices();
+      message.voice = voices.find(voice => voice.name === 'Google US English');
+
+      // Speak the message
+      window.speechSynthesis.speak(message);
+  }
+
+  // Attach the function to the button click event
+  document.getElementById('speakButton').addEventListener('click', speakText);
 </script>
 {% endblock %}

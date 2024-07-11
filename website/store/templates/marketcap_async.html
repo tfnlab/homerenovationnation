@@ -301,7 +301,9 @@ function getCreatorBalance(elementId, mintAddress) {
           element.style.color = 'red';
           var isScamFilterOn = document.getElementById('isScamFilterOn').value;
           if (isScamFilterOn === 'True' || isScamFilterOn === 'true' || isScamFilterOn === true) {
-            element.parentElement.parentElement.parentElement.parentElement.style.display = 'none';
+            if(name != 'name' && name != 'symbol'){
+              element.parentElement.parentElement.parentElement.style.display = 'none';
+            }
           }
         } else {
           element.style.color = 'green';

@@ -47,9 +47,7 @@
                 <div class="card-body bg-dark text-white"> 
                   <div>Ticker: 
                     <b style="${symbolStyle}">
-                    <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">
-                      <button id="speakButton" onclick="executeBothEvents(event)">${token.symbol}</button>
-                      </a>                  
+                    ${token.symbol}               
                     </b>               
                     (<a href="/marketcap_async_search/?search_name=symbol&search_value=${token.symbol}" > 
                       <span id="count_${token.mint}_symbol" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>

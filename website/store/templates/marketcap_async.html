@@ -43,8 +43,8 @@
             const symbolStyle = (token.symbol.startsWith('$') || token.symbol !== token.symbol.toUpperCase() || token.symbol.length > 6) ? 'color: red;' : '';
 
             
-            const hasSocialLinks = !(token.twitter === null || token.twitter === '' || token.telegram === null || token.telegram === '');
-
+//          const hasSocialLinks = !(token.twitter === null || token.twitter === '' || token.telegram === null || token.telegram === '' || token.website === null || token.website === '');
+            
 
 
 
@@ -117,9 +117,7 @@
             `;
 
             // Prepend token item to tokenListElement 
-            if (hasSocialLinks) {
-              tokenListElement.insertBefore(tokenItem, tokenListElement.firstChild);
-            }
+            tokenListElement.insertBefore(tokenItem, tokenListElement.firstChild);
             // Add token ID to displayedTokens set
             displayedTokens.add(token.id);
             getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);

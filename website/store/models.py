@@ -203,3 +203,14 @@ class Accesstoken(models.Model):
 
     def __str__(self):
         return f'{self.public_wallet_address} - {self.access_cookie}'
+
+
+class RaidLink(models.Model):
+    token_mint = models.CharField(max_length=100)
+    url = models.URLField()
+    click_count = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='raid_links')
+
+    def __str__(self):
+        return f"RaidLink(token_mint={self.token_mint}, url={self.url}, click_count={self.click_count}, created_at={self.created_at}, created_by={self.created_by.username})"

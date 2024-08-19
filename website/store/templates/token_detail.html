@@ -16,4 +16,16 @@
 <p><strong>Creator:</strong> {{ token.creator }}</p>
 <p><strong>Twitter:</strong> <a href="{{ token.twitter }}">{{ token.twitter }}</a></p>
 <p><strong>Telegram:</strong> <a href="{{ token.telegram }}">{{ token.telegram }}</a></p>
+
+<!-- Form to add a RaidLink -->
+<h2>Add RaidLink</h2>
+<form method="post" action="{% url 'token_detail' mint=token.mint %}">
+    {% csrf_token %} 
+    <p>
+        <label for="url">URL:</label>
+        <input type="url" id="url" name="url" required>
+    </p>
+    <button type="submit">Add Link</button>
+</form>
+
 {% endblock %}

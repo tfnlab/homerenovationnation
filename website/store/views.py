@@ -51,6 +51,7 @@ from .models import UserManager
 from .models import APIData
 from .models import Token
 from .models import Accesstoken
+from .models import RaidLink
 
 from .forms import ProductForm
 from .forms import BrandForm
@@ -649,7 +650,23 @@ def verify_signature(request):
 
 def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
-    return render(request, 'token_detail.html', {'token': token})
+
+    if request.method == 'POST': 
+        url = request.POST.get('url')
+        
+        if token_mint and url:
+            raid_link = RaidLink(
+                token_mint=mint,
+                url=url,
+                click_count=0,  # Initial click count
+                created_by=request.user  # Set the user who created the link
+            )
+            raid_link.save()
+            return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
+
+    return render(request, 'token_detail.html', {
+        'token': token
+    })
 
 @csrf_exempt
 @user_passes_test(superuser_required)

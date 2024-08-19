@@ -6,7 +6,7 @@
 {% block content %}
 <h1>{{ token.name }}</h1>
 
-<p><strong>CA:</strong> <a href="https://www.pump.fun/{{ token.mint }}" >{{ token.mint }}</a></p>
+<p><a href="https://www.pump.fun/{{ token.mint }}" >{{ token.mint }}</a></p>
 
 {% if token.image_uri %}
     <img src="{{ token.image_uri }}" alt="{{ token.name }}" />

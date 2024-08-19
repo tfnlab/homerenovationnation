@@ -651,15 +651,35 @@ def verify_signature(request):
 def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
 
-    if request.method == 'POST': 
+    # Retrieve access_cookie from cookies
+    access_cookie = request.COOKIES.get('access_cookie')
+    
+    # Initialize user and public_wallet_address to None
+    user = None
+    public_wallet_address = None
+    
+    if access_cookie:
+        try:
+            # Fetch the Accesstoken based on access_cookie
+            access_token = Accesstoken.objects.get(access_cookie=access_cookie)
+            public_wallet_address = access_token.public_wallet_address
+
+            # Fetch user based on public_wallet_address if needed
+            # This assumes you have a method to map public_wallet_address to a User
+            user = User.objects.filter(username=public_wallet_address).first()  # Adjust as needed
+
+        except Accesstoken.DoesNotExist:
+            access_token = None
+
+    if request.method == 'POST':
         url = request.POST.get('url')
         
-        if mint and url:
+        if mint and url and user:
             raid_link = RaidLink(
                 token_mint=mint,
                 url=url,
                 click_count=0,  # Initial click count
-                created_by=request.user  # Set the user who created the link
+                created_by=user  # Set the user who created the link
             )
             raid_link.save()
             return redirect('token_detail', mint=mint)  # Redirect to the same page after saving

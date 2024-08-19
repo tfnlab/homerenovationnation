@@ -657,13 +657,14 @@ def redirect_with_click_count(request, link_id):
     
     # Redirect to the URL
     return redirect(raid_link.url)
-    
+
 def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
     
     # Retrieve access_cookie from cookies
     access_cookie = request.COOKIES.get('access_id')
     print(access_cookie)
+    
     # Initialize user and public_wallet_address to None
     user = None
     public_wallet_address = None
@@ -684,14 +685,21 @@ def token_detail(request, mint):
         url = request.POST.get('url')
         
         if mint and url:
-            raid_link = RaidLink(
-                token_mint=mint,
-                url=url,
-                click_count=0,  # Initial click count
-                created_by=public_wallet_address  # Set the user who created the link
-            )
-            raid_link.save()
-            return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
+            # Check if the URL starts with 'https://x.com'
+            if url.startswith('https://x.com/'):
+                raid_link = RaidLink(
+                    token_mint=mint,
+                    url=url,
+                    click_count=0,  # Initial click count
+                    created_by=public_wallet_address  # Set the user who created the link
+                )
+                raid_link.save()
+                return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
+            else:
+                # Optionally, you can add a message to notify the user that the URL is invalid
+                # For example, you might use Django messages framework to show an error
+                messages.error(request, 'URL must start with https://x.com/')
+                return redirect('token_detail', mint=mint)
 
     # Retrieve all RaidLinks associated with the token mint
     raid_links = RaidLink.objects.filter(token_mint=mint)

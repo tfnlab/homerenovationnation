@@ -653,7 +653,7 @@ def token_detail(request, mint):
     
     # Retrieve access_cookie from cookies
     access_cookie = request.COOKIES.get('access_cookie')
-    
+    print(access_cookie)
     # Initialize user and public_wallet_address to None
     user = None
     public_wallet_address = None
@@ -663,7 +663,7 @@ def token_detail(request, mint):
             # Fetch the Accesstoken based on access_cookie
             access_token = Accesstoken.objects.get(access_cookie=access_cookie)
             public_wallet_address = access_token.public_wallet_address
-
+            print(public_wallet_address)
             # Fetch user based on public_wallet_address if needed
             # This assumes you have a method to map public_wallet_address to a User
 

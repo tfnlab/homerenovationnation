@@ -5,6 +5,9 @@
 
 {% block content %}
 <h1>{{ token.name }}</h1>
+
+<p><strong>CA:</strong> <a href="https://www.pump.fun/{{ token.mint }}" >{{ token.mint }}</a></p>
+
 {% if token.image_uri %}
     <img src="{{ token.image_uri }}" alt="{{ token.name }}" />
 {% endif %}
@@ -13,5 +16,4 @@
 <p><strong>Creator:</strong> {{ token.creator }}</p>
 <p><strong>Twitter:</strong> <a href="{{ token.twitter }}">{{ token.twitter }}</a></p>
 <p><strong>Telegram:</strong> <a href="{{ token.telegram }}">{{ token.telegram }}</a></p>
-<p><strong>Profile Image:</strong> <img src="{{ token.profile_image }}" alt="{{ token.username }}" /></p>
 {% endblock %}

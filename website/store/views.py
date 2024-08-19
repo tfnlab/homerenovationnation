@@ -650,7 +650,7 @@ def verify_signature(request):
 
 def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
-
+    
     # Retrieve access_cookie from cookies
     access_cookie = request.COOKIES.get('access_cookie')
     
@@ -684,9 +684,14 @@ def token_detail(request, mint):
             raid_link.save()
             return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
 
+    # Retrieve all RaidLinks associated with the token mint
+    raid_links = RaidLink.objects.filter(token_mint=mint)
+    
     return render(request, 'token_detail.html', {
-        'token': token
+        'token': token,
+        'raid_links': raid_links  # Pass the raid links to the template context
     })
+
 
 @csrf_exempt
 @user_passes_test(superuser_required)

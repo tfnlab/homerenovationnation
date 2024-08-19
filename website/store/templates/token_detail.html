@@ -17,6 +17,17 @@
 <p><strong>Twitter:</strong> <a href="{{ token.twitter }}">{{ token.twitter }}</a></p>
 <p><strong>Telegram:</strong> <a href="{{ token.telegram }}">{{ token.telegram }}</a></p>
 
+<h2>Raid Links</h2>
+<ul>
+    {% for link in raid_links %}
+        <li>
+            <a href="{{ link.url }}">{{ link.url }}</a> (Clicks: {{ link.click_count }})
+        </li>
+    {% empty %}
+        <li>No raid links available.</li>
+    {% endfor %}
+</ul>
+
 <!-- Form to add a RaidLink -->
 <h2>Add RaidLink</h2>
 <form method="post" action="{% url 'token_detail' mint=token.mint %}">

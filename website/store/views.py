@@ -666,7 +666,6 @@ def token_detail(request, mint):
 
             # Fetch user based on public_wallet_address if needed
             # This assumes you have a method to map public_wallet_address to a User
-            user = User.objects.filter(username=public_wallet_address).first()  # Adjust as needed
 
         except Accesstoken.DoesNotExist:
             access_token = None
@@ -679,7 +678,7 @@ def token_detail(request, mint):
                 token_mint=mint,
                 url=url,
                 click_count=0,  # Initial click count
-                created_by=user  # Set the user who created the link
+                created_by=public_wallet_address  # Set the user who created the link
             )
             raid_link.save()
             return redirect('token_detail', mint=mint)  # Redirect to the same page after saving

@@ -30,13 +30,14 @@
 
 <!-- Form to add a RaidLink -->
 <h2>Add RaidLink</h2>
-<form method="post" action="{% url 'token_detail' mint=token.mint %}">
+<form method="post" action="{% url 'token_detail' mint=token.mint %}" class="mb-3">
     {% csrf_token %} 
-    <p>
-        <label for="url">URL:</label>
-        <input type="url" id="url" name="url" required>
-    </p>
-    <button type="submit">Add Link</button>
+    <div class="form-group">
+        <label for="url" class="form-label">URL:</label>
+        <input type="url" id="url" name="url" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Link</button>
 </form>
+
 
 {% endblock %}

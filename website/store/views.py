@@ -652,7 +652,7 @@ def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
     
     # Retrieve access_cookie from cookies
-    access_cookie = request.COOKIES.get('access_cookie')
+    access_cookie = request.COOKIES.get('access_id')
     print(access_cookie)
     # Initialize user and public_wallet_address to None
     user = None

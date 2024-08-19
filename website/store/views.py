@@ -686,20 +686,27 @@ def token_detail(request, mint):
         
         if mint and url:
             # Check if the URL starts with 'https://x.com'
-            if url.startswith('https://x.com/'):
-                raid_link = RaidLink(
-                    token_mint=mint,
-                    url=url,
-                    click_count=0,  # Initial click count
-                    created_by=public_wallet_address  # Set the user who created the link
-                )
-                raid_link.save()
-                return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
+            if url.startswith('https://x.com'):
+                # Check if a RaidLink with the same URL and token mint already exists
+                existing_link = RaidLink.objects.filter(token_mint=mint, url=url).exists()
+                
+                if not existing_link:
+                    raid_link = RaidLink(
+                        token_mint=mint,
+                        url=url,
+                        click_count=0,  # Initial click count
+                        created_by=public_wallet_address  # Set the user who created the link
+                    )
+                    raid_link.save()
+                    return redirect('token_detail', mint=mint)  # Redirect to the same page after saving
+                else:
+                    # Notify user that the link has already been added
+                    messages.error(request, 'This link has already been added for this token.')
             else:
-                # Optionally, you can add a message to notify the user that the URL is invalid
-                # For example, you might use Django messages framework to show an error
-                messages.error(request, 'URL must start with https://x.com/')
-                return redirect('token_detail', mint=mint)
+                # Notify user that the URL must start with 'https://x.com'
+                messages.error(request, 'URL must start with https://x.com')
+
+            return redirect('token_detail', mint=mint)
 
     # Retrieve all RaidLinks associated with the token mint
     raid_links = RaidLink.objects.filter(token_mint=mint)
@@ -708,6 +715,7 @@ def token_detail(request, mint):
         'token': token,
         'raid_links': raid_links  # Pass the raid links to the template context
     })
+
 
 
 @csrf_exempt

@@ -654,6 +654,7 @@ def create_token(request):
         try:
             # Extracting variables from the POST request
             mint = request.POST.get('mint')
+            print("MINT " + mint)
             name = request.POST.get('name')
             symbol = request.POST.get('symbol')
 

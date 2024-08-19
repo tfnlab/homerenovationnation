@@ -654,7 +654,7 @@ def token_detail(request, mint):
     if request.method == 'POST': 
         url = request.POST.get('url')
         
-        if token_mint and url:
+        if mint and url:
             raid_link = RaidLink(
                 token_mint=mint,
                 url=url,

@@ -647,6 +647,10 @@ def verify_signature(request):
             return JsonResponse({'valid': False, 'message': str(e)}, status=500)
 
 
+def token_detail(request, mint):
+    token = get_object_or_404(Token, mint=mint)
+    return render(request, 'token_detail.html', {'token': token})
+
 @csrf_exempt
 @user_passes_test(superuser_required)
 def create_token(request):

@@ -77,6 +77,7 @@ urlpatterns = [
     path('verify_signature/', views.verify_signature, name='verify_signature'),
     path('toggle-scam-filter/', views.toggle_scam_filter, name='toggle_scam_filter'),
 
+    path('token/<str:mint>/', token_detail, name='token_detail'),
 
     path('admin/', admin.site.urls),
 

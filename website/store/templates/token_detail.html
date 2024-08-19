@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load custom_filters %}
+
+
+{% block content %}
+<h1>{{ token.name }}</h1>
+{% if token.image_uri %}
+    <img src="{{ token.image_uri }}" alt="{{ token.name }}" />
+{% endif %}
+<p><strong>Symbol:</strong> {{ token.symbol }}</p>
+<p><strong>Description:</strong> {{ token.description }}</p>
+<p><strong>Website:</strong> <a href="{{ token.website }}">{{ token.website }}</a></p>
+<p><strong>Creator:</strong> {{ token.creator }}</p>
+<p><strong>Created:</strong> {{ token.created_timestamp }}</p>
+<p><strong>Market Cap:</strong> {{ token.market_cap }}</p>
+<p><strong>Total Supply:</strong> {{ token.total_supply }}</p>
+<p><strong>Twitter:</strong> <a href="{{ token.twitter }}">{{ token.twitter }}</a></p>
+
+
+{% endblock %}

@@ -21,7 +21,9 @@
 <ul>
     {% for link in raid_links %}
         <li>
-            <a href="{{ link.url }}">{{ link.url }}</a> (Clicks: {{ link.click_count }})
+            <a href="{% url 'redirect_with_click_count' link.id %}">{{ link.url }}</a>
+
+            (Clicks: {{ link.click_count }})
         </li>
     {% empty %}
         <li>No raid links available.</li>

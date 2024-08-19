@@ -79,6 +79,7 @@ urlpatterns = [
 
     path('token/<str:mint>/', views.token_detail, name='token_detail'),
 
+    path('redirect/<int:link_id>/', redirect_with_click_count, name='redirect_with_click_count'),
     path('admin/', admin.site.urls),
 
 ]

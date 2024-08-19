@@ -647,7 +647,17 @@ def verify_signature(request):
             print(f"Signature verification failed: {str(e)}")
             return JsonResponse({'valid': False, 'message': str(e)}, status=500)
 
-
+def redirect_with_click_count(request, link_id):
+    # Retrieve the RaidLink object
+    raid_link = get_object_or_404(RaidLink, id=link_id)
+    
+    # Increment the click count
+    raid_link.click_count += 1
+    raid_link.save()
+    
+    # Redirect to the URL
+    return redirect(raid_link.url)
+    
 def token_detail(request, mint):
     token = get_object_or_404(Token, mint=mint)
     

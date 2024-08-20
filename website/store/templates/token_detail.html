@@ -17,6 +17,17 @@
 <p><strong>Twitter:</strong> <a href="{{ token.twitter }}">{{ token.twitter }}</a></p>
 <p><strong>Telegram:</strong> <a href="{{ token.telegram }}">{{ token.telegram }}</a></p>
 
+<h2>Distinct Accounts Raided</h2>
+{% if distinct_accounts %}
+    <ul>
+        {% for account in distinct_accounts %}
+            <li>{{ account }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No distinct accounts found.</p>
+{% endif %}
+
 <h2>Raid Links</h2>
 <ul>
     {% for link in raid_links %}

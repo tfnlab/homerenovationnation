@@ -711,9 +711,18 @@ def token_detail(request, mint):
     # Retrieve all RaidLinks associated with the token mint
     raid_links = RaidLink.objects.filter(token_mint=mint)
     
+    # Extract distinct accounts from raid links
+    accounts = set()
+    for link in raid_links:
+        match = re.search(r'https://x\.com/([^/]+)/status/\d+', link.url)
+        if match:
+            account = match.group(1)
+            accounts.add(account)
+
     return render(request, 'token_detail.html', {
         'token': token,
-        'raid_links': raid_links  # Pass the raid links to the template context
+        'raid_links': raid_links,  # Pass the raid links to the template context
+        'distinct_accounts': list(accounts)  # Pass distinct accounts to the template context
     })
 
 

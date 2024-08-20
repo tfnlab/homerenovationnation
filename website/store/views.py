@@ -711,9 +711,13 @@ def token_detail(request, mint):
     # Retrieve all RaidLinks associated with the token mint
     raid_links = RaidLink.objects.filter(token_mint=mint)
     
+    # Extract distinct public_wallet_address values from RaidLinks
+    distinct_accounts = set(raid_link.created_by for raid_link in raid_links if raid_link.created_by)
+    
     return render(request, 'token_detail.html', {
         'token': token,
-        'raid_links': raid_links  # Pass the raid links to the template context
+        'raid_links': raid_links,  # Pass the raid links to the template context
+        'distinct_accounts': distinct_accounts  # Pass distinct accounts to the template context
     })
 
 

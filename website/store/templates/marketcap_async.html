@@ -65,14 +65,18 @@
                   </div>
                   <div>Name: 
                   <a href="javascript:void(0);" onclick="window.open(\'https://www.pump.fun/${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">${token.name}</a>
-                           
+                    
                   (
                     <a href="/marketcap_async_search/?search_name=name&search_value=${token.name}" >   
                   <span id="count_${token.mint}_name"><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>  
                   )
                   </div>
+                  <div>
+                    <a href="javascript:void(0);" onclick="window.open(\'https://bullx.io/terminal?chainId=1399811149&address=${token.mint}\', \'newwindow\', \'width=1200, height=2100\'); return false;">BullX</a>
                   
+                       
+                  </div>
                   <div>Image URI: 
                     <a href="https://lens.google.com/uploadbyurl?url=${encodedImageUrl}" target="_blank"><i class="fas fa-search"></i></a>
 

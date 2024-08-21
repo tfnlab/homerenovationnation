@@ -80,8 +80,7 @@
                     <span id="count_${token.mint}_image_uri" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
                     </a>)
 
-                    <a href="https://lens.google.com/uploadbyurl?url=${encodedImageUrl}"><img src="${token.image_uri}" style="width: 100%;">
-                    </a>
+                    <img src="${token.image_uri}" style="width: 100%;">
                     </div>
                     <div>
                       X: ${token.twitter ? (token.twitter.includes('t.me') ? `<a href="${token.twitter}" target="_blank" style="color: red;">${token.twitter.substring(0, 20)}...</a>` : `<a href="${token.twitter}" target="_blank">${token.twitter.substring(0, 20)}...</a>`) : `<span style="color: red;">NONE</span>`}

@@ -105,13 +105,14 @@
                   <span class="text-xxs">${token.creator}</span>
                   </div>
                   <div>
-                    <a href="https://x.com/search?q=${token.mint}&src=typed_query" >CA</a>
-                    <a href="https://x.com/search?q=${token.name}&src=typed_query" >Name</a>
-                    <a href="https://x.com/search?q=${token.symbol}&src=typed_query" >Symbol</a>
+                      Search X 
+                    <a href="https://x.com/search?q=${token.mint}&src=typed_query" >CA</a> |
+                    <a href="https://x.com/search?q=${token.name}&src=typed_query" >Name</a> |
+                    <a href="https://x.com/search?q=%24${token.symbol}&src=typed_query" >Symbol</a>
                   </div>
                   <div>
-                      Items <span id="count_${token.mint}_items" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
-                      Total <span id="count_${token.mint}_total" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
+                      Items <span id="count_${token.mint}_items" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span> |
+                      Total <span id="count_${token.mint}_total" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span> |
                       Rate <span id="count_${token.mint}_rate" ><img src="/static/images/load.circle.gif" style="height: 1em;"></span>
 
                       <audio id="audio_${token.mint}" >

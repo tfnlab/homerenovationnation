@@ -132,6 +132,7 @@
               getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
             }
             getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
+
             if (document.getElementById(`count_${token.mint}_website`)) {
               getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             }  
@@ -319,7 +320,7 @@ function getCreatorBalance(elementId, mintAddress) {
           element.style.color = 'red';
           var isScamFilterOn = document.getElementById('isScamFilterOn').value;
           if (isScamFilterOn === 'True' || isScamFilterOn === 'true' || isScamFilterOn === true) {
-            if(name != 'name' && name != 'symbol'){
+            if(name != 'name' && name != 'symbol' && name != 'creator'){
               var audio = document.getElementById('audio_' + secondItem);
               if (audio) {
                   audio.pause();

@@ -726,6 +726,11 @@ def token_detail(request, mint):
     })
 
 
+#@user_passes_test(superuser_required)
+def accesstoken_list(request):
+    accesstokens = Accesstoken.objects.all()  # Get all Accesstoken records
+    return render(request, 'accesstoken_list.html', {'accesstokens': accesstokens})
+
 
 @csrf_exempt
 @user_passes_test(superuser_required)

@@ -16,6 +16,7 @@
                 <th>Public Wallet Address</th>
                 <th>Token Balance</th>
                 <th>Is Scam Filter On?</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -26,6 +27,9 @@
                     <td>{{ accesstoken.public_wallet_address }}</td>
                     <td>{{ accesstoken.token_balance }}</td>
                     <td>{{ accesstoken.is_scam_filter_on }}</td>
+                    <td>
+                        <a href="{% url 'accesstoken_delete' accesstoken.id %}">Delete</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

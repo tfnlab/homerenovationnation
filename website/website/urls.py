@@ -82,6 +82,7 @@ urlpatterns = [
     path('redirect/<int:link_id>/', views.redirect_with_click_count, name='redirect_with_click_count'),
     path('admin/', admin.site.urls),
     path('accesstokens/', views.accesstoken_list, name='accesstoken_list'),
+    path('accesstokens/delete/<int:id>/', views.accesstoken_delete, name='accesstoken_delete'),
 
 ]
 

@@ -731,6 +731,14 @@ def accesstoken_list(request):
     accesstokens = Accesstoken.objects.all()  # Get all Accesstoken records
     return render(request, 'accesstoken_list.html', {'accesstokens': accesstokens})
 
+# Delete view
+def accesstoken_delete(request, id):
+    accesstoken = get_object_or_404(Accesstoken, id=id)
+    if request.method == 'POST':
+        accesstoken.delete()
+        return redirect('accesstoken_list')
+    return render(request, 'accesstoken_confirm_delete.html', {'accesstoken': accesstoken})
+
 
 @csrf_exempt
 @user_passes_test(superuser_required)

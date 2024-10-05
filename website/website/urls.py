@@ -84,6 +84,7 @@ urlpatterns = [
     path('accesstokens/', views.accesstoken_list, name='accesstoken_list'),
     path('accesstokens/delete/<int:id>/', views.accesstoken_delete, name='accesstoken_delete'),
 
+    path('tokens/', views.token_list, name='token_list'),
 ]
 
 

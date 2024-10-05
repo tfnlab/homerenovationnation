@@ -1,0 +1,21 @@
+<!-- templates/token_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Token List</title>
+</head>
+<body>
+    <h1>Token List</h1>
+    <ul>
+        {% for token in tokens %}
+            <li>
+                <a href="{% url 'token_detail' mint=token.mint %}">
+                    {{ token.name }} ({{ token.symbol }})
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

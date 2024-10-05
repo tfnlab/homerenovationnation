@@ -726,11 +726,14 @@ def token_detail(request, mint):
     })
 
 
-# List view to display all tokens
 def token_list(request):
-    tokens = Token.objects.all()
-    return render(request, 'token_list.html', {'tokens': tokens})
-    
+    token_list = Token.objects.all()
+    paginator = Paginator(token_list, 50)  # Show 10 tokens per page
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'token_list.html', {'page_obj': page_obj})
+
 #@user_passes_test(superuser_required)
 def accesstoken_list(request):
     accesstokens = Accesstoken.objects.all()  # Get all Accesstoken records

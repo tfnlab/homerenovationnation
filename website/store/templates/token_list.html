@@ -5,12 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Token List</title>
+    <style>
+        .token-list-item {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .token-list-item img {
+            width: 50px;  /* Set a fixed width for images */
+            height: auto;  /* Maintain aspect ratio */
+            margin-right: 10px;  /* Space between image and text */
+        }
+    </style>    
 </head>
 <body>
     <h1>Token List</h1>
     <ul>
         {% for token in page_obj %}
             <li>
+                <img src="{{ token.image_uri }}" alt="{{ token.name }} image">
+                    
                 <a href="{% url 'token_detail' mint=token.mint %}">
                     {{ token.name }} ({{ token.symbol }})
                 </a>

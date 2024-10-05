@@ -728,7 +728,7 @@ def token_detail(request, mint):
 
 def token_list(request):
     token_list = Token.objects.all()
-    paginator = Paginator(token_list, 50)  # Show 10 tokens per page
+    paginator = Paginator(token_list, 500)  # Show 10 tokens per page
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

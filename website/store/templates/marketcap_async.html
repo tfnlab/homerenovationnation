@@ -129,22 +129,22 @@
             tokenListElement.insertBefore(tokenItem, tokenListElement.firstChild);
             // Add token ID to displayedTokens set
             displayedTokens.add(token.id);
-            getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);
-            getCountByNameAndValue(`count_${token.mint}_symbol`, 'symbol', token.symbol);
+            //getCountByNameAndValue(`count_${token.mint}_name`, 'name', token.name);
+            //getCountByNameAndValue(`count_${token.mint}_symbol`, 'symbol', token.symbol);
             if (document.getElementById(`count_${token.mint}_twitter`)) {
-              getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
+              //getCountByNameAndValue(`count_${token.mint}_twitter`, 'twitter', token.twitter);
             }
             if (document.getElementById(`count_${token.mint}_telegram`)) {
-              getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
+              //getCountByNameAndValue(`count_${token.mint}_telegram`, 'telegram', token.telegram);
             }
-            getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
+            //getCountByNameAndValue(`count_${token.mint}_creator`, 'creator', token.creator);
 
             if (document.getElementById(`count_${token.mint}_website`)) {
-              getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
+              //getCountByNameAndValue(`count_${token.mint}_website`, 'website', token.website);
             }  
             getCountByNameAndValue(`count_${token.mint}_image_uri`, 'image_uri', token.image_uri);
             //getCountBundleTrans(`count_${token.mint}_bundle`, token.mint);
-            getCreatorBalance(`count_${token.mint}_creatorbalance`, token.creator);
+            //getCreatorBalance(`count_${token.mint}_creatorbalance`, token.creator);
             var audio = document.getElementById('audio_${token.mint}');
             if (audio) {
                 audio.play();

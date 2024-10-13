@@ -5,6 +5,7 @@ from store.models import Brand
 from store.models import Category
 from store.models import Product
 from store.models import Cart
+from store.models import Tweet
 
 
 class UserCreationForm(forms.ModelForm):
@@ -14,7 +15,7 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password', 'hrn_company_code']
 
-        
+
 class TweetForm(forms.ModelForm):
     class Meta:
         model = Tweet

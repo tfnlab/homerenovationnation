@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tweets List</title>
+</head>
+<body>
+    <h1>Tweets</h1>
+
+    <a href="{% url 'tweet_add' %}">Add New Tweet</a>
+
+    <ul>
+        {% for tweet in tweets %}
+            <li>{{ tweet.content }} - {{ tweet.created_at }} - Processed: {{ tweet.is_processed }}</li>
+        {% empty %}
+            <li>No tweets available.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

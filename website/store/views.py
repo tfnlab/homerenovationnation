@@ -52,6 +52,7 @@ from .models import APIData
 from .models import Token
 from .models import Accesstoken
 from .models import RaidLink
+from .models import Tweet
 
 from .forms import ProductForm
 from .forms import BrandForm
@@ -59,6 +60,7 @@ from .forms import CategoryForm
 from .forms import UserCreationForm
 from .forms import EditProfileForm
 from .forms import CartForm
+from .forms import TweetForm 
 
 import stripe
 from PIL import Image
@@ -98,7 +100,23 @@ import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 
- 
+# View to list all tweets
+def tweet_list(request):
+    tweets = Tweet.objects.all()
+    return render(request, 'tweet_list.html', {'tweets': tweets})
+
+# View to create a new tweet
+def create_tweet(request):
+    if request.method == 'POST':
+        form = TweetForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tweet_list')  # Redirect to the list after saving
+    else:
+        form = TweetForm()
+    
+    return render(request, 'tweet_form.html', {'form': form})
+
 def toggle_scam_filter(request):
     access_id = request.COOKIES.get('access_id')
     

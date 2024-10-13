@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Tweet</title>
+</head>
+<body>
+    <h1>Add New Tweet</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="{% url 'tweet_list' %}">Back to Tweet List</a>
+</body>
+</html>

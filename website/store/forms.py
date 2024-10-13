@@ -14,6 +14,12 @@ class UserCreationForm(forms.ModelForm):
         model = User
         fields = ['username', 'email', 'first_name', 'last_name', 'password', 'hrn_company_code']
 
+        
+class TweetForm(forms.ModelForm):
+    class Meta:
+        model = Tweet
+        fields = ['content']  # Only show the content field in the form
+
 class EditProfileForm(forms.ModelForm):
     company_name = forms.CharField(max_length=255, required=False)
     company_phone = forms.CharField(max_length=255, required=False)

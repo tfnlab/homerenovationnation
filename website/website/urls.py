@@ -85,6 +85,9 @@ urlpatterns = [
     path('accesstokens/delete/<int:id>/', views.accesstoken_delete, name='accesstoken_delete'),
 
     path('tokens/', views.token_list, name='token_list'),
+    path('tweets/', views.tweet_list, name='tweet_list'),  # URL for listing tweets
+    path('add/', views.create_tweet, name='tweet_add'),  # URL for creating a new tweet
+
 ]
 
 

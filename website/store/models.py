@@ -214,3 +214,15 @@ class RaidLink(models.Model):
 
     def __str__(self):
         return f"RaidLink(token_mint={self.token_mint}, url={self.url}, click_count={self.click_count}, created_at={self.created_at}, created_by={self.created_by.username})"
+
+
+class Tweet(models.Model):
+    content = models.TextField()  # The text content of the tweet
+    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp when the tweet was created
+    is_processed = models.BooleanField(default=False)  # Indicates if the tweet has been processed
+    
+    def __str__(self):
+        return self.content[:50]  # Display the first 50 characters of the tweet
+
+    class Meta:
+        ordering = ['-created_at']  # Sort by most recent tweets

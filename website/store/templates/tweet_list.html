@@ -10,7 +10,10 @@
 
     <ul>
         {% for tweet in tweets %}
-            <li>{{ tweet.content }} - {{ tweet.created_at }} - Processed: {{ tweet.is_processed }}</li>
+            <li>{{ tweet.content }} - {{ tweet.created_at }} - Processed: {{ tweet.is_processed }}
+
+                <a href="{% url 'tweet_delete' tweet.id %}">Remove</a>
+            </li>
         {% empty %}
             <li>No tweets available.</li>
         {% endfor %}

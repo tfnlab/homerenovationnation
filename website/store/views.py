@@ -100,6 +100,14 @@ import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 
+
+
+# View to delete a tweet without confirmation
+def delete_tweet(request, tweet_id):
+    tweet = get_object_or_404(Tweet, id=tweet_id)
+    tweet.delete()  # Delete the tweet immediately
+    return redirect('tweet_list')  # Redirect to the list after deletion
+
 def tweet_list(request):
     tweets = Tweet.objects.all()
 

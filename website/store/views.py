@@ -100,10 +100,16 @@ import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 
-# View to list all tweets
 def tweet_list(request):
     tweets = Tweet.objects.all()
+
+    # Check if the request is for JSON format
+    if request.GET.get('format') == 'json':
+        tweet_data = list(tweets.values())  # Convert the QuerySet to a list of dictionaries
+        return JsonResponse(tweet_data, safe=False)
+
     return render(request, 'tweet_list.html', {'tweets': tweets})
+
 
 # View to create a new tweet
 def create_tweet(request):

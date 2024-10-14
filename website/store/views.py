@@ -102,6 +102,10 @@ from nacl.exceptions import BadSignatureError
 
 
 
+# View to forward to x.com
+def forward_to_x(request):
+    return redirect('https://x.com')
+    
 # View to delete a tweet without confirmation
 def delete_tweet(request, tweet_id):
     tweet = get_object_or_404(Tweet, id=tweet_id)

@@ -88,6 +88,7 @@ urlpatterns = [
     path('tweets/', views.tweet_list, name='tweet_list'),  # URL for listing tweets
     path('add/', views.create_tweet, name='tweet_add'),  # URL for creating a new tweet
     path('delete/<int:tweet_id>/', views.delete_tweet, name='tweet_delete'),  # URL for deleting a tweet
+    path('forward-to-x/', views.forward_to_x, name='forward_to_x'),
 
 ]
 

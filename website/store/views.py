@@ -113,7 +113,7 @@ def generate_response():
         model='gpt-3.5-turbo',
         messages=[
             {"role": "system", "content": "You are a helpful assistant " + random_author},
-            {"role": "user", "content": "generate a short tweet about 100 characters long max, why people should vote for trump make it positive, funny, intresting and pardoxical"},
+            {"role": "user", "content": "generate a short tweet about 80 characters long max, why people should vote for trump make it positive, funny, intresting and pardoxical"},
         ])
 
     message_gpt = response.choices[0]['message']['content']
@@ -125,7 +125,7 @@ def generate_response():
 # View to forward to x.com
 def forward_to_x(request): 
     msg = generate_response()
-    encoded_msg = urllib.parse.quote(msg + " test msg")
+    encoded_msg = urllib.parse.quote(msg + " #VOTETRUMP")
     return redirect('https://x.com/intent/post?text=' + encoded_msg)
 
 # View to delete a tweet without confirmation

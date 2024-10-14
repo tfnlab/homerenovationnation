@@ -125,7 +125,7 @@ def generate_response():
 # View to forward to x.com
 def forward_to_x(request): 
     msg = generate_response()
-    encoded_msg = urllib.parse.quote(msg + " #milly $milly")
+    encoded_msg = urllib.parse.quote(msg + " #milly $milly 8kMmmuUjxArge9PJSZuj4PUj5w9XizwynJbwKNeipump")
     return redirect('https://x.com/intent/post?text=' + encoded_msg)
 
 # View to delete a tweet without confirmation

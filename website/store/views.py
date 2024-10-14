@@ -120,8 +120,7 @@ def generate_response():
     return message_gpt
 
 # View to forward to x.com
-def forward_to_x(request):
-    openai.api_key = SECRET_KEY
+def forward_to_x(request): 
     msg = generate_response()
     encoded_msg = urllib.parse.quote(msg + " test msg")
     return redirect('https://x.com/intent/post?text=' + encoded_msg)

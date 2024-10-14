@@ -102,15 +102,17 @@ from nacl.exceptions import BadSignatureError
 import urllib.parse
 
 def generate_response():
-    
+    authors = ["Mark Twain", "Jane Austen", "George Orwell", "J.K. Rowling", "Ernest Hemingway", "Virginia Woolf", "Leo Tolstoy", "F. Scott Fitzgerald", "Charles Dickens"]
+
+    random_author = random.choice(authors)
     SECRET_KEY = os.getenv('OPENAI_SECRET_KEY')
     openai.api_key = SECRET_KEY
     model_engine = "gpt-3.5-turbo" 
     response = openai.ChatCompletion.create(
         model='gpt-3.5-turbo',
         messages=[
-            {"role": "system", "content": "You are a helpful assistant Hunter S Thompson."},
-            {"role": "user", "content": "generate a short tweet about 100 characters long max, why people should vote for trump make it"},
+            {"role": "system", "content": "You are a helpful assistant " + random_author},
+            {"role": "user", "content": "generate a short tweet about 100 characters long max, why people should vote for trump make it positive, funny, intresting and pardoxical"},
         ])
 
     message_gpt = response.choices[0]['message']['content']

@@ -100,6 +100,7 @@ import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
 import urllib.parse
+import random 
 
 def generate_response():
     authors = ["Mark Twain", "Jane Austen", "George Orwell", "J.K. Rowling", "Ernest Hemingway", "Virginia Woolf", "Leo Tolstoy", "F. Scott Fitzgerald", "Charles Dickens"]

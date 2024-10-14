@@ -99,13 +99,33 @@ import base64
 import base58
 from nacl.signing import VerifyKey
 from nacl.exceptions import BadSignatureError
+import urllib.parse
 
+def generate_response():
+    
+    SECRET_KEY = os.getenv('OPENAI_SECRET_KEY')
+    openai.api_key = SECRET_KEY
+    model_engine = "gpt-3.5-turbo" 
+    response = openai.ChatCompletion.create(
+        model='gpt-3.5-turbo',
+        messages=[
+            {"role": "system", "content": "You are a helpful assistant Hunter S Thompson."},
+            {"role": "user", "content": "generate a short tweet about 100 characters long max, why people should vote for trump make it"},
+        ])
 
+    message_gpt = response.choices[0]['message']['content']
+    print("RESPONSE FROM GPT")
+    print(message_gpt)
+    print("RESPONSE FROM GPT DONE")
+    return message_gpt
 
 # View to forward to x.com
 def forward_to_x(request):
-    return redirect('https://x.com')
-    
+    openai.api_key = SECRET_KEY
+    msg = generate_response()
+    encoded_msg = urllib.parse.quote(msg + " test msg")
+    return redirect('https://x.com/intent/post?text=' + encoded_msg)
+
 # View to delete a tweet without confirmation
 def delete_tweet(request, tweet_id):
     tweet = get_object_or_404(Tweet, id=tweet_id)

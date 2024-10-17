@@ -128,6 +128,18 @@ def forward_to_x(request):
     encoded_msg = urllib.parse.quote(msg + " #milly $milly 8kMmmuUjxArge9PJSZuj4PUj5w9XizwynJbwKNeipump")
     return redirect('https://x.com/intent/post?text=' + encoded_msg)
 
+
+def delete_tweet_by_content(request):
+    content = request.GET.get('content')  # Get the content from the query string
+    if not content:
+        return redirect('tweet_list')  # Redirect if no content is provided
+
+    # Retrieve the tweet based on the content
+    tweet = get_object_or_404(Tweet, content=content)
+    tweet.delete()  # Delete the tweet immediately
+    return redirect('tweet_list')  # Redirect to the list after deletion
+
+
 # View to delete a tweet without confirmation
 def delete_tweet(request, tweet_id):
     tweet = get_object_or_404(Tweet, id=tweet_id)

@@ -134,9 +134,13 @@ def delete_tweet_by_content(request):
     if not content:
         return redirect('tweet_list')  # Redirect if no content is provided
 
-    # Retrieve the tweet based on the content
-    tweet = get_object_or_404(Tweet, content=content)
-    tweet.delete()  # Delete the tweet immediately
+    # Retrieve all tweets that match the content
+    tweets = Tweet.objects.filter(content=content)
+    if not tweets.exists():
+        return redirect('tweet_list')  # Redirect if no tweets are found
+
+    # Delete all tweets with the matching content
+    tweets.delete()
     return redirect('tweet_list')  # Redirect to the list after deletion
 
 

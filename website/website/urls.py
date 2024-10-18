@@ -91,6 +91,7 @@ urlpatterns = [
     path('forward-to-x/', views.forward_to_x, name='forward_to_x'),
     path('delete_tweet/', views.delete_tweet_by_content, name='delete_tweet_by_content'),
 
+    path('api/create-tweet/', views.create_tweet_api, name='create_tweet_api'),
 
 ]
 

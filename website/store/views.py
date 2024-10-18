@@ -102,6 +102,10 @@ from nacl.exceptions import BadSignatureError
 import urllib.parse
 import random 
 
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
 def generate_response():
     authors = ["Mark Twain", "Jane Austen", "George Orwell", "J.K. Rowling", "Ernest Hemingway", "Virginia Woolf", "Leo Tolstoy", "F. Scott Fitzgerald", "Charles Dickens"]
 
@@ -172,6 +176,28 @@ def create_tweet(request):
         form = TweetForm()
     
     return render(request, 'tweet_form.html', {'form': form})
+
+@method_decorator(csrf_exempt, name='dispatch')
+def create_tweet_api(request):
+    if request.method == 'POST':
+        try:
+            # Parse the JSON request body
+            data = json.loads(request.body)
+            tweet_url = data.get('url')
+            
+            # Create and save the new tweet instance
+            if tweet_url:
+                new_tweet = Tweet(content=tweet_url)  # Assuming you have a 'url' field in the Tweet model
+                new_tweet.save()
+                
+                # Return a success response
+                return JsonResponse({"message": "Tweet saved successfully", "id": new_tweet.id}, status=201)
+            else:
+                return JsonResponse({"error": "No URL provided"}, status=400)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON"}, status=400)
+    else:
+        return JsonResponse({"error": "POST request required"}, status=405)
 
 def toggle_scam_filter(request):
     access_id = request.COOKIES.get('access_id')
